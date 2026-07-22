@@ -35,7 +35,7 @@ export default function Projects() {
             letterSpacing: "-0.02em",
           }}
         >
-          Stuff I'm proud of
+          Stuff I've built
         </h2>
       </div>
 
@@ -46,87 +46,110 @@ export default function Projects() {
           gap: "clamp(18px,2.5vw,28px)",
         }}
       >
-        {content.projects.map((p) => (
-          <div
-            key={p.no}
-            className="flex flex-col overflow-hidden rounded-[18px] border border-white/9 bg-panel transition-all hover:-translate-y-1 hover:border-primary/60"
-          >
-            <div
-              className="stripes relative flex items-center justify-center border-b border-white/9"
-              style={{ aspectRatio: "16 / 10" }}
+        {content.projects.map((p) => {
+          const CardTag = p.link ? "a" : "div";
+          return (
+            <CardTag
+              key={p.no}
+              {...(p.link
+                ? { href: p.link, target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+              className="flex flex-col overflow-hidden rounded-[18px] border border-white/9 bg-panel transition-all hover:-translate-y-1 hover:border-primary/60"
+              style={p.link ? { cursor: "pointer" } : undefined}
             >
-              <span
-                className="font-display"
-                style={{
-                  fontWeight: 800,
-                  fontSize: 88,
-                  color: "rgba(255,255,255,0.06)",
-                  lineHeight: 1,
-                }}
-              >
-                {p.no}
-              </span>
-              <span
-                className="font-mono"
-                style={{
-                  position: "absolute",
-                  bottom: 12,
-                  left: 14,
-                  fontSize: 11,
-                  letterSpacing: "0.1em",
-                  color: "oklch(0.55 0.01 250)",
-                }}
-              >
-                [ project shot ]
-              </span>
-            </div>
-
-            <div
-              className="flex flex-col"
-              style={{ gap: 14, padding: "clamp(20px,2.5vw,28px)" }}
-            >
-              <h3
-                className="font-display"
-                style={{
-                  fontWeight: 700,
-                  fontSize: "clamp(22px,2.6vw,28px)",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {p.name}
-              </h3>
-
-              <p
-                style={{
-                  fontSize: 15,
-                  lineHeight: 1.55,
-                  color: "oklch(0.78 0.008 250)",
-                  textWrap: "pretty",
-                }}
-              >
-                {p.desc}
-              </p>
-
-              <div className="flex flex-wrap" style={{ gap: 8, marginTop: 2 }}>
-                {p.stack.map((t, i) => (
+              {p.image ? (
+                <div
+                  className="relative overflow-hidden border-b border-white/9"
+                  style={{ aspectRatio: "16 / 11" }}
+                >
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div
+                  className="stripes relative flex items-center justify-center border-b border-white/9"
+                  style={{ aspectRatio: "16 / 11" }}
+                >
                   <span
-                    key={i}
-                    className="font-mono"
+                    className="font-display"
                     style={{
-                      fontSize: 12,
-                      color: "oklch(0.82 0.008 250)",
-                      padding: "4px 10px",
-                      borderRadius: 6,
-                      background: "rgba(255,255,255,0.04)",
+                      fontWeight: 800,
+                      fontSize: 88,
+                      color: "rgba(255,255,255,0.06)",
+                      lineHeight: 1,
                     }}
                   >
-                    {t}
+                    {p.no}
                   </span>
-                ))}
+                  <span
+                    className="font-mono"
+                    style={{
+                      position: "absolute",
+                      bottom: 12,
+                      left: 14,
+                      fontSize: 11,
+                      letterSpacing: "0.1em",
+                      color: "oklch(0.55 0.01 250)",
+                    }}
+                  >
+                    [ project shot ]
+                  </span>
+                </div>
+              )}
+
+              <div
+                className="flex flex-col"
+                style={{ gap: 14, padding: "clamp(20px,2.5vw,28px)" }}
+              >
+                <h3
+                  className="font-display"
+                  style={{
+                    fontWeight: 700,
+                    fontSize: "clamp(22px,2.6vw,28px)",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  {p.name}
+                </h3>
+
+                <p
+                  style={{
+                    fontSize: 15,
+                    lineHeight: 1.55,
+                    color: "oklch(0.78 0.008 250)",
+                    textWrap: "pretty",
+                  }}
+                >
+                  {p.desc}
+                </p>
+
+                <div
+                  className="flex flex-wrap"
+                  style={{ gap: 8, marginTop: 2 }}
+                >
+                  {p.stack.map((t, i) => (
+                    <span
+                      key={i}
+                      className="font-mono"
+                      style={{
+                        fontSize: 12,
+                        color: "oklch(0.82 0.008 250)",
+                        padding: "4px 10px",
+                        borderRadius: 6,
+                        background: "rgba(255,255,255,0.04)",
+                      }}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            </CardTag>
+          );
+        })}
       </div>
 
       <p

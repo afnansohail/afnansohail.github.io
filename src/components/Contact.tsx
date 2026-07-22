@@ -37,7 +37,7 @@ export default function Contact() {
               lineHeight: 0.95,
             }}
           >
-            Let's build something awesome.
+            Let's build something awesome
           </h2>
         </div>
 

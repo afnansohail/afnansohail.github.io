@@ -10,6 +10,8 @@ export interface Project {
   name: string;
   desc: string;
   stack: string[];
+  image?: string;
+  link?: string;
 }
 
 export interface Skill {
@@ -60,49 +62,56 @@ export const content = {
 
   roles: [
     {
-      years: "20XX — Now",
-      title: "[Your current title]",
+      years: "NOV 2024 — Present",
+      title: "Software Engineer II",
       company: "Emumba",
       impact:
-        "[Tell them what you own, what you shipped, and what got better because you showed up. Humble-brag encouraged.]",
+        "Crafted modern web experiences with React and Next.js, and wasn't afraid to venture into the backend with Node.js, Express, FastAPI, and PostgreSQL when the project needed it. Always aiming for clean code, thoughtful UX, and solid performance.",
     },
     {
-      years: "20XX — 20XX",
-      title: "[Previous role]",
-      company: "[Company]",
-      impact: "[What you built end-to-end, and the win it drove.]",
+      years: "JUN 2025 — AUG 2025",
+      title: "Software Engineer",
+      company: "InterWiz AI",
+      impact:
+        "Built and refined the company's marketing website with modern UI, smooth animations, and SEO improvements to boost performance and visibility. Integrated Contentful CMS to give the team an easy, flexible way to manage content while keeping the experience fast and polished.",
     },
     {
-      years: "20XX — 20XX",
-      title: "[Earlier role]",
-      company: "[Company]",
-      impact: "[One accomplishment worth bragging about.]",
+      years: "SEP 2020 — NOV 2024",
+      title: "Graphic Design & UI/UX",
+      company: "Multiple Engagements",
+      impact:
+        "Worked as a graphic designer for TFC Marketing and Multan Sultans, creating social media assets and marketing campaigns, and led the Multan Sultans website's UX redesign through PSL seasons 6–8. Also designed wireframes and UI mockups in Figma as a UI/UX designer for The Office Web Inc and IdeaGist.",
     },
   ] as Role[],
 
   projects: [
     {
       no: "01",
-      name: "[Project name]",
-      desc: "[What it does, plus the one stat that makes people go 'whoa'.]",
-      stack: ["Tech", "Tech", "Tech"],
+      name: "AdFlux Partners",
+      desc: "A modern, responsive website for an e-commerce agency specializing in Amazon advertising and marketplace optimization.",
+      stack: ["Next.js", "Contentful", "Tailwind"],
+      image: "/images/projects/adflux.png",
+      link: "https://www.adfluxpartners.com/",
     },
     {
       no: "02",
-      name: "[Project name]",
-      desc: "[The problem it solves and how — keep it snappy.]",
-      stack: ["Tech", "Tech", "Tech"],
+      name: "Curated by Saima",
+      desc: "A visually rich, SEO friendly website that highlights interior design expertise and personalized home styling services.",
+      stack: ["Next.js", "Contentful", "Sass"],
+      image: "/images/projects/cbs.png",
+      link: "https://curatedbysaima.com/",
     },
     {
       no: "03",
-      name: "[Project name]",
-      desc: "[What you built and the impact it had — numbers welcome.]",
-      stack: ["Tech", "Tech", "Tech"],
+      name: "Equinox",
+      desc: "A mobile application that helps users track their PSX portfolio, monitor stock performance, and make informed decisions.",
+      stack: ["React Native", "Supabase", "Tailwind"],
+      image: "/images/projects/equinox.png",
     },
   ] as Project[],
 
   projectsPrivacyNote:
-    "There's more where that came from — locked behind client NDAs tighter than my git commit history.",
+    "There's more where that came from — locked behind client NDAs & private repositories.",
 
   socials: [
     { label: "GitHub ↗", href: "https://github.com/afnansohail" },
