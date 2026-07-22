@@ -4,6 +4,7 @@ import {
   useState,
   type CSSProperties,
   type MouseEvent,
+  type PointerEvent,
 } from "react";
 import { content } from "../content";
 
@@ -15,11 +16,17 @@ interface Tooltip {
 
 export default function Skills() {
   const [paused, setPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
   const [loopDistance, setLoopDistance] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState(0);
   const rowRef = useRef<HTMLDivElement>(null);
   const firstIconRef = useRef<HTMLDivElement>(null);
   const loopIconRef = useRef<HTMLDivElement>(null);
+  const pointerDownRef = useRef(false);
+  const dragActiveRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartOffsetRef = useRef(0);
 
   const track = [...content.skills, ...content.skills];
   const loopIndex = content.skills.length;
@@ -43,6 +50,7 @@ export default function Skills() {
   }, []);
 
   const handleEnter = (e: MouseEvent<HTMLDivElement>, label: string) => {
+    if (dragActiveRef.current) return;
     const rowRect = rowRef.current?.getBoundingClientRect();
     const iconRect = e.currentTarget.getBoundingClientRect();
     if (!rowRect) return;
@@ -57,6 +65,47 @@ export default function Skills() {
   const handleLeave = () => {
     setPaused(false);
     setTooltip(null);
+  };
+
+  // The drag offset is applied on a wrapper *outside* the animated track, so
+  // dragging never touches the `animation`-driven transform directly — the
+  // two transforms simply compose, and the marquee keeps looping underneath.
+  // A small movement threshold keeps a plain click on an icon from being
+  // treated as a drag (which would otherwise flash-pause the tooltip).
+  const DRAG_THRESHOLD = 4;
+
+  const handleDragStart = (e: PointerEvent<HTMLDivElement>) => {
+    pointerDownRef.current = true;
+    dragActiveRef.current = false;
+    dragStartXRef.current = e.clientX;
+    dragStartOffsetRef.current = dragOffset;
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handleDragMove = (e: PointerEvent<HTMLDivElement>) => {
+    if (!pointerDownRef.current) return;
+    const delta = e.clientX - dragStartXRef.current;
+    if (!dragActiveRef.current) {
+      if (Math.abs(delta) < DRAG_THRESHOLD) return;
+      dragActiveRef.current = true;
+      setIsDragging(true);
+      setTooltip(null);
+    }
+    let next = dragStartOffsetRef.current + delta;
+    if (loopDistance) {
+      const limit = loopDistance / 2;
+      next = Math.min(limit, Math.max(-limit, next));
+    }
+    setDragOffset(next);
+  };
+
+  const handleDragEnd = (e: PointerEvent<HTMLDivElement>) => {
+    pointerDownRef.current = false;
+    dragActiveRef.current = false;
+    setIsDragging(false);
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
   };
 
   return (
@@ -85,62 +134,75 @@ export default function Skills() {
         </span>
 
         <div
-          className="relative flex-1 overflow-hidden"
+          className="relative flex-1 overflow-hidden select-none"
           style={{
             minWidth: 0,
             padding: "4px 0",
+            cursor: isDragging ? "grabbing" : "grab",
+            touchAction: "pan-y",
             WebkitMaskImage:
               "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)",
             maskImage:
               "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)",
           }}
+          onPointerDown={handleDragStart}
+          onPointerMove={handleDragMove}
+          onPointerUp={handleDragEnd}
+          onPointerCancel={handleDragEnd}
         >
           <div
-            className="flex w-max items-center"
-            style={
-              {
-                gap: "clamp(28px,4vw,56px)",
-                animation: "marquee 30s linear infinite",
-                animationPlayState: paused ? "paused" : "running",
-                willChange: "transform",
-                "--marquee-distance":
-                  loopDistance != null ? `-${loopDistance}px` : undefined,
-              } as CSSProperties
-            }
+            style={{
+              transform: `translateX(${dragOffset}px)`,
+            }}
           >
-            {track.map((skill, i) => (
-              <div
-                key={`${skill.slug}-${i}`}
-                ref={
-                  i === 0
-                    ? firstIconRef
-                    : i === loopIndex
-                      ? loopIconRef
-                      : undefined
-                }
-                className="flex items-center justify-center"
-                onMouseEnter={(e) => handleEnter(e, skill.label)}
-                onMouseLeave={handleLeave}
-              >
-                <span
-                  role="img"
-                  aria-label={skill.label}
-                  className="inline-block bg-current text-primary opacity-90 transition-transform duration-150 hover:scale-110 hover:opacity-100"
-                  style={{
-                    height: 30,
-                    width: 30,
-                    WebkitMaskImage: `url(https://cdn.simpleicons.org/${skill.slug})`,
-                    maskImage: `url(https://cdn.simpleicons.org/${skill.slug})`,
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                    WebkitMaskPosition: "center",
-                    maskPosition: "center",
-                    WebkitMaskSize: "contain",
-                    maskSize: "contain",
-                  }}
-                />
-              </div>
-            ))}
+            <div
+              className="flex w-max items-center"
+              style={
+                {
+                  gap: "clamp(28px,4vw,56px)",
+                  animation: "marquee 30s linear infinite",
+                  animationPlayState: paused || isDragging ? "paused" : "running",
+                  willChange: "transform",
+                  "--marquee-distance":
+                    loopDistance != null ? `-${loopDistance}px` : undefined,
+                } as CSSProperties
+              }
+            >
+              {track.map((skill, i) => (
+                <div
+                  key={`${skill.slug}-${i}`}
+                  ref={
+                    i === 0
+                      ? firstIconRef
+                      : i === loopIndex
+                        ? loopIconRef
+                        : undefined
+                  }
+                  className="flex items-center justify-center"
+                  style={{ cursor: 'url("/cursors/pointer.png") 6 1, pointer' }}
+                  onMouseEnter={(e) => handleEnter(e, skill.label)}
+                  onMouseLeave={handleLeave}
+                >
+                  <span
+                    role="img"
+                    aria-label={skill.label}
+                    className="inline-block bg-current text-primary opacity-90 transition-transform duration-150 hover:scale-110 hover:opacity-100"
+                    style={{
+                      height: 30,
+                      width: 30,
+                      WebkitMaskImage: `url(https://cdn.simpleicons.org/${skill.slug})`,
+                      maskImage: `url(https://cdn.simpleicons.org/${skill.slug})`,
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      WebkitMaskPosition: "center",
+                      maskPosition: "center",
+                      WebkitMaskSize: "contain",
+                      maskSize: "contain",
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

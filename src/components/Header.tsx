@@ -38,7 +38,9 @@ export default function Header() {
       </nav>
 
       <a
-        href="#"
+        href="/docs/Afnan%20Sohail%20-%20Resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
         className="rounded-full border border-primary font-mono text-primary transition-all hover:bg-primary hover:text-black"
         style={{ fontSize: 13, padding: "8px 16px" }}
       >
