@@ -35,7 +35,7 @@ export default function Projects() {
             letterSpacing: "-0.02em",
           }}
         >
-          Selected work
+          Stuff I'm proud of
         </h2>
       </div>
 

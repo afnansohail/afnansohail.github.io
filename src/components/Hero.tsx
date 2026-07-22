@@ -17,7 +17,7 @@ export default function Hero() {
           className="dot-grid pointer-events-none absolute inset-0 overflow-hidden"
         >
           <div
-            className="select-none font-mono"
+            className="select-none font-mono text-primary/8"
             style={{
               position: "absolute",
               right: "clamp(-40px,-2vw,-20px)",
@@ -26,7 +26,6 @@ export default function Hero() {
               fontWeight: 500,
               fontSize: "clamp(180px,30vw,420px)",
               lineHeight: 0.8,
-              color: "rgba(165,64,255,0.08)",
             }}
           >
             &lt;/&gt;
@@ -83,14 +82,14 @@ export default function Hero() {
             className="rounded-full bg-primary font-mono text-black transition-transform hover:-translate-y-0.5 hover:text-black"
             style={{ fontSize: 15, fontWeight: 500, padding: "15px 28px" }}
           >
-            View the work →
+            Check out my work →
           </a>
           <a
             href="#contact"
             className="rounded-full border border-white/18 font-mono text-ink transition-all hover:border-secondary hover:text-secondary"
             style={{ fontSize: 15, padding: "15px 28px" }}
           >
-            Get in touch
+            Let's chat
           </a>
         </div>
       </div>

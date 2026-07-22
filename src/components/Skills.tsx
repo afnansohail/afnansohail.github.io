@@ -1,4 +1,4 @@
-import { content, ICON_TINT } from "../content";
+import { content } from "../content";
 
 export default function Skills() {
   return (
@@ -22,20 +22,31 @@ export default function Skills() {
             color: "oklch(0.60 0.01 250)",
           }}
         >
-          The kit ·
+          My toolbox ·
         </span>
         <div
           className="flex flex-wrap items-center"
           style={{ gap: "clamp(20px,3vw,38px)" }}
         >
           {content.skills.map((skill) => (
-            <img
+            <span
               key={skill.slug}
-              src={`https://cdn.simpleicons.org/${skill.slug}/${ICON_TINT}`}
-              alt={skill.label}
+              role="img"
+              aria-label={skill.label}
               title={skill.label}
-              className="transition-all hover:-translate-y-0.5 hover:opacity-100"
-              style={{ height: 30, width: "auto", opacity: 0.9 }}
+              className="inline-block bg-current text-primary opacity-90 transition-all hover:-translate-y-0.5 hover:opacity-100"
+              style={{
+                height: 30,
+                width: 30,
+                WebkitMaskImage: `url(https://cdn.simpleicons.org/${skill.slug})`,
+                maskImage: `url(https://cdn.simpleicons.org/${skill.slug})`,
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskPosition: "center",
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
+              }}
             />
           ))}
         </div>

@@ -6,24 +6,6 @@ export default function Contact() {
       id="contact"
       className="relative overflow-hidden border-t border-white/8 bg-panel-deep"
     >
-      {options.showCodeMotif && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none select-none font-mono"
-          style={{
-            position: "absolute",
-            right: "clamp(-20px,2vw,40px)",
-            bottom: -80,
-            fontWeight: 500,
-            fontSize: "clamp(200px,26vw,380px)",
-            lineHeight: 0.8,
-            color: "rgba(129,242,7,0.07)",
-          }}
-        >
-          {"{ }"}
-        </div>
-      )}
-
       <div
         className="relative mx-auto flex flex-col"
         style={{
@@ -58,7 +40,7 @@ export default function Contact() {
           >
             Let's build
             <br />
-            something.
+            something awesome.
           </h2>
         </div>
 
@@ -105,7 +87,7 @@ export default function Contact() {
           }}
         >
           <span>© 2026 {content.name}</span>
-          <span>Built with React + Tailwind</span>
+          <span>Built with React, Tailwind, and way too much coffee</span>
         </div>
       </div>
     </footer>

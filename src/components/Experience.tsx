@@ -35,7 +35,7 @@ export default function Experience() {
             letterSpacing: "-0.02em",
           }}
         >
-          Where I've built
+          The journey so far
         </h2>
       </div>
 

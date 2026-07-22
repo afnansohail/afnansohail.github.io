@@ -3,10 +3,9 @@ import { content } from "../content";
 export default function Header() {
   return (
     <header
-      className="sticky top-0 z-50 flex items-center justify-between border-b border-white/6 backdrop-blur-[10px]"
+      className="sticky top-0 z-50 flex items-center justify-between border-b border-white/6 bg-bg/72 backdrop-blur-[10px]"
       style={{
         padding: "18px clamp(20px,5vw,64px)",
-        background: "rgba(17,15,24,0.72)",
       }}
     >
       <div
@@ -32,16 +31,16 @@ export default function Header() {
           experience
         </a>
         <a href="#contact" className="transition-colors hover:text-ink">
-          contact
+          say hi
         </a>
       </nav>
 
       <a
         href="#"
-        className="rounded-full border border-primary font-mono text-primary transition-all hover:bg-primary hover:text-white"
+        className="rounded-full border border-primary font-mono text-primary transition-all hover:bg-primary hover:text-black"
         style={{ fontSize: 13, padding: "8px 16px" }}
       >
-        résumé ↓
+        grab my résumé ↓
       </a>
     </header>
   );
