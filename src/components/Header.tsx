@@ -12,7 +12,9 @@ export default function Header() {
         className="font-mono text-ink"
         style={{ fontSize: 14, letterSpacing: "0.04em" }}
       >
-        <span className="text-primary">/</span> {content.initials}
+        <span className="text-primary">&lt;</span>
+        {content.initials}
+        <span className="text-primary">/&gt;</span>
       </div>
 
       <nav

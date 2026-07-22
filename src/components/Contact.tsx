@@ -32,15 +32,12 @@ export default function Contact() {
             className="font-display"
             style={{
               fontWeight: 700,
-              fontSize: "clamp(34px,7vw,84px)",
+              fontSize: "clamp(22px,4.2vw,56px)",
               letterSpacing: "-0.03em",
               lineHeight: 0.95,
-              textWrap: "balance",
             }}
           >
-            Let's build
-            <br />
-            something awesome.
+            Let's build something awesome.
           </h2>
         </div>
 
@@ -86,8 +83,8 @@ export default function Contact() {
             color: "oklch(0.52 0.01 250)",
           }}
         >
-          <span>© 2026 {content.name}</span>
-          <span>Built with React, Tailwind, and way too much coffee</span>
+          <span>© {new Date().getFullYear()} {content.name}</span>
+          <span>{content.footerTagline}</span>
         </div>
       </div>
     </footer>

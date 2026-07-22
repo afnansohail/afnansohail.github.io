@@ -3,10 +3,9 @@ import { content, options } from "../content";
 export default function Hero() {
   return (
     <section
-      className="relative mx-auto"
+      className="relative mx-auto flex w-full flex-1 flex-col justify-center"
       style={{
-        padding:
-          "clamp(56px,10vw,120px) clamp(20px,5vw,64px) clamp(64px,9vw,120px)",
+        padding: "clamp(28px,5vw,56px) clamp(20px,5vw,64px)",
         maxWidth: 1280,
       }}
     >

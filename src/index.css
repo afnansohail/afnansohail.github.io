@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-/* --------------------------------------------------------------------------
-   Design tokens from the "Engineer portfolio" concept.
-   Exposed to Tailwind as color utilities (bg, text, border) and font families.
-   -------------------------------------------------------------------------- */
 @theme {
   --color-bg: oklch(0.15 0.012 290);
   --color-panel: oklch(0.2 0.014 290);
@@ -43,7 +39,6 @@
     text-decoration: none;
   }
 
-  /* Default link hover — components override per-element with hover: utilities. */
   a:hover {
     color: var(--color-primary);
   }
@@ -54,23 +49,27 @@
   }
 }
 
-/* Decorative: hero dot-grid, faded toward the bottom. */
 .dot-grid {
-  background-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.045) 1px,
-    transparent 1px
-  );
+  background-image: radial-gradient(circle,
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px);
   background-size: 28px 28px;
   -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%);
   mask-image: linear-gradient(to bottom, #000, transparent 85%);
 }
 
-/* Decorative: diagonal hatch used for the placeholder project shots. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(var(--marquee-distance, -50%));
+  }
+}
+
 .stripes {
-  background-image: repeating-linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.05) 0 2px,
-    transparent 2px 12px
-  );
+  background-image: repeating-linear-gradient(135deg,
+      rgba(255, 255, 255, 0.05) 0 2px,
+      transparent 2px 12px);
 }

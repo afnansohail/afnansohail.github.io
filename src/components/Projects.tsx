@@ -85,27 +85,16 @@ export default function Projects() {
               className="flex flex-col"
               style={{ gap: 14, padding: "clamp(20px,2.5vw,28px)" }}
             >
-              <div
-                className="flex items-baseline justify-between"
-                style={{ gap: 12 }}
+              <h3
+                className="font-display"
+                style={{
+                  fontWeight: 700,
+                  fontSize: "clamp(22px,2.6vw,28px)",
+                  letterSpacing: "-0.01em",
+                }}
               >
-                <h3
-                  className="font-display"
-                  style={{
-                    fontWeight: 700,
-                    fontSize: "clamp(22px,2.6vw,28px)",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  {p.name}
-                </h3>
-                <span
-                  className="whitespace-nowrap font-mono text-secondary"
-                  style={{ fontSize: 12 }}
-                >
-                  {p.tag}
-                </span>
-              </div>
+                {p.name}
+              </h3>
 
               <p
                 style={{
@@ -135,30 +124,21 @@ export default function Projects() {
                   </span>
                 ))}
               </div>
-
-              <div
-                className="flex border-t border-white/[0.07] font-mono"
-                style={{ gap: 18, marginTop: 8, paddingTop: 16, fontSize: 13 }}
-              >
-                <a
-                  href="#"
-                  className="inline-flex items-center text-primary"
-                  style={{ gap: 6 }}
-                >
-                  ↗ live demo
-                </a>
-                <a
-                  href="#"
-                  className="transition-colors hover:text-ink"
-                  style={{ color: "oklch(0.78 0.008 250)" }}
-                >
-                  ↗ repo
-                </a>
-              </div>
             </div>
           </div>
         ))}
       </div>
+
+      <p
+        className="font-mono"
+        style={{
+          marginTop: "clamp(20px,3vw,32px)",
+          fontSize: 13,
+          color: "oklch(0.55 0.01 250)",
+        }}
+      >
+        {content.projectsPrivacyNote}
+      </p>
     </section>
   );
 }

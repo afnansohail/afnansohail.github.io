@@ -8,7 +8,6 @@ export interface Role {
 export interface Project {
   no: string;
   name: string;
-  tag: string;
   desc: string;
   stack: string[];
 }
@@ -30,7 +29,7 @@ export const options = {
 
 export const content = {
   name: "Afnan Sohail",
-  initials: "AS",
+  initials: "AfnanSohail",
   eyebrow: "Full-Stack Engineer · Powered by Curiosity",
 
   email: "afnansohail1999@gmail.com",
@@ -42,15 +41,21 @@ export const content = {
   },
 
   skills: [
-    { slug: "typescript", label: "TypeScript" },
     { slug: "react", label: "React" },
     { slug: "nextdotjs", label: "Next.js" },
-    { slug: "nodedotjs", label: "Node.js" },
-    { slug: "go", label: "Go" },
-    { slug: "postgresql", label: "PostgreSQL" },
-    { slug: "docker", label: "Docker" },
+    { slug: "typescript", label: "TypeScript" },
+    { slug: "javascript", label: "JavaScript" },
+    { slug: "tailwindcss", label: "Tailwind CSS" },
+    { slug: "python", label: "Python" },
+    { slug: "fastapi", label: "FastAPI" },
     { slug: "graphql", label: "GraphQL" },
-    { slug: "redis", label: "Redis" },
+    { slug: "mongodb", label: "MongoDB" },
+    { slug: "postgresql", label: "PostgreSQL" },
+    { slug: "temporal", label: "Temporal" },
+    { slug: "grafana", label: "Grafana" },
+    { slug: "figma", label: "Figma" },
+    { slug: "git", label: "Git" },
+    { slug: "github", label: "GitHub" },
   ] as Skill[],
 
   roles: [
@@ -79,30 +84,32 @@ export const content = {
     {
       no: "01",
       name: "[Project name]",
-      tag: "OPEN SOURCE",
       desc: "[What it does, plus the one stat that makes people go 'whoa'.]",
       stack: ["Tech", "Tech", "Tech"],
     },
     {
       no: "02",
       name: "[Project name]",
-      tag: "SIDE PROJECT",
       desc: "[The problem it solves and how — keep it snappy.]",
       stack: ["Tech", "Tech", "Tech"],
     },
     {
       no: "03",
       name: "[Project name]",
-      tag: "WORK",
       desc: "[What you built and the impact it had — numbers welcome.]",
       stack: ["Tech", "Tech", "Tech"],
     },
   ] as Project[],
 
+  projectsPrivacyNote:
+    "There's more where that came from — locked behind client NDAs tighter than my git commit history.",
+
   socials: [
-    { label: "GitHub ↗", href: "#" },
-    { label: "LinkedIn ↗", href: "#" },
-    { label: "X / Twitter ↗", href: "#" },
-    { label: "Read.cv ↗", href: "#" },
+    { label: "GitHub (personal) ↗", href: "https://github.com/afnansohail" },
+    { label: "GitHub (Emumba) ↗", href: "https://github.com/afnan-emumba" },
+    { label: "GitLab ↗", href: "https://gitlab.com/afnan-emumba" },
+    { label: "LinkedIn ↗", href: "https://linkedin.com/in/afnansohail99" },
   ] as SocialLink[],
+
+  footerTagline: "Handcrafted, overthought, and shipped anyway.",
 };

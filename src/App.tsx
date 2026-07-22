@@ -8,9 +8,11 @@ import Contact from "./components/Contact";
 export default function App() {
   return (
     <div className="relative min-h-screen">
-      <Header />
-      <main>
+      <div className="flex flex-col" style={{ minHeight: "100dvh" }}>
+        <Header />
         <Hero />
+      </div>
+      <main>
         <Skills />
         <Experience />
         <Projects />
