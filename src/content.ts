@@ -105,7 +105,7 @@ export const content = {
     "There's more where that came from — locked behind client NDAs tighter than my git commit history.",
 
   socials: [
-    { label: "GitHub (personal) ↗", href: "https://github.com/afnansohail" },
+    { label: "GitHub ↗", href: "https://github.com/afnansohail" },
     { label: "GitHub (Emumba) ↗", href: "https://github.com/afnan-emumba" },
     { label: "GitLab ↗", href: "https://gitlab.com/afnan-emumba" },
     { label: "LinkedIn ↗", href: "https://linkedin.com/in/afnansohail99" },

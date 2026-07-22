@@ -161,7 +161,8 @@ export default function Skills() {
                 {
                   gap: "clamp(28px,4vw,56px)",
                   animation: "marquee 30s linear infinite",
-                  animationPlayState: paused || isDragging ? "paused" : "running",
+                  animationPlayState:
+                    paused || isDragging ? "paused" : "running",
                   willChange: "transform",
                   "--marquee-distance":
                     loopDistance != null ? `-${loopDistance}px` : undefined,

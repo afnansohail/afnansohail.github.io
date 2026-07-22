@@ -77,7 +77,7 @@ export default function Experience() {
                   {role.title}
                 </h3>
                 <span
-                  className="text-secondary"
+                  className="text-primary"
                   style={{ fontSize: 17, fontWeight: 500 }}
                 >
                   {role.company}

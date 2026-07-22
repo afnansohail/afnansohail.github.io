@@ -20,7 +20,9 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    cursor: url("/cursors/default.png") 1 1, auto;
+    cursor:
+      url("/cursors/default.png") 1 1,
+      auto;
   }
 
   a,
@@ -31,7 +33,9 @@
   label,
   [role="button"],
   [tabindex]:not([tabindex="-1"]) {
-    cursor: url("/cursors/pointer.png") 6 1, pointer;
+    cursor:
+      url("/cursors/pointer.png") 6 1,
+      pointer;
   }
 
   a {
@@ -50,9 +54,11 @@
 }
 
 .dot-grid {
-  background-image: radial-gradient(circle,
-      rgba(255, 255, 255, 0.045) 1px,
-      transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.045) 1px,
+    transparent 1px
+  );
   background-size: 28px 28px;
   -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%);
   mask-image: linear-gradient(to bottom, #000, transparent 85%);
@@ -69,7 +75,9 @@
 }
 
 .stripes {
-  background-image: repeating-linear-gradient(135deg,
-      rgba(255, 255, 255, 0.05) 0 2px,
-      transparent 2px 12px);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0 2px,
+    transparent 2px 12px
+  );
 }

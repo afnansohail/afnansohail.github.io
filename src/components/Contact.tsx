@@ -66,6 +66,7 @@ export default function Contact() {
             <a
               key={s.label}
               href={s.href}
+              target="_blank"
               className="transition-colors hover:text-primary"
             >
               {s.label}
@@ -83,7 +84,9 @@ export default function Contact() {
             color: "oklch(0.52 0.01 250)",
           }}
         >
-          <span>© {new Date().getFullYear()} {content.name}</span>
+          <span>
+            © {new Date().getFullYear()} {content.name}
+          </span>
           <span>{content.footerTagline}</span>
         </div>
       </div>
