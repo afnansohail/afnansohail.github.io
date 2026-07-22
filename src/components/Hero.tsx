@@ -1,4 +1,6 @@
+import { motion } from "motion/react";
 import { content, options } from "../content";
+import { fadeUp, staggerContainer } from "../lib/motion";
 
 export default function Hero() {
   return (
@@ -32,11 +34,15 @@ export default function Hero() {
         </div>
       )}
 
-      <div
+      <motion.div
         className="relative flex flex-col"
         style={{ gap: "clamp(20px,3vw,34px)", maxWidth: 900 }}
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
       >
-        <div
+        <motion.div
+          variants={fadeUp}
           className="font-mono uppercase text-secondary"
           style={{
             fontSize: "clamp(12px,1.4vw,14px)",
@@ -44,9 +50,10 @@ export default function Hero() {
           }}
         >
           {content.eyebrow}
-        </div>
+        </motion.div>
 
-        <h1
+        <motion.h1
+          variants={fadeUp}
           className="font-display"
           style={{
             fontWeight: 800,
@@ -57,9 +64,10 @@ export default function Hero() {
           }}
         >
           {content.name}
-        </h1>
+        </motion.h1>
 
-        <p
+        <motion.p
+          variants={fadeUp}
           style={{
             fontSize: "clamp(18px,2.4vw,28px)",
             lineHeight: 1.4,
@@ -73,25 +81,33 @@ export default function Hero() {
             {content.intro.highlight}
           </span>
           {content.intro.tail}
-        </p>
+        </motion.p>
 
-        <div className="flex flex-wrap" style={{ gap: 14, marginTop: 8 }}>
-          <a
+        <motion.div
+          variants={fadeUp}
+          className="flex flex-wrap"
+          style={{ gap: 14, marginTop: 8 }}
+        >
+          <motion.a
             href="#work"
-            className="rounded-full bg-primary font-mono text-black transition-transform hover:-translate-y-0.5 hover:text-black"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="rounded-full bg-primary font-mono text-black transition-colors hover:text-black"
             style={{ fontSize: 15, fontWeight: 500, padding: "15px 28px" }}
           >
             Check out my work →
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="#contact"
-            className="rounded-full border border-white/18 font-mono text-ink transition-all hover:border-secondary hover:text-secondary"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="rounded-full border border-white/18 font-mono text-ink transition-colors hover:border-secondary hover:text-secondary"
             style={{ fontSize: 15, padding: "15px 28px" }}
           >
             Let's chat
-          </a>
-        </div>
-      </div>
+          </motion.a>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
