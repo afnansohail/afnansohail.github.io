@@ -16,7 +16,7 @@ export default function Header() {
     <motion.header
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: EASE }}
+      transition={{ duration: 0.55, ease: EASE }}
       className="sticky top-0 z-50 flex items-center justify-between border-b border-white/6 bg-bg/72 backdrop-blur-[10px]"
       style={{
         padding: "18px clamp(20px,5vw,64px)",

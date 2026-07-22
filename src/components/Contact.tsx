@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { content, options } from "../content";
-import { fadeUp, staggerContainer, viewport } from "../lib/motion";
+import { fadeUp, viewport } from "../lib/motion";
 
 export default function Contact() {
   return (
@@ -8,20 +8,19 @@ export default function Contact() {
       id="contact"
       className="relative overflow-hidden border-t border-white/8 bg-panel-deep"
     >
-      <motion.div
+      <div
         className="relative mx-auto flex flex-col"
         style={{
           maxWidth: 1280,
           padding: "clamp(64px,9vw,120px) clamp(20px,5vw,64px)",
           gap: "clamp(28px,4vw,44px)",
         }}
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
       >
         <motion.div
           variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
           className="flex items-baseline"
           style={{ gap: 20 }}
         >
@@ -53,6 +52,9 @@ export default function Contact() {
 
         <motion.a
           variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
           href={`mailto:${content.email}`}
           className="group relative w-fit font-display text-primary"
           style={{
@@ -70,6 +72,9 @@ export default function Contact() {
 
         <motion.div
           variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
           className="flex flex-wrap font-mono"
           style={{
             gap: "16px 28px",
@@ -106,7 +111,7 @@ export default function Contact() {
           </span>
           <span>{content.footerTagline}</span>
         </div>
-      </motion.div>
+      </div>
     </footer>
   );
 }

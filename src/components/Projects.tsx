@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { content, options } from "../content";
-import { fadeUp, staggerContainer, viewport, EASE } from "../lib/motion";
+import { fadeUp, viewport, EASE } from "../lib/motion";
 
 export default function Projects() {
   return (
@@ -41,16 +41,12 @@ export default function Projects() {
         </h2>
       </div>
 
-      <motion.div
+      <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
           gap: "clamp(18px,2.5vw,28px)",
         }}
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
       >
         {content.projects.map((p) => {
           const CardTag = p.link ? motion.a : motion.div;
@@ -58,6 +54,9 @@ export default function Projects() {
             <CardTag
               key={p.no}
               variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
               whileHover={{ y: -6 }}
               transition={{ duration: 0.3, ease: EASE }}
               {...(p.link
@@ -159,7 +158,7 @@ export default function Projects() {
             </CardTag>
           );
         })}
-      </motion.div>
+      </div>
 
       <p
         className="font-mono"
