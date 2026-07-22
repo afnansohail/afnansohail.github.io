@@ -1,4 +1,6 @@
+import { motion } from "motion/react";
 import { content, options } from "../content";
+import { fadeUp, staggerContainer, viewport } from "../lib/motion";
 
 export default function Projects() {
   return (
@@ -39,22 +41,29 @@ export default function Projects() {
         </h2>
       </div>
 
-      <div
+      <motion.div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
           gap: "clamp(18px,2.5vw,28px)",
         }}
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
       >
         {content.projects.map((p) => {
-          const CardTag = p.link ? "a" : "div";
+          const CardTag = p.link ? motion.a : motion.div;
           return (
             <CardTag
               key={p.no}
+              variants={fadeUp}
+              whileHover={{ y: -6 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               {...(p.link
                 ? { href: p.link, target: "_blank", rel: "noopener noreferrer" }
                 : {})}
-              className="flex flex-col overflow-hidden rounded-[18px] border border-white/9 bg-panel transition-all hover:-translate-y-1 hover:border-primary/60"
+              className="flex flex-col overflow-hidden rounded-[18px] border border-white/9 bg-panel transition-colors hover:border-primary/60"
               style={p.link ? { cursor: "pointer" } : undefined}
             >
               {p.image ? (
@@ -150,7 +159,7 @@ export default function Projects() {
             </CardTag>
           );
         })}
-      </div>
+      </motion.div>
 
       <p
         className="font-mono"
