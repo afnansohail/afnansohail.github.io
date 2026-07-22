@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Design tokens from the "Engineer portfolio" concept.
+   Exposed to Tailwind as color utilities (bg, text, border) and font families.
+   -------------------------------------------------------------------------- */
+@theme {
+  --color-bg: oklch(0.15 0.012 290);
+  --color-panel: oklch(0.2 0.014 290);
+  --color-panel-deep: oklch(0.175 0.014 290);
+  --color-ink: oklch(0.96 0.006 290);
+  --color-primary: #f2f207;
+  --color-secondary: #078cf2;
+
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-sans: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+@layer base {
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Default link hover — components override per-element with hover: utilities. */
+  a:hover {
+    color: var(--color-primary);
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: #fff;
+  }
+}
+
+/* Decorative: hero dot-grid, faded toward the bottom. */
+.dot-grid {
+  background-image: radial-gradient(circle,
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%);
+  mask-image: linear-gradient(to bottom, #000, transparent 85%);
+}
+
+/* Decorative: diagonal hatch used for the placeholder project shots. */
+.stripes {
+  background-image: repeating-linear-gradient(135deg,
+      rgba(255, 255, 255, 0.05) 0 2px,
+      transparent 2px 12px);
+}
