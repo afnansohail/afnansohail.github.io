@@ -6,6 +6,8 @@ import {
   type MouseEvent,
   type PointerEvent,
 } from "react";
+import { motion } from "motion/react";
+import { fadeUp, viewport } from "../lib/motion";
 import { content } from "../content";
 
 interface Tooltip {
@@ -109,9 +111,13 @@ export default function Skills() {
   };
 
   return (
-    <section
+    <motion.section
       className="bg-panel"
       style={{ borderBlock: "1px solid rgba(255,255,255,0.07)" }}
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
     >
       <div
         ref={rowRef}
@@ -227,6 +233,6 @@ export default function Skills() {
           </span>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 }
