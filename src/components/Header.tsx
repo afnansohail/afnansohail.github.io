@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { content } from "../content";
+import { EASE } from "../lib/motion";
 
 const NAV_LINKS = [
   { href: "#work", label: "work" },
@@ -15,7 +16,7 @@ export default function Header() {
     <motion.header
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, ease: EASE }}
       className="sticky top-0 z-50 flex items-center justify-between border-b border-white/6 bg-bg/72 backdrop-blur-[10px]"
       style={{
         padding: "18px clamp(20px,5vw,64px)",
@@ -53,7 +54,7 @@ export default function Header() {
                 layoutId="nav-underline"
                 className="absolute right-0 left-0 h-px bg-primary"
                 style={{ bottom: -4 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.25, ease: EASE }}
               />
             )}
           </a>

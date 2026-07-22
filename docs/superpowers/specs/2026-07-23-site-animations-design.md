@@ -23,26 +23,32 @@ Rationale: every component in this codebase is a small presentational function w
 ## Per-component plan
 
 **Header** (`src/components/Header.tsx`)
+
 - Fades/slides down once on initial mount (not scroll-triggered — it's sticky and visible from load).
 - Nav links (`work` / `experience` / `say hi`) get a shared sliding-underline indicator via Motion `layoutId`, animating between links on hover instead of an instant color snap.
 - Résumé link gets `whileHover={{ scale: 1.03 }}` / `whileTap={{ scale: 0.97 }}`.
 
 **Hero** (`src/components/Hero.tsx`)
+
 - Eyebrow → name → intro paragraph → CTA row reveal as one staggered sequence on mount, using `staggerContainer` + `fadeUp` on each child.
 - Both CTAs get the same hover/tap scale treatment as the résumé button.
 
 **Skills** (`src/components/Skills.tsx`)
+
 - **Left as-is.** The existing drag-to-scroll marquee, pixel-measured seamless loop, pause-on-hover, and tooltip logic are hand-tuned and already working — reworking them onto Motion primitives (`useAnimationFrame`, native `drag`) was considered but rejected as not worth the regression risk for a purely cosmetic pass.
 - Only addition: the section wrapper gets a simple one-time `whileInView` fade-in (`fadeUp`), consistent with other sections. No internal logic changes.
 
 **Experience** (`src/components/Experience.tsx`)
+
 - Each role row fades/rises in via `whileInView`, staggered slightly by index (via `staggerContainer` on the list wrapper) so rows cascade rather than pop in together.
 
 **Projects** (`src/components/Projects.tsx`)
+
 - The card grid uses `staggerContainer` so cards cascade in together on scroll.
 - Each card's existing hover-lift (`hover:-translate-y-1` CSS) is replaced with a Motion `whileHover={{ y: -6 }}` spring transition — same visual distance, snappier feel.
 
 **Contact** (`src/components/Contact.tsx`)
+
 - Heading, email link, and social row cascade in via `whileInView` + `staggerContainer` on scroll.
 - Email link and social links get a small hover polish: underline animates in via a `scaleX` transform rather than an instant border/color change.
 

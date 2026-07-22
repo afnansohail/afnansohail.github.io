@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { content, options } from "../content";
-import { fadeUp, staggerContainer, viewport } from "../lib/motion";
+import { fadeUp, staggerContainer, viewport, EASE } from "../lib/motion";
 
 export default function Projects() {
   return (
@@ -59,7 +59,7 @@ export default function Projects() {
               key={p.no}
               variants={fadeUp}
               whileHover={{ y: -6 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.3, ease: EASE }}
               {...(p.link
                 ? { href: p.link, target: "_blank", rel: "noopener noreferrer" }
                 : {})}
