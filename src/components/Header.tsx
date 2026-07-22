@@ -4,10 +4,12 @@ import { content } from "../content";
 import { EASE } from "../lib/motion";
 
 const NAV_LINKS = [
-  { href: "#work", label: "work" },
   { href: "#experience", label: "experience" },
+  { href: "#work", label: "work" },
   { href: "#contact", label: "say hi" },
 ];
+
+export const HEADER_HEIGHT = 72;
 
 export default function Header() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -19,17 +21,19 @@ export default function Header() {
       transition={{ duration: 0.55, ease: EASE }}
       className="sticky top-0 z-50 flex items-center justify-between border-b border-white/6 bg-bg/72 backdrop-blur-[10px]"
       style={{
-        padding: "18px clamp(20px,5vw,64px)",
+        height: HEADER_HEIGHT,
+        padding: "0 clamp(20px,5vw,64px)",
       }}
     >
-      <div
-        className="font-mono text-ink"
+      <a
+        href="/"
+        className="font-mono text-ink transition-colors hover:text-secondary"
         style={{ fontSize: 14, letterSpacing: "0.04em" }}
       >
         <span className="text-primary">&lt;</span>
         {content.initials}
         <span className="text-primary">/&gt;</span>
-      </div>
+      </a>
 
       <nav
         className="flex font-mono"
@@ -70,7 +74,7 @@ export default function Header() {
         className="rounded-full border border-primary font-mono text-primary transition-colors hover:bg-primary hover:text-black"
         style={{ fontSize: 13, padding: "8px 16px" }}
       >
-        grab my résumé ↓
+        grab my résumé
       </motion.a>
     </motion.header>
   );

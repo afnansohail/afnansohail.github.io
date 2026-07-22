@@ -11,14 +11,13 @@ export default function Hero() {
         maxWidth: 1280,
       }}
     >
-      {/* code motif: dot-grid + oversized glyph (decorative) */}
       {options.showCodeMotif && (
         <div
           aria-hidden="true"
           className="dot-grid pointer-events-none absolute inset-0 overflow-hidden"
         >
           <div
-            className="select-none font-mono text-primary/8"
+            className="select-none text-primary/8"
             style={{
               position: "absolute",
               right: "clamp(-40px,-2vw,-20px)",

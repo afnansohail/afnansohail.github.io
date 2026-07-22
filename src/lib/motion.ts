@@ -1,10 +1,10 @@
 import type { Variants } from "motion/react";
 
 export const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
-export const DURATION = 0.55;
+export const DURATION = 0.8;
 
 export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 80 },
   visible: {
     opacity: 1,
     y: 0,
