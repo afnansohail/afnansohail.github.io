@@ -1,4 +1,6 @@
+import { motion } from "motion/react";
 import { content, options } from "../content";
+import { fadeUp, staggerContainer, viewport } from "../lib/motion";
 
 export default function Contact() {
   return (
@@ -6,15 +8,23 @@ export default function Contact() {
       id="contact"
       className="relative overflow-hidden border-t border-white/8 bg-panel-deep"
     >
-      <div
+      <motion.div
         className="relative mx-auto flex flex-col"
         style={{
           maxWidth: 1280,
           padding: "clamp(64px,9vw,120px) clamp(20px,5vw,64px)",
           gap: "clamp(28px,4vw,44px)",
         }}
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
       >
-        <div className="flex items-baseline" style={{ gap: 20 }}>
+        <motion.div
+          variants={fadeUp}
+          className="flex items-baseline"
+          style={{ gap: 20 }}
+        >
           {options.sectionNumbers && (
             <span
               className="font-display text-secondary"
@@ -39,11 +49,12 @@ export default function Contact() {
           >
             Let's build something awesome
           </h2>
-        </div>
+        </motion.div>
 
-        <a
+        <motion.a
+          variants={fadeUp}
           href={`mailto:${content.email}`}
-          className="w-fit border-b-2 border-transparent font-display text-primary transition-colors hover:border-primary"
+          className="group relative w-fit font-display text-primary"
           style={{
             fontWeight: 700,
             fontSize: "clamp(22px,4vw,44px)",
@@ -51,9 +62,14 @@ export default function Contact() {
           }}
         >
           {content.email}
-        </a>
+          <span
+            className="absolute right-0 left-0 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+            style={{ bottom: -4, height: 2 }}
+          />
+        </motion.a>
 
-        <div
+        <motion.div
+          variants={fadeUp}
           className="flex flex-wrap font-mono"
           style={{
             gap: "16px 28px",
@@ -67,12 +83,13 @@ export default function Contact() {
               key={s.label}
               href={s.href}
               target="_blank"
-              className="transition-colors hover:text-primary"
+              className="group relative transition-colors hover:text-primary"
             >
               {s.label}
+              <span className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100" style={{ bottom: -3 }} />
             </a>
           ))}
-        </div>
+        </motion.div>
 
         <div
           className="flex flex-wrap items-center justify-between border-t border-white/[0.07] font-mono"
@@ -89,7 +106,7 @@ export default function Contact() {
           </span>
           <span>{content.footerTagline}</span>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }
