@@ -1,4 +1,6 @@
+import { motion } from "motion/react";
 import { content, options } from "../content";
+import { fadeUp, staggerContainer, viewport } from "../lib/motion";
 
 export default function Experience() {
   return (
@@ -39,10 +41,17 @@ export default function Experience() {
         </h2>
       </div>
 
-      <div className="flex flex-col">
+      <motion.div
+        className="flex flex-col"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {content.roles.map((role, i) => (
-          <div
+          <motion.div
             key={i}
+            variants={fadeUp}
             className="border-t border-white/9 transition-colors hover:bg-white/1.5"
             style={{
               display: "grid",
@@ -95,10 +104,10 @@ export default function Experience() {
                 {role.impact}
               </p>
             </div>
-          </div>
+          </motion.div>
         ))}
         <div className="border-t border-white/9" />
-      </div>
+      </motion.div>
     </section>
   );
 }
