@@ -49,29 +49,23 @@ export default function Experience() {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            className="border-t border-white/9 transition-colors hover:bg-white/1.5"
+            className="grid grid-cols-1 border-t border-white/9 transition-colors hover:bg-white/1.5 sm:grid-cols-[minmax(120px,180px)_1fr]"
             style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(120px,180px) 1fr",
-              gap: "clamp(16px,4vw,56px)",
+              gap: "clamp(8px,4vw,56px)",
               padding: "clamp(24px,3vw,36px) 0",
             }}
           >
             <div
-              className="font-mono"
+              className="font-mono sm:pt-1.5"
               style={{
                 fontSize: 14,
                 color: "oklch(0.62 0.01 250)",
-                paddingTop: 6,
               }}
             >
               {role.years}
             </div>
             <div className="flex flex-col" style={{ gap: 12 }}>
-              <div
-                className="flex flex-wrap items-baseline"
-                style={{ gap: "8px 14px" }}
-              >
+              <div className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-3.5 sm:gap-y-2">
                 <h3
                   className="font-display"
                   style={{

@@ -129,7 +129,7 @@ export default function Skills() {
         }}
       >
         <span
-          className="whitespace-nowrap font-mono uppercase"
+          className="hidden whitespace-nowrap font-mono uppercase sm:inline"
           style={{
             fontSize: 12,
             letterSpacing: "0.18em",

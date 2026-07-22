@@ -14,7 +14,7 @@ export default function Hero() {
       {options.showCodeMotif && (
         <div
           aria-hidden="true"
-          className="dot-grid pointer-events-none absolute inset-0 overflow-hidden"
+          className="dot-grid pointer-events-none absolute inset-0 hidden overflow-hidden sm:block"
         >
           <div
             className="select-none text-primary/8"
@@ -84,14 +84,14 @@ export default function Hero() {
 
         <motion.div
           variants={fadeUp}
-          className="flex flex-wrap"
+          className="flex flex-col sm:flex-row sm:flex-wrap"
           style={{ gap: 14, marginTop: 8 }}
         >
           <motion.a
             href="#work"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="rounded-full bg-primary font-mono text-black transition-colors hover:text-black"
+            className="flex w-full items-center justify-center rounded-full bg-primary font-mono text-black transition-colors hover:text-black sm:inline-flex sm:w-auto"
             style={{ fontSize: 15, fontWeight: 500, padding: "15px 28px" }}
           >
             Check out my work →
@@ -100,7 +100,7 @@ export default function Hero() {
             href="#contact"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="rounded-full border border-white/18 font-mono text-ink transition-colors hover:border-secondary hover:text-secondary"
+            className="flex w-full items-center justify-center rounded-full border border-white/18 font-mono text-ink transition-colors hover:border-secondary hover:text-secondary sm:inline-flex sm:w-auto"
             style={{ fontSize: 15, padding: "15px 28px" }}
           >
             Let's chat

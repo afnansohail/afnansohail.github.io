@@ -22,11 +22,13 @@
 ### Task 1: Install Motion and add shared animation primitives
 
 **Files:**
+
 - Modify: `package.json` (add `motion` dependency)
 - Create: `src/lib/motion.ts`
 - Modify: `src/App.tsx`
 
 **Interfaces:**
+
 - Produces (consumed by every later task): from `src/lib/motion.ts` —
   - `EASE: [number, number, number, number]`
   - `DURATION: number`
@@ -37,9 +39,11 @@
 - [ ] **Step 1: Install the `motion` package**
 
 Run:
+
 ```bash
 npm install motion
 ```
+
 Expected: `package.json` gains a `"motion": "^..."` entry under `dependencies`, `package-lock.json` updates, install completes with no errors.
 
 - [ ] **Step 2: Create `src/lib/motion.ts`**
@@ -109,9 +113,11 @@ export default function App() {
 - [ ] **Step 4: Type-check**
 
 Run:
+
 ```bash
 npm run build
 ```
+
 Expected: build succeeds with no TypeScript errors. (The site's visual output is unchanged at this point — `MotionConfig` only sets defaults, no component uses `motion.*` elements yet.)
 
 - [ ] **Step 5: Commit**
@@ -126,9 +132,11 @@ git commit -m "Add Motion library and shared animation primitives"
 ### Task 2: Header entrance, hover-underline nav, and button feedback
 
 **Files:**
+
 - Modify: `src/components/Header.tsx`
 
 **Interfaces:**
+
 - Consumes: none from other components (uses `motion` directly, not the shared variants, since the header animates once on mount rather than on scroll).
 
 - [ ] **Step 1: Replace the full contents of `src/components/Header.tsx`**
@@ -215,18 +223,23 @@ export default function Header() {
 - [ ] **Step 2: Type-check**
 
 Run:
+
 ```bash
 npm run build
 ```
+
 Expected: build succeeds with no TypeScript errors.
 
 - [ ] **Step 3: Manually verify in the browser**
 
 Run:
+
 ```bash
 npm run dev
 ```
+
 Open the printed local URL and confirm:
+
 - On page load, the header fades/slides down from slightly above.
 - Hovering across `work` / `experience` / `say hi` shows a yellow underline that glides smoothly from one link to the next (not an instant jump), and disappears when the mouse leaves the nav.
 - Hovering/clicking the résumé button scales it up slightly on hover and down slightly on click, in addition to its existing color change.
@@ -243,9 +256,11 @@ git commit -m "Animate header entrance, nav hover indicator, and resume button"
 ### Task 3: Hero staggered reveal and CTA feedback
 
 **Files:**
+
 - Modify: `src/components/Hero.tsx`
 
 **Interfaces:**
+
 - Consumes: `fadeUp`, `staggerContainer` from `src/lib/motion.ts` (Task 1). Hero triggers them with `animate="visible"` on mount rather than `whileInView`, since it's the first thing visible on load — the `viewport` config from Task 1 is not used here (nothing to scroll into view), but the same variant objects are reused so the motion values stay identical to every other section.
 
 - [ ] **Step 1: Replace the full contents of `src/components/Hero.tsx`**
@@ -369,14 +384,17 @@ export default function Hero() {
 - [ ] **Step 2: Type-check**
 
 Run:
+
 ```bash
 npm run build
 ```
+
 Expected: build succeeds with no TypeScript errors.
 
 - [ ] **Step 3: Manually verify in the browser**
 
 With `npm run dev` running, reload the page and confirm:
+
 - The eyebrow, name, intro paragraph, and CTA row fade/rise in sequence (a quick cascade, not simultaneous, not sluggish).
 - Hovering/clicking either CTA button scales it up/down like the header's résumé button.
 
@@ -392,9 +410,11 @@ git commit -m "Add staggered entrance animation to Hero section"
 ### Task 4: Skills section entrance wrapper (no internal changes)
 
 **Files:**
+
 - Modify: `src/components/Skills.tsx`
 
 **Interfaces:**
+
 - Consumes: `fadeUp`, `viewport` from `src/lib/motion.ts` (Task 1).
 
 - [ ] **Step 1: Add the `motion` import**
@@ -458,14 +478,17 @@ Do not change anything else in this file — the marquee, drag handlers, tooltip
 - [ ] **Step 3: Type-check**
 
 Run:
+
 ```bash
 npm run build
 ```
+
 Expected: build succeeds with no TypeScript errors.
 
 - [ ] **Step 4: Manually verify in the browser**
 
 With `npm run dev` running, scroll down to the skills row and confirm:
+
 - The whole section fades/rises in once as it enters the viewport.
 - Dragging the icon row, hovering an icon (tooltip + pause), and the continuous marquee loop all behave exactly as before — no regressions.
 
@@ -481,9 +504,11 @@ git commit -m "Add scroll entrance animation to Skills section wrapper"
 ### Task 5: Experience section staggered row reveal
 
 **Files:**
+
 - Modify: `src/components/Experience.tsx`
 
 **Interfaces:**
+
 - Consumes: `fadeUp`, `staggerContainer`, `viewport` from `src/lib/motion.ts` (Task 1).
 
 - [ ] **Step 1: Replace the full contents of `src/components/Experience.tsx`**
@@ -607,9 +632,11 @@ export default function Experience() {
 - [ ] **Step 2: Type-check**
 
 Run:
+
 ```bash
 npm run build
 ```
+
 Expected: build succeeds with no TypeScript errors.
 
 - [ ] **Step 3: Manually verify in the browser**
@@ -628,9 +655,11 @@ git commit -m "Add staggered row entrance animation to Experience section"
 ### Task 6: Projects grid staggered reveal and card hover lift
 
 **Files:**
+
 - Modify: `src/components/Projects.tsx`
 
 **Interfaces:**
+
 - Consumes: `fadeUp`, `staggerContainer`, `viewport` from `src/lib/motion.ts` (Task 1).
 
 - [ ] **Step 1: Replace the full contents of `src/components/Projects.tsx`**
@@ -817,14 +846,17 @@ export default function Projects() {
 - [ ] **Step 2: Type-check**
 
 Run:
+
 ```bash
 npm run build
 ```
+
 Expected: build succeeds with no TypeScript errors.
 
 - [ ] **Step 3: Manually verify in the browser**
 
 With `npm run dev` running, scroll to "Stuff I've built" and confirm:
+
 - The project cards cascade in together as the grid enters the viewport (not one-by-one down the page — they're siblings in one grid, so the stagger is fast/simultaneous-feeling).
 - Hovering a card lifts it with a slightly springy feel (vs. the previous linear CSS transition), and the border-color hover still works.
 - Cards that link out still open in a new tab; cards without a link are still plain (non-clickable) divs.
@@ -841,9 +873,11 @@ git commit -m "Add staggered grid entrance and spring hover lift to Projects sec
 ### Task 7: Contact section staggered reveal and link underline hover
 
 **Files:**
+
 - Modify: `src/components/Contact.tsx`
 
 **Interfaces:**
+
 - Consumes: `fadeUp`, `staggerContainer`, `viewport` from `src/lib/motion.ts` (Task 1).
 
 - [ ] **Step 1: Replace the full contents of `src/components/Contact.tsx`**
@@ -937,7 +971,10 @@ export default function Contact() {
               className="group relative transition-colors hover:text-primary"
             >
               {s.label}
-              <span className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100" style={{ bottom: -3 }} />
+              <span
+                className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+                style={{ bottom: -3 }}
+              />
             </a>
           ))}
         </motion.div>
@@ -966,14 +1003,17 @@ export default function Contact() {
 - [ ] **Step 2: Type-check**
 
 Run:
+
 ```bash
 npm run build
 ```
+
 Expected: build succeeds with no TypeScript errors.
 
 - [ ] **Step 3: Manually verify in the browser**
 
 With `npm run dev` running, scroll to the footer and confirm:
+
 - The heading, email link, and social row cascade in as the footer enters the viewport.
 - Hovering the email address and each social link reveals an underline that grows in from the left rather than appearing instantly.
 - The copyright/tagline bottom bar is unchanged (no animation, always visible).
@@ -996,18 +1036,23 @@ git commit -m "Add staggered entrance and underline hover to Contact section"
 - [ ] **Step 1: Full production build**
 
 Run:
+
 ```bash
 npm run build
 ```
+
 Expected: type-check and production build both succeed with no errors or warnings introduced by this plan.
 
 - [ ] **Step 2: Full manual walkthrough**
 
 Run:
+
 ```bash
 npm run preview
 ```
+
 Open the printed local URL and, scrolling from top to bottom, confirm every animation from Tasks 2–7 fires once, in order, and that nothing double-fires or feels sluggish. Specifically re-check:
+
 - Header entrance + nav underline glide + résumé button hover/tap.
 - Hero staggered reveal + CTA hover/tap.
 - Skills section entrance fade only (marquee drag/hover/tooltip behavior identical to before this plan).

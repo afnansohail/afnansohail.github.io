@@ -91,7 +91,10 @@ export default function Contact() {
               className="group relative transition-colors hover:text-primary"
             >
               {s.label}
-              <span className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100" style={{ bottom: -3 }} />
+              <span
+                className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+                style={{ bottom: -3 }}
+              />
             </a>
           ))}
         </motion.div>
