@@ -13,6 +13,8 @@ npm run preview    # preview the production build
 
 There is no test suite and no linter configured in this repo. `npm run build` (which runs `tsc -b` in strict mode) is the only automated check — run it after making changes to catch type errors.
 
+**Do not install, run, or drive Playwright/browser automation (or any other browser tool) to verify UI changes in this repo.** Running `npm run build` once is sufficient verification — the user reviews visual/UI changes themselves in their own browser.
+
 ## Architecture
 
 This is a single-page, static portfolio site: Vite + React 19 + TypeScript + Tailwind CSS v4. No router, no state management, no backend/API calls.

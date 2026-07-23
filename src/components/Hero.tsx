@@ -136,7 +136,7 @@ export default function Hero() {
           <a
             href="#contact"
             data-magnetic
-            className="flex w-full items-center justify-center rounded-full border border-white/18 font-mono text-ink transition-colors hover:border-primary hover:text-primary sm:inline-flex sm:w-auto"
+            className="flex w-full items-center justify-center rounded-full border border-white font-mono text-ink transition-colors hover:border-primary hover:text-primary sm:inline-flex sm:w-auto"
             style={{ fontSize: 15, padding: "15px 28px" }}
           >
             Let's chat
