@@ -75,6 +75,12 @@
     color: var(--color-bg);
   }
 
+  :focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
   /* Loader/Header/Hero choreography: these start hidden and are revealed by
      one continuous GSAP timeline in Loader.tsx. When the loader is skipped
      (repeat visit this session, or prefers-reduced-motion), Loader stamps
@@ -86,17 +92,6 @@
   body.intro-skip [data-reveal-init] {
     opacity: 1;
   }
-}
-
-.dot-grid {
-  background-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.045) 1px,
-    transparent 1px
-  );
-  background-size: 28px 28px;
-  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%);
-  mask-image: linear-gradient(to bottom, #000, transparent 85%);
 }
 
 @keyframes marquee {
