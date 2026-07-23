@@ -6,7 +6,7 @@
   --color-panel-deep: oklch(0.175 0.014 290);
   --color-ink: oklch(0.96 0.006 290);
   --color-primary: #f2f207;
-  --color-secondary: #078cf2;
+  --color-secondary: #079cf2;
 
   --font-display: "Bricolage Grotesque", sans-serif;
   --font-sans: "IBM Plex Sans", sans-serif;
@@ -22,6 +22,12 @@
     html {
       scroll-behavior: smooth;
     }
+  }
+
+  html.lock-scroll,
+  html.lock-scroll body {
+    height: 100%;
+    overflow: hidden;
   }
 
   body {
@@ -48,6 +54,13 @@
       pointer;
   }
 
+  /* The GSAP dot/ring cursor takes over on fine-pointer devices once mounted;
+     see CustomCursor.tsx, which stamps this attribute onto <html>. */
+  html[data-cursor="custom"],
+  html[data-cursor="custom"] * {
+    cursor: none !important;
+  }
+
   a {
     color: inherit;
     text-decoration: none;
@@ -60,6 +73,18 @@
   ::selection {
     background: var(--color-primary);
     color: var(--color-bg);
+  }
+
+  /* Loader/Header/Hero choreography: these start hidden and are revealed by
+     one continuous GSAP timeline in Loader.tsx. When the loader is skipped
+     (repeat visit this session, or prefers-reduced-motion), Loader stamps
+     `.intro-skip` on <body> before paint so nothing here ever flashes. */
+  [data-reveal-init] {
+    opacity: 0;
+  }
+
+  body.intro-skip [data-reveal-init] {
+    opacity: 1;
   }
 }
 
@@ -90,4 +115,40 @@
     rgba(255, 255, 255, 0.05) 0 2px,
     transparent 2px 12px
   );
+}
+
+.stroke-number {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.22);
+  transition:
+    -webkit-text-stroke-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.group:hover .stroke-number {
+  -webkit-text-stroke-color: var(--color-primary);
+}
+
+.nav-link {
+  position: relative;
+  color: var(--color-ink);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-secondary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-secondary);
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }

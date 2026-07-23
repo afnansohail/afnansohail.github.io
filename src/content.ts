@@ -31,10 +31,26 @@ export const options = {
 
 export const content = {
   name: "Afnan Sohail",
-  initials: "AfnanSohail",
+  initials: "AS",
   eyebrow: "Full-Stack Engineer · Powered by Curiosity",
 
   email: "afnansohail1999@gmail.com",
+
+  loader: {
+    label: "initializing portfolio",
+    logs: [
+      "> booting kernel…",
+      "> compiling components…",
+      "> hydrating experience…",
+      "> ready.",
+    ],
+  },
+
+  sections: {
+    experience: { number: "02", heading: "Where I've built" },
+    projects: { number: "03", heading: "Selected work" },
+    contact: { number: "04" },
+  },
 
   intro: {
     lead: "I build web stuff that's fast, sturdy, and ",

@@ -1,60 +1,73 @@
-import { motion } from "motion/react";
-import { content, options } from "../content";
-import { fadeUp, viewport } from "../lib/motion";
+import { content, options } from "@/content";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import SplitText from "./react-bits/SplitText";
 
 export default function Contact() {
+  const sectionRef = useScrollReveal<HTMLElement>();
+
   return (
     <footer
       id="contact"
+      ref={sectionRef}
       className="relative overflow-hidden border-t border-white/8 bg-panel-deep"
     >
       <div
+        aria-hidden="true"
+        className="pointer-events-none absolute"
+        style={{
+          left: "50%",
+          top: "120%",
+          transform: "translate(-50%,-50%)",
+          width: 900,
+          height: 900,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, color-mix(in oklch, var(--color-secondary) 26%, transparent), transparent 60%)",
+        }}
+      />
+
+      <div
         className="relative mx-auto flex flex-col"
         style={{
-          maxWidth: 1280,
-          padding: "clamp(64px,9vw,120px) clamp(20px,5vw,64px)",
-          gap: "clamp(28px,4vw,44px)",
+          maxWidth: 1400,
+          padding: "clamp(72px,10vw,140px) clamp(20px,5vw,64px)",
+          gap: "clamp(28px,4vw,48px)",
         }}
       >
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className="flex items-baseline"
-          style={{ gap: 20 }}
-        >
+        <div data-reveal className="relative">
           {options.sectionNumbers && (
             <span
-              className="font-display text-secondary"
-              style={{
-                fontWeight: 800,
-                fontSize: "clamp(40px,6vw,76px)",
-                lineHeight: 1,
-                letterSpacing: "-0.02em",
-              }}
+              className="font-mono text-primary absolute -top-10 left-0"
+              style={{ fontSize: "clamp(13px,1.4vw,15px)" }}
             >
-              04
+              ({content.sections.contact.number})
             </span>
           )}
-          <h2
-            className="font-display"
-            style={{
-              fontWeight: 700,
-              fontSize: "clamp(22px,4.2vw,56px)",
-              letterSpacing: "-0.03em",
-              lineHeight: 0.95,
-            }}
-          >
-            Let's build something awesome
-          </h2>
-        </motion.div>
+        </div>
 
-        <motion.a
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
+        <h2
+          data-reveal
+          className="font-display"
+          style={{
+            fontWeight: 800,
+            fontSize: "clamp(44px,10vw,150px)",
+            letterSpacing: "-0.04em",
+            lineHeight: 0.9,
+            textWrap: "balance",
+          }}
+        >
+          <SplitText
+            text="Let's build something."
+            tag="span"
+            className="inline-block"
+            splitType="words"
+            textAlign="left"
+          />
+        </h2>
+
+        <a
+          data-reveal
+          data-magnetic
           href={`mailto:${content.email}`}
           className="group relative w-fit font-display text-primary"
           style={{
@@ -68,13 +81,10 @@ export default function Contact() {
             className="absolute right-0 left-0 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
             style={{ bottom: -4, height: 2 }}
           />
-        </motion.a>
+        </a>
 
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
+        <div
+          data-reveal
           className="flex flex-wrap font-mono"
           style={{
             gap: "16px 28px",
@@ -88,16 +98,18 @@ export default function Contact() {
               key={s.label}
               href={s.href}
               target="_blank"
-              className="group relative transition-colors hover:text-primary"
+              rel="noopener noreferrer"
+              data-magnetic
+              className="group relative inline-block transition-colors hover:text-secondary"
             >
               {s.label}
               <span
-                className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+                className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-secondary transition-transform duration-300 ease-out group-hover:scale-x-100"
                 style={{ bottom: -3 }}
               />
             </a>
           ))}
-        </motion.div>
+        </div>
 
         <div
           className="flex flex-wrap items-center justify-between border-t border-white/[0.07] font-mono"

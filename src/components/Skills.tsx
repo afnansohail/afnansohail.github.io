@@ -6,9 +6,8 @@ import {
   type MouseEvent,
   type PointerEvent,
 } from "react";
-import { motion } from "motion/react";
-import { fadeUp, viewport } from "../lib/motion";
-import { content } from "../content";
+import { content } from "@/content";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 interface Tooltip {
   label: string;
@@ -17,6 +16,7 @@ interface Tooltip {
 }
 
 export default function Skills() {
+  const sectionRef = useScrollReveal<HTMLElement>();
   const [paused, setPaused] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
@@ -111,16 +111,14 @@ export default function Skills() {
   };
 
   return (
-    <motion.section
+    <section
+      ref={sectionRef}
       className="bg-panel"
       style={{ borderBlock: "1px solid rgba(255,255,255,0.07)" }}
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
     >
       <div
         ref={rowRef}
+        data-reveal
         className="relative mx-auto flex flex-wrap items-center"
         style={{
           maxWidth: 1280,
@@ -133,7 +131,7 @@ export default function Skills() {
           style={{
             fontSize: 12,
             letterSpacing: "0.18em",
-            color: "oklch(0.60 0.01 250)",
+            color: "var(--color-primary)",
           }}
         >
           My toolbox ·
@@ -233,6 +231,6 @@ export default function Skills() {
           </span>
         )}
       </div>
-    </motion.section>
+    </section>
   );
 }
