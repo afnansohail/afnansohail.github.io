@@ -18,12 +18,12 @@ export default function Projects() {
     >
       <div
         data-reveal
-        className="flex items-baseline"
-        style={{ gap: 20, marginBottom: "clamp(40px,5vw,72px)" }}
+        className="relative"
+        style={{ marginBottom: "clamp(40px,5vw,72px)" }}
       >
         {options.sectionNumbers && (
           <span
-            className="font-mono text-primary"
+            className="font-mono text-primary absolute -top-6 left-0"
             style={{ fontSize: "clamp(13px,1.4vw,15px)" }}
           >
             ({content.sections.projects.number})
@@ -59,19 +59,16 @@ export default function Projects() {
                 ? { href: p.link, target: "_blank", rel: "noopener noreferrer" }
                 : {})}
             >
-              <SpotlightCard
-                spotlightColor="rgba(7, 140, 242, 0.35)"
-                className="rounded-none! border-0! bg-transparent! p-0!"
-              >
+              <SpotlightCard className="rounded-none! border-0! bg-transparent! p-0!\">
                 <div
-                  className="grid grid-cols-1 items-center sm:grid-cols-[auto_1fr]"
+                  className="flex flex-col sm:grid sm:grid-cols-[auto_1fr] sm:items-center"
                   style={{
                     gap: "clamp(20px,5vw,64px)",
                     padding: "clamp(32px,5vw,64px) 0",
                   }}
                 >
                   <div
-                    className="stroke-number font-display"
+                    className="stroke-number font-display hidden sm:block"
                     style={{
                       fontWeight: 800,
                       fontSize: "clamp(56px,10vw,150px)",
@@ -83,11 +80,35 @@ export default function Projects() {
                   </div>
 
                   <div
-                    className="flex flex-wrap items-center justify-between"
+                    className="flex flex-col sm:flex-wrap sm:items-center sm:justify-between w-full"
                     style={{ gap: "clamp(16px,3vw,40px)" }}
                   >
+                    <div className="w-full sm:hidden overflow-hidden rounded-[14px] border border-white/12 opacity-55 transition-all duration-300 ease-out group-hover:opacity-100">
+                      {p.image ? (
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                          style={{ transformOrigin: "center" }}
+                        />
+                      ) : (
+                        <div className="stripes relative flex h-full items-end p-3">
+                          <span
+                            className="font-mono"
+                            style={{
+                              fontSize: 11,
+                              letterSpacing: "0.1em",
+                              color: "oklch(0.55 0.01 250)",
+                            }}
+                          >
+                            [ {p.name} shot ]
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
                     <div
-                      className="flex flex-col"
+                      className="flex flex-col w-full"
                       style={{ gap: 14, maxWidth: 640 }}
                     >
                       <div
@@ -146,7 +167,7 @@ export default function Projects() {
                     </div>
 
                     <div
-                      className="shrink-0 overflow-hidden rounded-[14px] border border-white/12 opacity-55 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:transform-[scale(1.03)]"
+                      className="shrink-0 overflow-hidden rounded-[14px] border border-white/12 opacity-55 transition-all duration-300 ease-out group-hover:opacity-100 hidden sm:block"
                       style={{
                         width: "clamp(180px,22vw,300px)",
                         aspectRatio: "4 / 3",
@@ -156,7 +177,8 @@ export default function Projects() {
                         <img
                           src={p.image}
                           alt={p.name}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                          style={{ transformOrigin: "center" }}
                         />
                       ) : (
                         <div className="stripes relative flex h-full items-end p-3">

@@ -34,25 +34,15 @@ export default function Contact() {
           gap: "clamp(28px,4vw,48px)",
         }}
       >
-        <div data-reveal className="flex items-baseline" style={{ gap: 20 }}>
+        <div data-reveal className="relative">
           {options.sectionNumbers && (
             <span
-              className="font-mono text-primary"
+              className="font-mono text-primary absolute -top-10 left-0"
               style={{ fontSize: "clamp(13px,1.4vw,15px)" }}
             >
               ({content.sections.contact.number})
             </span>
           )}
-          <span
-            className="font-mono uppercase"
-            style={{
-              fontSize: 13,
-              letterSpacing: "0.18em",
-              color: "oklch(0.62 0.01 250)",
-            }}
-          >
-            Contact
-          </span>
         </div>
 
         <h2
@@ -110,11 +100,11 @@ export default function Contact() {
               target="_blank"
               rel="noopener noreferrer"
               data-magnetic
-              className="group relative inline-block transition-colors hover:text-primary"
+              className="group relative inline-block transition-colors hover:text-secondary"
             >
               {s.label}
               <span
-                className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+                className="absolute right-0 left-0 h-px origin-left scale-x-0 bg-secondary transition-transform duration-300 ease-out group-hover:scale-x-100"
                 style={{ bottom: -3 }}
               />
             </a>

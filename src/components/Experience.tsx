@@ -35,12 +35,12 @@ export default function Experience() {
     >
       <div
         data-reveal
-        className="flex items-baseline"
-        style={{ gap: 20, marginBottom: "clamp(40px,5vw,72px)" }}
+        className="relative"
+        style={{ marginBottom: "clamp(40px,5vw,72px)" }}
       >
         {options.sectionNumbers && (
           <span
-            className="font-mono text-primary"
+            className="font-mono text-primary absolute -top-6 left-0"
             style={{ fontSize: "clamp(13px,1.4vw,15px)" }}
           >
             ({content.sections.experience.number})

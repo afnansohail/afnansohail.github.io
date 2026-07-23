@@ -7,6 +7,7 @@ import Contact from "./components/Contact";
 import Loader from "./components/Loader";
 import CustomCursor from "./components/CustomCursor";
 import ScrollProgress from "./components/ScrollProgress";
+import ClickSpark from "./components/react-bits/ClickSpark";
 import { useLenis } from "./hooks/useLenis";
 import { useMagneticFields } from "./hooks/useMagnetic";
 
@@ -15,20 +16,27 @@ export default function App() {
   useMagneticFields();
 
   return (
-    <div className="relative min-h-screen">
-      <Loader />
-      <CustomCursor />
-      <ScrollProgress />
-      <Header />
-      <div className="flex flex-col" style={{ minHeight: "100svh" }}>
-        <Hero />
+    <ClickSpark
+      sparkColor="#f2f207"
+      sparkCount={10}
+      sparkRadius={18}
+      duration={420}
+    >
+      <div className="relative min-h-screen">
+        <Loader />
+        <CustomCursor />
+        <ScrollProgress />
+        <Header />
+        <div className="flex flex-col" style={{ minHeight: "100svh" }}>
+          <Hero />
+        </div>
+        <main>
+          <Skills />
+          <Experience />
+          <Projects />
+        </main>
+        <Contact />
       </div>
-      <main>
-        <Skills />
-        <Experience />
-        <Projects />
-      </main>
-      <Contact />
-    </div>
+    </ClickSpark>
   );
 }

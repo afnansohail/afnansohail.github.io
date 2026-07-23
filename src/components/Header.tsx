@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { content } from "@/content";
 
 const NAV_LINKS = [
@@ -13,13 +13,26 @@ export const HEADER_HEIGHT = 72;
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
       data-reveal-init
-      className="fixed inset-x-0 top-0 z-50"
-      style={{ height: HEADER_HEIGHT }}
+      className="fixed inset-x-0 top-0 z-50 transition-all duration-300"
+      style={{
+        height: HEADER_HEIGHT,
+        backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
+        backgroundColor: scrolled ? "#000000CC" : "transparent",
+      }}
     >
       <div
         className="mix-blend-difference flex h-full items-center justify-between"
@@ -47,7 +60,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               data-magnetic
-              className="inline-block text-white transition-opacity hover:opacity-70"
+              className="nav-link inline-block text-white transition-colors relative"
             >
               {link.label}
             </a>
@@ -59,7 +72,7 @@ export default function Header() {
           target="_blank"
           rel="noopener noreferrer"
           data-magnetic
-          className="hidden rounded-full border border-white font-mono text-white sm:inline-flex"
+          className="hidden rounded-full border border-white font-mono text-white transition-colors hover:bg-secondary hover:text-black hover:border-secondary sm:inline-flex"
           style={{ fontSize: 13, padding: "8px 16px" }}
         >
           grab my résumé

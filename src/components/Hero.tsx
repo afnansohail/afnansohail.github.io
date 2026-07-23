@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { content, options } from "@/content";
-import ClickSpark from "./react-bits/ClickSpark";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -25,9 +24,6 @@ export default function Hero() {
     section.addEventListener("mousemove", handleMove);
     return () => section.removeEventListener("mousemove", handleMove);
   }, []);
-
-  const [firstName, ...rest] = content.name.split(" ");
-  const lastName = rest.join(" ");
 
   return (
     <section
@@ -52,6 +48,7 @@ export default function Hero() {
           top: 0,
           transform: "translate(-50%,-50%)",
           willChange: "transform",
+          display: "none",
         }}
       />
 
@@ -77,102 +74,75 @@ export default function Hero() {
         </div>
       )}
 
-      <ClickSpark
-        sparkColor="#f2f207"
-        sparkCount={10}
-        sparkRadius={18}
-        duration={420}
+      <div
+        className="relative flex flex-col"
+        style={{ gap: "clamp(20px,3vw,34px)", maxWidth: 900 }}
       >
         <div
-          className="relative flex flex-col"
-          style={{ gap: "clamp(20px,3vw,34px)", maxWidth: 900 }}
+          data-reveal-init
+          className="font-mono uppercase text-secondary"
+          style={{
+            fontSize: "clamp(12px,1.4vw,14px)",
+            letterSpacing: "0.22em",
+          }}
         >
-          <div
-            data-reveal-init
-            className="flex items-center gap-3 font-mono uppercase text-secondary"
-            style={{
-              fontSize: "clamp(12px,1.4vw,14px)",
-              letterSpacing: "0.22em",
-            }}
-          >
-            <span
-              className="inline-block rounded-full bg-primary"
-              style={{
-                height: 9,
-                width: 9,
-                boxShadow: "0 0 12px var(--color-primary)",
-              }}
-            />
-            {content.eyebrow}
-          </div>
-
-          <h1
-            className="font-display"
-            style={{
-              fontWeight: 800,
-              fontSize: "clamp(52px,11vw,168px)",
-              lineHeight: 0.88,
-              letterSpacing: "-0.03em",
-            }}
-          >
-            <span data-reveal-init className="block">
-              {firstName}
-            </span>
-            {lastName && (
-              <span
-                data-reveal-init
-                className="block"
-                style={{
-                  WebkitTextStroke: "2px var(--color-secondary)",
-                  color: "transparent",
-                }}
-              >
-                {lastName}
-              </span>
-            )}
-          </h1>
-
-          <p
-            data-reveal-init
-            style={{
-              fontSize: "clamp(18px,2.2vw,26px)",
-              lineHeight: 1.4,
-              maxWidth: 640,
-              color: "oklch(0.82 0.008 250)",
-              textWrap: "pretty",
-            }}
-          >
-            {content.intro.lead}
-            <span className="text-primary" style={{ fontWeight: 600 }}>
-              {content.intro.highlight}
-            </span>
-            {content.intro.tail}
-          </p>
-
-          <div
-            data-reveal-init
-            className="flex flex-col sm:flex-row sm:flex-wrap"
-            style={{ gap: 14, marginTop: 8 }}
-          >
-            <a
-              href="#work"
-              data-magnetic
-              className="flex w-full items-center justify-center rounded-full bg-primary font-mono text-black transition-transform hover:scale-[1.03] sm:inline-flex sm:w-auto"
-              style={{ fontSize: 15, fontWeight: 500, padding: "15px 28px" }}
-            >
-              Check out my work →
-            </a>
-            <a
-              href="#contact"
-              data-magnetic
-              className="flex w-full items-center justify-center rounded-full border border-white/18 font-mono text-ink transition-colors hover:border-secondary hover:text-secondary sm:inline-flex sm:w-auto"
-              style={{ fontSize: 15, padding: "15px 28px" }}
-            >
-              Let's chat
-            </a>
-          </div>
+          {content.eyebrow}
         </div>
-      </ClickSpark>
+
+        <h1
+          className="font-display"
+          style={{
+            fontWeight: 800,
+            fontSize: "clamp(52px,11vw,168px)",
+            lineHeight: 0.88,
+            letterSpacing: "-0.03em",
+          }}
+        >
+          <span data-reveal-init className="inline">
+            {content.name}
+          </span>
+        </h1>
+
+        <p
+          data-reveal-init
+          style={{
+            fontSize: "clamp(18px,2.2vw,26px)",
+            lineHeight: 1.4,
+            maxWidth: 640,
+            color: "oklch(0.82 0.008 250)",
+            textWrap: "pretty",
+          }}
+        >
+          {content.intro.lead}
+          <span className="text-primary" style={{ fontWeight: 600 }}>
+            {content.intro.highlight}
+          </span>
+          {content.intro.tail}
+        </p>
+
+        <div
+          data-reveal-init
+          className="flex flex-col sm:flex-row sm:flex-wrap"
+          style={{ gap: 14, marginTop: 8 }}
+        >
+          <a
+            href="#work"
+            data-magnetic
+            className="flex w-full items-center justify-center rounded-full bg-secondary font-mono text-black transition-transform hover:scale-[1.03] sm:inline-flex sm:w-auto"
+            style={{ fontSize: 15, fontWeight: 500, padding: "15px 28px" }}
+          >
+            Check out my work →
+          </a>
+          <a
+            href="#contact"
+            data-magnetic
+            className="flex w-full items-center justify-center rounded-full border border-white/18 font-mono text-ink transition-colors hover:border-primary hover:text-primary sm:inline-flex sm:w-auto"
+            style={{ fontSize: 15, padding: "15px 28px" }}
+          >
+            Let's chat
+          </a>
+        </div>
+      </div>
 
       <div
         data-reveal-init

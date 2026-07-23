@@ -7,7 +7,7 @@ export function useLenis() {
     if (prefersReducedMotion()) return undefined;
 
     const lenis = new Lenis({ autoRaf: false });
-    const update = (time: number) => lenis.raf(time * 1000);
+    const update = (time: number) => lenis.raf(time * 3000);
 
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add(update);

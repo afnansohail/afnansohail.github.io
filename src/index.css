@@ -6,7 +6,7 @@
   --color-panel-deep: oklch(0.175 0.014 290);
   --color-ink: oklch(0.96 0.006 290);
   --color-primary: #f2f207;
-  --color-secondary: #078cf2;
+  --color-secondary: #079cf2;
 
   --font-display: "Bricolage Grotesque", sans-serif;
   --font-sans: "IBM Plex Sans", sans-serif;
@@ -127,4 +127,28 @@
 
 .group:hover .stroke-number {
   -webkit-text-stroke-color: var(--color-primary);
+}
+
+.nav-link {
+  position: relative;
+  color: var(--color-ink);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-secondary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-secondary);
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }

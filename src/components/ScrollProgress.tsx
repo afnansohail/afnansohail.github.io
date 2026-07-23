@@ -15,13 +15,13 @@ export default function ScrollProgress() {
       gsap.to(bar, {
         scaleX: 1,
         ease: "none",
-        scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
+        scrollTrigger: { start: "80px", end: "max", scrub: 0.3 },
       });
     },
     { dependencies: [enabled] },
   );
 
-  if (!enabled) return null;
+  return null;
 
   return (
     <div

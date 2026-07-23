@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { gsap, prefersReducedMotion, prefersFinePointer } from "@/lib/gsap";
 
-const STRENGTH = 0.4;
+const STRENGTH = 0.2;
 
 /**
  * Wires every `[data-magnetic]` element on the page, once. A single global

@@ -67,7 +67,7 @@ export default function CustomCursor() {
       />
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 rounded-full border border-white/50 mix-blend-difference will-change-transform"
+        className="fixed top-0 left-0 rounded-full border border-white/30 mix-blend-difference will-change-transform"
         style={{ height: 44, width: 44 }}
       />
     </div>
