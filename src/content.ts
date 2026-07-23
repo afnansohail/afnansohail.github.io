@@ -25,7 +25,7 @@ export interface SocialLink {
 }
 
 export const options = {
-  showCodeMotif: true,
+  showDotField: true,
   sectionNumbers: true,
 };
 
