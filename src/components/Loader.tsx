@@ -46,7 +46,7 @@ export default function Loader() {
 
       tl.to(counter, {
         value: 100,
-        duration: 2.1,
+        duration: 3.2,
         ease: "power2.inOut",
         onUpdate: () => {
           const n = Math.round(counter.value);

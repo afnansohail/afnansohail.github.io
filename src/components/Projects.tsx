@@ -80,7 +80,7 @@ export default function Projects() {
                   </div>
 
                   <div
-                    className="flex flex-col sm:flex-wrap sm:items-center sm:justify-between w-full"
+                    className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between w-full"
                     style={{ gap: "clamp(16px,3vw,40px)" }}
                   >
                     <div className="w-full sm:hidden overflow-hidden rounded-[14px] border border-white/12 opacity-55 transition-all duration-300 ease-out group-hover:opacity-100">
