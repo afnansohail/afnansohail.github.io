@@ -75,6 +75,12 @@
     color: var(--color-bg);
   }
 
+  :focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
   /* Loader/Header/Hero choreography: these start hidden and are revealed by
      one continuous GSAP timeline in Loader.tsx. When the loader is skipped
      (repeat visit this session, or prefers-reduced-motion), Loader stamps

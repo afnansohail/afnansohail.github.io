@@ -59,7 +59,7 @@ export default function Projects() {
                 ? { href: p.link, target: "_blank", rel: "noopener noreferrer" }
                 : {})}
             >
-              <SpotlightCard className="rounded-none! border-0! bg-transparent! p-0!\">
+              <SpotlightCard className="rounded-none! border-0! bg-transparent! p-0!">
                 <div
                   className="flex flex-col sm:grid sm:grid-cols-[auto_1fr] sm:items-center"
                   style={{
