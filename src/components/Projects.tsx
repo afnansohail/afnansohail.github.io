@@ -1,163 +1,185 @@
-import { motion } from "motion/react";
-import { content, options } from "../content";
-import { fadeUp, viewport, EASE } from "../lib/motion";
+import { content, options } from "@/content";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import SplitText from "./react-bits/SplitText";
+import SpotlightCard from "./react-bits/SpotlightCard";
 
 export default function Projects() {
+  const sectionRef = useScrollReveal<HTMLElement>();
+
   return (
     <section
       id="work"
+      ref={sectionRef}
       className="mx-auto"
       style={{
-        maxWidth: 1280,
-        padding: "0 clamp(20px,5vw,64px) clamp(64px,9vw,128px)",
+        maxWidth: 1400,
+        padding: "0 clamp(20px,5vw,64px) clamp(72px,10vw,140px)",
       }}
     >
       <div
+        data-reveal
         className="flex items-baseline"
-        style={{ gap: 20, marginBottom: "clamp(36px,5vw,64px)" }}
+        style={{ gap: 20, marginBottom: "clamp(40px,5vw,72px)" }}
       >
         {options.sectionNumbers && (
           <span
-            className="font-display text-secondary"
-            style={{
-              fontWeight: 800,
-              fontSize: "clamp(40px,6vw,76px)",
-              lineHeight: 1,
-              letterSpacing: "-0.02em",
-            }}
+            className="font-mono text-primary"
+            style={{ fontSize: "clamp(13px,1.4vw,15px)" }}
           >
-            03
+            ({content.sections.projects.number})
           </span>
         )}
         <h2
           className="font-display"
           style={{
             fontWeight: 700,
-            fontSize: "clamp(30px,5vw,60px)",
+            fontSize: "clamp(32px,5.5vw,68px)",
             letterSpacing: "-0.02em",
           }}
         >
-          Stuff I've built
+          <SplitText
+            text={content.sections.projects.heading}
+            tag="span"
+            className="inline-block"
+            splitType="words"
+            textAlign="left"
+          />
         </h2>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(min(300px,100%),1fr))",
-          gap: "clamp(18px,2.5vw,28px)",
-        }}
-      >
+      <div className="flex flex-col">
         {content.projects.map((p) => {
-          const CardTag = p.link ? motion.a : motion.div;
+          const Wrapper = p.link ? "a" : "div";
           return (
-            <CardTag
+            <Wrapper
               key={p.no}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.3, ease: EASE }}
+              data-reveal
+              className="group block border-t border-white/9"
               {...(p.link
                 ? { href: p.link, target: "_blank", rel: "noopener noreferrer" }
                 : {})}
-              className="flex flex-col overflow-hidden rounded-[18px] border border-white/9 bg-panel transition-colors hover:border-primary/60"
-              style={p.link ? { cursor: "pointer" } : undefined}
             >
-              {p.image ? (
+              <SpotlightCard
+                spotlightColor="rgba(7, 140, 242, 0.35)"
+                className="rounded-none! border-0! bg-transparent! p-0!"
+              >
                 <div
-                  className="relative overflow-hidden border-b border-white/9"
-                  style={{ aspectRatio: "16 / 11" }}
+                  className="grid grid-cols-1 items-center sm:grid-cols-[auto_1fr]"
+                  style={{
+                    gap: "clamp(20px,5vw,64px)",
+                    padding: "clamp(32px,5vw,64px) 0",
+                  }}
                 >
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ) : (
-                <div
-                  className="stripes relative flex items-center justify-center border-b border-white/9"
-                  style={{ aspectRatio: "16 / 11" }}
-                >
-                  <span
-                    className="font-display"
+                  <div
+                    className="stroke-number font-display"
                     style={{
                       fontWeight: 800,
-                      fontSize: 88,
-                      color: "rgba(255,255,255,0.06)",
-                      lineHeight: 1,
+                      fontSize: "clamp(56px,10vw,150px)",
+                      lineHeight: 0.8,
+                      letterSpacing: "-0.04em",
                     }}
                   >
                     {p.no}
-                  </span>
-                  <span
-                    className="font-mono"
-                    style={{
-                      position: "absolute",
-                      bottom: 12,
-                      left: 14,
-                      fontSize: 11,
-                      letterSpacing: "0.1em",
-                      color: "oklch(0.55 0.01 250)",
-                    }}
+                  </div>
+
+                  <div
+                    className="flex flex-wrap items-center justify-between"
+                    style={{ gap: "clamp(16px,3vw,40px)" }}
                   >
-                    [ project shot ]
-                  </span>
-                </div>
-              )}
+                    <div
+                      className="flex flex-col"
+                      style={{ gap: 14, maxWidth: 640 }}
+                    >
+                      <div
+                        className="flex flex-wrap items-baseline"
+                        style={{ gap: 14 }}
+                      >
+                        <h3
+                          className="font-display"
+                          style={{
+                            fontWeight: 700,
+                            fontSize: "clamp(26px,3.6vw,48px)",
+                            letterSpacing: "-0.02em",
+                          }}
+                        >
+                          {p.name}
+                        </h3>
+                      </div>
+                      <p
+                        style={{
+                          fontSize: 16,
+                          lineHeight: 1.55,
+                          color: "oklch(0.78 0.008 250)",
+                          textWrap: "pretty",
+                        }}
+                      >
+                        {p.desc}
+                      </p>
+                      <div
+                        className="flex flex-wrap"
+                        style={{ gap: 8, marginTop: 2 }}
+                      >
+                        {p.stack.map((t, i) => (
+                          <span
+                            key={i}
+                            className="font-mono"
+                            style={{
+                              fontSize: 12,
+                              color: "oklch(0.82 0.008 250)",
+                              padding: "5px 12px",
+                              borderRadius: 999,
+                              border: "1px solid rgba(255,255,255,0.12)",
+                            }}
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                      {p.link && (
+                        <div
+                          className="font-mono text-secondary"
+                          style={{ fontSize: 13, marginTop: 4 }}
+                        >
+                          ↗ live demo
+                        </div>
+                      )}
+                    </div>
 
-              <div
-                className="flex flex-col"
-                style={{ gap: 14, padding: "clamp(20px,2.5vw,28px)" }}
-              >
-                <h3
-                  className="font-display"
-                  style={{
-                    fontWeight: 700,
-                    fontSize: "clamp(22px,2.6vw,28px)",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  {p.name}
-                </h3>
-
-                <p
-                  style={{
-                    fontSize: 15,
-                    lineHeight: 1.55,
-                    color: "oklch(0.78 0.008 250)",
-                    textWrap: "pretty",
-                  }}
-                >
-                  {p.desc}
-                </p>
-
-                <div
-                  className="flex flex-wrap"
-                  style={{ gap: 8, marginTop: 2 }}
-                >
-                  {p.stack.map((t, i) => (
-                    <span
-                      key={i}
-                      className="font-mono"
+                    <div
+                      className="shrink-0 overflow-hidden rounded-[14px] border border-white/12 opacity-55 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:transform-[scale(1.03)]"
                       style={{
-                        fontSize: 12,
-                        color: "oklch(0.82 0.008 250)",
-                        padding: "4px 10px",
-                        borderRadius: 6,
-                        background: "rgba(255,255,255,0.04)",
+                        width: "clamp(180px,22vw,300px)",
+                        aspectRatio: "4 / 3",
                       }}
                     >
-                      {t}
-                    </span>
-                  ))}
+                      {p.image ? (
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="stripes relative flex h-full items-end p-3">
+                          <span
+                            className="font-mono"
+                            style={{
+                              fontSize: 11,
+                              letterSpacing: "0.1em",
+                              color: "oklch(0.55 0.01 250)",
+                            }}
+                          >
+                            [ {p.name} shot ]
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </CardTag>
+              </SpotlightCard>
+            </Wrapper>
           );
         })}
+        <div className="border-t border-white/9" />
       </div>
 
       <p

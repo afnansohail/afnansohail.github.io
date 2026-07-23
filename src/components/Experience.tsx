@@ -1,66 +1,90 @@
-import { motion } from "motion/react";
-import { content, options } from "../content";
-import { fadeUp, viewport } from "../lib/motion";
+import { useGSAP } from "@gsap/react";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { content, options } from "@/content";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import SplitText from "./react-bits/SplitText";
 
 export default function Experience() {
+  const sectionRef = useScrollReveal<HTMLElement>();
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
+      const bars = gsap.utils.toArray<HTMLElement>("[data-rowbar]");
+      bars.forEach((bar) => {
+        gsap.to(bar, {
+          width: "100%",
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: { trigger: bar, start: "top 92%" },
+        });
+      });
+    },
+    { scope: sectionRef },
+  );
+
   return (
     <section
       id="experience"
+      ref={sectionRef}
       className="mx-auto"
       style={{
-        maxWidth: 1280,
-        padding: "clamp(64px,9vw,128px) clamp(20px,5vw,64px)",
+        maxWidth: 1400,
+        padding: "clamp(72px,10vw,140px) clamp(20px,5vw,64px)",
       }}
     >
       <div
+        data-reveal
         className="flex items-baseline"
-        style={{ gap: 20, marginBottom: "clamp(36px,5vw,64px)" }}
+        style={{ gap: 20, marginBottom: "clamp(40px,5vw,72px)" }}
       >
         {options.sectionNumbers && (
           <span
-            className="font-display text-secondary"
-            style={{
-              fontWeight: 800,
-              fontSize: "clamp(40px,6vw,76px)",
-              lineHeight: 1,
-              letterSpacing: "-0.02em",
-            }}
+            className="font-mono text-primary"
+            style={{ fontSize: "clamp(13px,1.4vw,15px)" }}
           >
-            02
+            ({content.sections.experience.number})
           </span>
         )}
         <h2
           className="font-display"
           style={{
             fontWeight: 700,
-            fontSize: "clamp(30px,5vw,60px)",
+            fontSize: "clamp(32px,5.5vw,68px)",
             letterSpacing: "-0.02em",
           }}
         >
-          The journey so far
+          <SplitText
+            text={content.sections.experience.heading}
+            tag="span"
+            className="inline-block"
+            splitType="words"
+            textAlign="left"
+          />
         </h2>
       </div>
 
       <div className="flex flex-col">
         {content.roles.map((role, i) => (
-          <motion.div
+          <div
             key={i}
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            className="grid grid-cols-1 border-t border-white/9 transition-colors hover:bg-white/1.5 sm:grid-cols-[minmax(120px,180px)_1fr]"
+            data-reveal
+            data-row
+            className="relative grid grid-cols-1 border-t border-white/9 transition-[padding-left] duration-300 ease-out hover:pl-4 sm:grid-cols-[minmax(110px,170px)_1fr]"
             style={{
-              gap: "clamp(8px,4vw,56px)",
-              padding: "clamp(24px,3vw,36px) 0",
+              gap: "clamp(16px,4vw,56px)",
+              padding: "clamp(24px,3vw,40px) 0",
             }}
           >
             <div
+              data-rowbar
+              aria-hidden="true"
+              className="absolute -top-px left-0 bg-secondary"
+              style={{ height: 1, width: 0 }}
+            />
+            <div
               className="font-mono sm:pt-1.5"
-              style={{
-                fontSize: 14,
-                color: "oklch(0.62 0.01 250)",
-              }}
+              style={{ fontSize: 14, color: "oklch(0.62 0.01 250)" }}
             >
               {role.years}
             </div>
@@ -95,7 +119,7 @@ export default function Experience() {
                 {role.impact}
               </p>
             </div>
-          </motion.div>
+          </div>
         ))}
         <div className="border-t border-white/9" />
       </div>
