@@ -442,6 +442,9 @@ export const ResumeSection = memo(function ResumeSection() {
 });
 
 function IconBadge({ slug }: { slug: string }) {
+  const iconUrl = slug.includes(":")
+    ? `https://api.iconify.design/${slug}.svg`
+    : `https://cdn.simpleicons.org/${slug}`;
   return (
     <span
       style={{
@@ -460,8 +463,8 @@ function IconBadge({ slug }: { slug: string }) {
           width: 17,
           height: 17,
           background: "var(--glow-bright)",
-          WebkitMaskImage: `url(https://cdn.simpleicons.org/${slug})`,
-          maskImage: `url(https://cdn.simpleicons.org/${slug})`,
+          WebkitMaskImage: `url(${iconUrl})`,
+          maskImage: `url(${iconUrl})`,
           WebkitMaskRepeat: "no-repeat",
           maskRepeat: "no-repeat",
           WebkitMaskPosition: "center",

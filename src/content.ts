@@ -203,7 +203,7 @@ export const content = {
       key: "LINKEDIN",
       value: "in/afnansohail99",
       href: "https://linkedin.com/in/afnansohail99",
-      icon: "linkedin",
+      icon: "simple-icons:linkedin",
     },
   ] as SocialLink[],
 
