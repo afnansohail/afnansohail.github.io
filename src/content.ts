@@ -1,5 +1,6 @@
 export interface Role {
   years: string;
+  span: string;
   title: string;
   company: string;
   impact: string;
@@ -14,71 +15,80 @@ export interface Project {
   link?: string;
 }
 
-export interface Skill {
+export interface Tool {
   slug: string;
   label: string;
 }
 
+export interface ToolGroup {
+  heading: string;
+  tools: Tool[];
+}
+
 export interface SocialLink {
-  label: string;
+  key: string;
+  value: string;
   href: string;
+  icon: string;
 }
 
 export const options = {
-  showDotField: true,
-  sectionNumbers: true,
+  scanlines: true,
+  crtFlicker: true,
+  starfield: true,
+  bootSpeedMs: 350,
 };
 
 export const content = {
   name: "Afnan Sohail",
   initials: "AS",
-  eyebrow: "Full-Stack Engineer · Powered by Curiosity",
-
+  eyebrow: "FULL-STACK ENGINEER · POWERED BY CURIOSITY",
+  status: "STATUS: open to interesting problems",
+  tagline: "building things at Emumba",
   email: "afnansohail1999@gmail.com",
+  resumeHref: "/docs/Afnan Sohail - Resume.pdf",
+  sessionLabel: "afnan://portfolio — session #AS1099",
 
-  loader: {
-    label: "initializing portfolio",
-    logs: [
-      "> booting kernel…",
-      "> compiling components…",
-      "> hydrating experience…",
-      "> ready.",
+  banner: `
+   __      ___   
+  /__\\    / __)  
+ /(__)\\   \\__ \\  
+(__)(__)()(___/()
+  `,
+
+  intro:
+    "I build web stuff that's fast, sturdy, and obsessed with the tiny details everyone else skips — from gnarly database schemas to that one pixel that's off by exactly one.",
+
+  bootLines: [
+    "[ 0.00 ] kernel v6.7.0 — booting personal OS…",
+    "[ 0.14 ] initializing quantum core .............. OK",
+    "[ 0.29 ] mounting /dev/portfolio ................ OK",
+    "[ 0.46 ] loading persona: AFNAN_SOHAIL .......... OK",
+    "[ 0.61 ] decrypting experience.log (2020–2026) .. OK",
+    "[ 0.77 ] indexing projects & 15 tools ......... OK",
+    "[ 0.88 ] calibrating neural display ............. OK",
+    "[ 1.00 ] establishing visitor uplink ............ OK",
+    "",
+    "welcome, visitor. connection secure. type `help` to begin.",
+  ],
+
+  about: {
+    identity: [
+      "I build web stuff that's fast, sturdy, and obsessed with the tiny details everyone else skips — from gnarly database schemas to that one pixel that's off by exactly one.",
+      "Currently building things at Emumba, working across the stack with React, Next.js and a backend I'm not afraid to get into. I care about clean code, thoughtful UX, and solid performance.",
+    ],
+    facts: [
+      { label: "ROLE", value: "Full-stack Engineer" },
+      { label: "CURRENTLY", value: "Software Engineer II @ Emumba" },
+      { label: "FOCUS", value: "Web · Backend · UI/UX" },
+      { label: "MINDSET", value: "details, obsessively", accent: true },
     ],
   },
 
-  sections: {
-    experience: { number: "02", heading: "Where I've built" },
-    projects: { number: "03", heading: "Selected work" },
-    contact: { number: "04" },
-  },
-
-  intro: {
-    lead: "I build web stuff that's fast, sturdy, and ",
-    highlight: "obsessed with the tiny details",
-    tail: " everyone else skips — from gnarly database schemas to that one pixel that's off by exactly one. Currently building things at Emumba.",
-  },
-
-  skills: [
-    { slug: "react", label: "React" },
-    { slug: "nextdotjs", label: "Next.js" },
-    { slug: "typescript", label: "TypeScript" },
-    { slug: "javascript", label: "JavaScript" },
-    { slug: "tailwindcss", label: "Tailwind CSS" },
-    { slug: "python", label: "Python" },
-    { slug: "fastapi", label: "FastAPI" },
-    { slug: "graphql", label: "GraphQL" },
-    { slug: "mongodb", label: "MongoDB" },
-    { slug: "postgresql", label: "PostgreSQL" },
-    { slug: "temporal", label: "Temporal" },
-    { slug: "grafana", label: "Grafana" },
-    { slug: "figma", label: "Figma" },
-    { slug: "git", label: "Git" },
-    { slug: "github", label: "GitHub" },
-  ] as Skill[],
-
   roles: [
     {
-      years: "NOV 2024 — Present",
+      years: "NOV 2024 — NOW",
+      span: "present",
       title: "Software Engineer II",
       company: "Emumba",
       impact:
@@ -86,6 +96,7 @@ export const content = {
     },
     {
       years: "JUN 2025 — AUG 2025",
+      span: "part-time",
       title: "Software Engineer",
       company: "InterWiz AI",
       impact:
@@ -93,6 +104,7 @@ export const content = {
     },
     {
       years: "SEP 2020 — NOV 2024",
+      span: "multiple",
       title: "Graphic Design & UI/UX",
       company: "Multiple Engagements",
       impact:
@@ -112,7 +124,7 @@ export const content = {
     {
       no: "02",
       name: "Curated by Saima",
-      desc: "A visually rich, SEO friendly website that highlights interior design expertise and personalized home styling services.",
+      desc: "A visually rich, SEO-friendly website that highlights interior design expertise and personalized home styling services.",
       stack: ["Next.js", "Contentful", "Sass"],
       image: "/images/projects/cbs.png",
       link: "https://curatedbysaima.com/",
@@ -127,14 +139,97 @@ export const content = {
   ] as Project[],
 
   projectsPrivacyNote:
-    "There's more where that came from — locked behind client NDAs & private repositories.",
+    "there's more where that came from — locked behind client NDAs & private repos.",
+
+  toolGroups: [
+    {
+      heading: "// FRONTEND",
+      tools: [
+        { slug: "react", label: "React" },
+        { slug: "nextdotjs", label: "Next.js" },
+        { slug: "typescript", label: "TypeScript" },
+        { slug: "javascript", label: "JavaScript" },
+        { slug: "tailwindcss", label: "Tailwind" },
+      ],
+    },
+    {
+      heading: "// BACKEND & DATA",
+      tools: [
+        { slug: "python", label: "Python" },
+        { slug: "fastapi", label: "FastAPI" },
+        { slug: "graphql", label: "GraphQL" },
+        { slug: "mongodb", label: "MongoDB" },
+        { slug: "postgresql", label: "PostgreSQL" },
+        { slug: "temporal", label: "Temporal" },
+      ],
+    },
+    {
+      heading: "// DESIGN & OPS",
+      tools: [
+        { slug: "grafana", label: "Grafana" },
+        { slug: "figma", label: "Figma" },
+        { slug: "git", label: "Git" },
+        { slug: "github", label: "GitHub" },
+      ],
+    },
+  ] as ToolGroup[],
+
+  resume: {
+    heading: "Afnan Sohail — résumé",
+    blurb:
+      "The full document: experience, education, and the details that don't fit on one screen.",
+  },
 
   socials: [
-    { label: "GitHub ↗", href: "https://github.com/afnansohail" },
-    { label: "GitHub (Emumba) ↗", href: "https://github.com/afnan-emumba" },
-    { label: "GitLab ↗", href: "https://gitlab.com/afnan-emumba" },
-    { label: "LinkedIn ↗", href: "https://linkedin.com/in/afnansohail99" },
+    {
+      key: "GITHUB",
+      value: "@afnansohail",
+      href: "https://github.com/afnansohail",
+      icon: "github",
+    },
+    {
+      key: "GITHUB · EMUMBA",
+      value: "@afnan-emumba",
+      href: "https://github.com/afnan-emumba",
+      icon: "github",
+    },
+    {
+      key: "GITLAB",
+      value: "@afnan-emumba",
+      href: "https://gitlab.com/afnan-emumba",
+      icon: "gitlab",
+    },
+    {
+      key: "LINKEDIN",
+      value: "in/afnansohail99",
+      href: "https://linkedin.com/in/afnansohail99",
+      icon: "linkedin",
+    },
   ] as SocialLink[],
 
-  footerTagline: "Handcrafted, overthought, and shipped anyway.",
+  footerLine:
+    "© 2026 Afnan Sohail — handcrafted, overthought, and shipped anyway.",
+
+  menuCommands: [
+    "about",
+    "experience",
+    "projects",
+    "tools",
+    "resume",
+    "contact",
+    "surprise",
+    "help",
+    "clear",
+  ],
+
+  help: [
+    { cmd: "about", desc: "who I am & what I do" },
+    { cmd: "experience", desc: "where I've built" },
+    { cmd: "projects", desc: "selected work" },
+    { cmd: "tools", desc: "my toolbox" },
+    { cmd: "resume", desc: "grab my résumé" },
+    { cmd: "contact", desc: "say hi" },
+    { cmd: "surprise", desc: "run this at your own risk" },
+    { cmd: "clear", desc: "reset the session" },
+  ],
 };

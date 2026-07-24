@@ -1,0 +1,249 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+import { options } from "@/content";
+import { useBootSequence } from "@/hooks/useBootSequence";
+import { useTerminalTheme } from "@/hooks/useTerminalTheme";
+import * as sound from "@/lib/sound";
+import TerminalCanvas from "./terminal/TerminalCanvas";
+import CRTEffects from "./terminal/CRTEffects";
+import BootScreen from "./terminal/BootScreen";
+import HeaderBar from "./terminal/HeaderBar";
+import CommandBar from "./terminal/CommandBar";
+import CommandInput from "./terminal/CommandInput";
+import { ALIASES } from "./terminal/commands";
+import { THEMES, DEFAULT_THEME } from "./terminal/themes";
+import {
+  Banner,
+  Intro,
+  SECTION_COMPONENTS,
+  type SectionKey,
+} from "./terminal/Sections";
+
+const CLEAR_ANIM_MS = 380;
+
+export default function Terminal() {
+  const { booting, lineIdx, progress, ready } = useBootSequence();
+  const [order, setOrder] = useState<SectionKey[]>([]);
+  const [input, setInput] = useState("");
+  const [msg, setMsg] = useState("");
+  const [msgColor, setMsgColor] = useState("var(--dim)");
+  const [muted, setMutedState] = useState(() => sound.isMuted());
+  const [clearing, setClearing] = useState(false);
+
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const feedRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const clearTimeoutRef = useRef<number | null>(null);
+  const raf1Ref = useRef<number | null>(null);
+  const raf2Ref = useRef<number | null>(null);
+
+  const [theme, setTheme] = useTerminalTheme(rootRef);
+
+  const focusInput = useCallback(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const handleRootClick = useCallback(() => {
+    const selection = window.getSelection();
+    if (selection && selection.toString().trim().length > 0) return;
+    focusInput();
+  }, [focusInput]);
+
+  useEffect(() => {
+    if (!ready) return;
+    focusInput();
+    if (feedRef.current) feedRef.current.scrollTop = 0;
+  }, [ready]);
+
+  const scrollToSection = useCallback((key: SectionKey) => {
+    if (raf1Ref.current !== null) {
+      cancelAnimationFrame(raf1Ref.current);
+      raf1Ref.current = null;
+    }
+    if (raf2Ref.current !== null) {
+      cancelAnimationFrame(raf2Ref.current);
+      raf2Ref.current = null;
+    }
+
+    raf1Ref.current = requestAnimationFrame(() => {
+      raf2Ref.current = requestAnimationFrame(() => {
+        const el = feedRef.current?.querySelector(
+          `#sec-${key}`,
+        ) as HTMLElement | null;
+        if (el && feedRef.current) {
+          feedRef.current.scrollTo({
+            top: el.offsetTop - 12,
+            behavior: "smooth",
+          });
+        }
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (clearTimeoutRef.current !== null) {
+        clearTimeout(clearTimeoutRef.current);
+      }
+      if (raf1Ref.current !== null) {
+        cancelAnimationFrame(raf1Ref.current);
+      }
+      if (raf2Ref.current !== null) {
+        cancelAnimationFrame(raf2Ref.current);
+      }
+    };
+  }, []);
+
+  const runCommand = useCallback(
+    (raw: string) => {
+      const cmd = raw.trim().toLowerCase().split(/\s+/)[0];
+      if (!cmd) return;
+
+      if (cmd === "clear" || cmd === "cls" || cmd === "reset") {
+        if (clearing) return;
+        setInput("");
+        sound.blip();
+
+        const finish = () => {
+          setOrder([]);
+          setClearing(false);
+          setMsg("session cleared. type `help` to begin.");
+          setMsgColor("var(--dim)");
+          if (feedRef.current) feedRef.current.scrollTop = 0;
+          focusInput();
+        };
+
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (order.length === 0 || reduceMotion) {
+          finish();
+          return;
+        }
+
+        setClearing(true);
+        clearTimeoutRef.current = window.setTimeout(() => {
+          clearTimeoutRef.current = null;
+          finish();
+        }, CLEAR_ANIM_MS);
+        return;
+      }
+
+      const target = ALIASES[cmd];
+      if (!target) {
+        setInput("");
+        setMsg(`command not found: ${cmd}  —  try \`help\``);
+        setMsgColor("#e07e7e");
+        sound.error();
+        focusInput();
+        return;
+      }
+
+      setOrder((prev) => [...prev.filter((k) => k !== target), target]);
+      setInput("");
+      setMsg(`✓ loaded: ${target}`);
+      setMsgColor("var(--accent)");
+      sound.success();
+      focusInput();
+      scrollToSection(target);
+    },
+    [clearing, focusInput, order.length, scrollToSection],
+  );
+
+  const toggleMuted = useCallback(() => {
+    const next = !muted;
+    sound.setMuted(next);
+    setMutedState(next);
+    if (!next) sound.blip();
+  }, [muted]);
+
+  return (
+    <div
+      ref={rootRef}
+      onClick={handleRootClick}
+      style={{
+        position: "fixed",
+        inset: 0,
+        overflow: "hidden",
+        background: THEMES[DEFAULT_THEME].bg,
+        fontFamily: "var(--mono)",
+        color: "#dcdcec",
+      }}
+    >
+      <TerminalCanvas
+        gridRgb={THEMES[theme].rgb}
+        starRgb={THEMES[theme].star}
+        starfield={options.starfield}
+      />
+
+      <CRTEffects />
+
+      {booting && <BootScreen lineIdx={lineIdx} progress={progress} />}
+
+      {ready && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 30,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            className="px-3 sm:px-5"
+            style={{
+              width: "100%",
+              maxWidth: 1040,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <HeaderBar
+              theme={theme}
+              onThemeChange={setTheme}
+              muted={muted}
+              onToggleMuted={toggleMuted}
+            />
+
+            <CommandBar onRunCommand={runCommand} />
+
+            <div
+              ref={feedRef}
+              className="tp-scroll"
+              style={{
+                position: "relative",
+                flex: 1,
+                overflowY: "auto",
+                padding: "24px 4px 20px",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Banner />
+              <Intro />
+              <div
+                className={clearing ? "tp-clearing" : undefined}
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                {order.map((key) => {
+                  const Section = SECTION_COMPONENTS[key];
+                  return <Section key={key} />;
+                })}
+              </div>
+            </div>
+
+            <CommandInput
+              input={input}
+              onInputChange={setInput}
+              onSubmit={() => runCommand(input)}
+              msg={msg}
+              msgColor={msgColor}
+              inputRef={inputRef}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
