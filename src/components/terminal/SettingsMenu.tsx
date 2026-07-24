@@ -1,4 +1,11 @@
-import { memo, useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  memo,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import * as sound from "@/lib/sound";
 import { THEMES, type ThemeKey } from "./themes";
@@ -128,6 +135,21 @@ export default memo(function SettingsMenu({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const isDesktop = useIsDesktop();
 
+  const getMobileMenuPos = () => {
+    if (!rootRef.current) return null;
+    const anchor = rootRef.current.getBoundingClientRect();
+    const width = Math.min(240, window.innerWidth - 16);
+    const left = Math.min(
+      Math.max(anchor.right - width, 8),
+      window.innerWidth - width - 8,
+    );
+    return {
+      left,
+      top: anchor.bottom + 8,
+      width,
+    };
+  };
+
   useEffect(() => {
     if (!open) return;
     const onDocClick = (e: MouseEvent) => {
@@ -144,23 +166,12 @@ export default memo(function SettingsMenu({
     };
   }, [open]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open || isDesktop) return;
 
     const reposition = () => {
-      if (!rootRef.current) return;
-      const anchor = rootRef.current.getBoundingClientRect();
-      const width = Math.min(240, window.innerWidth - 16);
-      const left = Math.min(
-        Math.max(anchor.right - width, 8),
-        window.innerWidth - width - 8,
-      );
-
-      setMobileMenuPos({
-        left,
-        top: anchor.bottom + 8,
-        width,
-      });
+      const nextPos = getMobileMenuPos();
+      if (nextPos) setMobileMenuPos(nextPos);
     };
 
     reposition();
@@ -186,7 +197,14 @@ export default memo(function SettingsMenu({
         onClick={(e) => {
           e.stopPropagation();
           setSpinTick((v) => v + 1);
-          setOpen((v) => !v);
+          setOpen((v) => {
+            const nextOpen = !v;
+            if (nextOpen && !isDesktop) {
+              const nextPos = getMobileMenuPos();
+              if (nextPos) setMobileMenuPos(nextPos);
+            }
+            return nextOpen;
+          });
         }}
         style={{
           display: "flex",
