@@ -1,14 +1,17 @@
 import { memo } from "react";
 import { content } from "@/content";
-import * as sound from "@/lib/sound";
-import { THEMES, type ThemeKey } from "./themes";
+import { type ThemeKey } from "./themes";
 import ResumeLink from "./ResumeLink";
+import SettingsMenu from "./SettingsMenu";
 
 interface HeaderBarProps {
   theme: ThemeKey;
   onThemeChange: (key: ThemeKey) => void;
   muted: boolean;
   onToggleMuted: () => void;
+  lowPower: boolean;
+  lowPowerForced: boolean;
+  onToggleLowPower: () => void;
 }
 
 export default memo(function HeaderBar({
@@ -16,6 +19,9 @@ export default memo(function HeaderBar({
   onThemeChange,
   muted,
   onToggleMuted,
+  lowPower,
+  lowPowerForced,
+  onToggleLowPower,
 }: HeaderBarProps) {
   return (
     <div
@@ -55,6 +61,7 @@ export default memo(function HeaderBar({
         />
       </div>
       <div
+        className="w-full text-center md:w-auto md:text-left"
         style={{
           fontSize: 12.5,
           color: "var(--dim)",
@@ -67,62 +74,10 @@ export default memo(function HeaderBar({
         className="flex flex-wrap items-center w-full md:w-auto md:ml-auto"
         style={{ gap: 14, justifyContent: "space-between" }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-          <span
-            style={{
-              fontSize: 10,
-              letterSpacing: ".2em",
-              color: "var(--dim)",
-            }}
-          >
-            THEME
-          </span>
-          {(Object.keys(THEMES) as ThemeKey[]).map((key) => (
-            <button
-              key={key}
-              type="button"
-              title={key}
-              onClick={(e) => {
-                e.stopPropagation();
-                onThemeChange(key);
-                sound.blip();
-              }}
-              style={{
-                width: 15,
-                height: 15,
-                borderRadius: "50%",
-                padding: 0,
-                background: THEMES[key].glow,
-                border: `2px solid ${theme === key ? "#fff" : "transparent"}`,
-                boxShadow: `0 0 8px ${THEMES[key].glow}`,
-                transition: "all .16s",
-              }}
-            />
-          ))}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <button
-            type="button"
-            title={muted ? "unmute sound" : "mute sound"}
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleMuted();
-            }}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 22,
-              height: 22,
-              padding: 0,
-              background: "transparent",
-              border: "none",
-              color: muted ? "var(--dim)" : "var(--glow-bright)",
-              fontSize: 13,
-            }}
-          >
-            {muted ? "🔇" : "🔊"}
-          </button>
+        <div
+          className="order-2 md:order-1"
+          style={{ display: "flex", alignItems: "center", gap: 10 }}
+        >
           <ResumeLink
             label="grab my résumé ↗"
             stopPropagation
@@ -133,9 +88,18 @@ export default memo(function HeaderBar({
               padding: "6px 14px",
             }}
           />
+          <SettingsMenu
+            theme={theme}
+            onThemeChange={onThemeChange}
+            muted={muted}
+            onToggleMuted={onToggleMuted}
+            lowPower={lowPower}
+            lowPowerForced={lowPowerForced}
+            onToggleLowPower={onToggleLowPower}
+          />
         </div>
         <span
-          className="hidden md:flex"
+          className="flex order-1 md:order-2"
           style={{
             alignItems: "center",
             gap: 7,

@@ -141,6 +141,16 @@
   }
 }
 
+@keyframes tpGearSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
+  }
+}
+
 @keyframes tpPowerOff {
   0% {
     transform: scaleY(1) scaleX(1);

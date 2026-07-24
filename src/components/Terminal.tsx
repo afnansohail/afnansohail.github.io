@@ -4,6 +4,7 @@ import { useBootSequence } from "@/hooks/useBootSequence";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useTerminalTheme } from "@/hooks/useTerminalTheme";
 import * as sound from "@/lib/sound";
+import { getLowPowerPreference, setLowPowerEnabled } from "@/lib/lowPower";
 import TerminalCanvas from "./terminal/TerminalCanvas";
 import CRTEffects from "./terminal/CRTEffects";
 import BootScreen from "./terminal/BootScreen";
@@ -35,6 +36,10 @@ export default function Terminal() {
   const [msgColor, setMsgColor] = useState("var(--dim)");
   const [muted, setMutedState] = useState(() => sound.isMuted());
   const [clearing, setClearing] = useState(false);
+  const [lowPowerManual, setLowPowerManual] = useState(() => {
+    const preference = getLowPowerPreference();
+    return preference ?? !isDesktop;
+  });
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const feedRef = useRef<HTMLDivElement | null>(null);
@@ -70,7 +75,8 @@ export default function Terminal() {
     if (feedRef.current) feedRef.current.scrollTop = 0;
   }, [ready]);
 
-  const lowPowerMode = !isDesktop || reduceMotion;
+  const lowPowerForced = reduceMotion;
+  const lowPowerMode = lowPowerForced || lowPowerManual;
 
   const scrollToSection = useCallback((key: SectionKey) => {
     if (raf1Ref.current !== null) {
@@ -174,6 +180,13 @@ export default function Terminal() {
     if (!next) sound.blip();
   }, [muted]);
 
+  const toggleLowPower = useCallback(() => {
+    const next = !lowPowerManual;
+    setLowPowerEnabled(next);
+    setLowPowerManual(next);
+    sound.blip();
+  }, [lowPowerManual]);
+
   return (
     <div
       ref={rootRef}
@@ -190,7 +203,7 @@ export default function Terminal() {
       <TerminalCanvas
         gridRgb={THEMES[theme].rgb}
         starRgb={THEMES[theme].star}
-        starfield={options.starfield}
+        starfield={options.starfield && !lowPowerMode}
         dprCap={lowPowerMode ? 1 : 2}
         targetFps={lowPowerMode ? 30 : 60}
         particleCount={lowPowerMode ? 28 : 80}
@@ -226,6 +239,9 @@ export default function Terminal() {
               onThemeChange={setTheme}
               muted={muted}
               onToggleMuted={toggleMuted}
+              lowPower={lowPowerManual}
+              lowPowerForced={lowPowerForced}
+              onToggleLowPower={toggleLowPower}
             />
 
             <CommandBar onRunCommand={runCommand} lowPower={lowPowerMode} />
