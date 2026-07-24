@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { options } from "@/content";
 import { useBootSequence } from "@/hooks/useBootSequence";
+import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useTerminalTheme } from "@/hooks/useTerminalTheme";
 import * as sound from "@/lib/sound";
 import TerminalCanvas from "./terminal/TerminalCanvas";
@@ -22,6 +23,7 @@ const CLEAR_ANIM_MS = 380;
 
 export default function Terminal() {
   const { booting, lineIdx, progress, ready } = useBootSequence();
+  const isDesktop = useIsDesktop();
   const [order, setOrder] = useState<SectionKey[]>([]);
   const [input, setInput] = useState("");
   const [msg, setMsg] = useState("");
@@ -39,8 +41,9 @@ export default function Terminal() {
   const [theme, setTheme] = useTerminalTheme(rootRef);
 
   const focusInput = useCallback(() => {
+    if (!isDesktop) return;
     inputRef.current?.focus();
-  }, []);
+  }, [isDesktop]);
 
   const handleRootClick = useCallback(() => {
     const selection = window.getSelection();
