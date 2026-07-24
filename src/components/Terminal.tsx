@@ -25,6 +25,9 @@ const CLEAR_ANIM_MS = 380;
 export default function Terminal() {
   const { booting, lineIdx, progress, ready } = useBootSequence();
   const isDesktop = useIsDesktop();
+  const [isPageHidden, setIsPageHidden] = useState(() =>
+    typeof document !== "undefined" ? document.hidden : false,
+  );
   const [reduceMotion, setReduceMotion] = useState(() =>
     typeof window !== "undefined"
       ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -81,8 +84,19 @@ export default function Terminal() {
     if (feedRef.current) feedRef.current.scrollTop = 0;
   }, [ready]);
 
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      setIsPageHidden(document.hidden);
+    };
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, []);
+
   const lowPowerForced = reduceMotion;
-  const lowPowerMode = lowPowerForced || lowPowerManual;
+  const lowPowerMode = lowPowerForced || lowPowerManual || isPageHidden;
 
   const scrollToSection = useCallback((key: SectionKey) => {
     if (raf1Ref.current !== null) {

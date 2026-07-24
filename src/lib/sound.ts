@@ -4,6 +4,21 @@ let ctx: AudioContext | null = null;
 let muted =
   typeof window !== "undefined" &&
   window.localStorage.getItem(STORAGE_KEY) === "1";
+let visibilityListenerBound = false;
+
+function bindVisibilityListener() {
+  if (visibilityListenerBound || typeof document === "undefined") return;
+
+  const onVisibilityChange = () => {
+    if (!ctx) return;
+    if (document.hidden && ctx.state === "running") {
+      void ctx.suspend();
+    }
+  };
+
+  document.addEventListener("visibilitychange", onVisibilityChange);
+  visibilityListenerBound = true;
+}
 
 function getContext(): AudioContext | null {
   if (typeof window === "undefined") return null;
@@ -11,6 +26,7 @@ function getContext(): AudioContext | null {
     const Ctor = window.AudioContext;
     if (!Ctor) return null;
     ctx = new Ctor();
+    bindVisibilityListener();
   }
   if (ctx.state === "suspended") void ctx.resume();
   return ctx;
