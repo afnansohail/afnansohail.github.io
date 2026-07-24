@@ -576,27 +576,27 @@ export const HelpSection = memo(function HelpSection() {
   return (
     <SectionShell id="help" cmd="help">
       <div
+        className="p-4 sm:p-5"
         style={{
           border: "1px solid var(--line)",
           borderRadius: 10,
-          padding: 20,
           fontSize: 13,
-          lineHeight: 2,
+          lineHeight: 1.7,
           color: "#c4c7d8",
         }}
       >
         {content.help.map((h) => (
-          <div key={h.cmd}>
+          <div key={h.cmd} className="flex gap-2" style={{ marginBottom: 4 }}>
             <span
+              className="w-23 sm:w-32.5"
               style={{
                 color: "var(--glow-bright)",
-                display: "inline-block",
-                width: 130,
+                flexShrink: 0,
               }}
             >
               {h.cmd}
             </span>
-            {h.desc}
+            <span>{h.desc}</span>
           </div>
         ))}
       </div>

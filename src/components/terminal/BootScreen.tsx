@@ -8,6 +8,7 @@ interface BootScreenProps {
 export default function BootScreen({ lineIdx, progress }: BootScreenProps) {
   return (
     <div
+      className="p-4 sm:p-6"
       style={{
         position: "absolute",
         inset: 0,
@@ -15,21 +16,22 @@ export default function BootScreen({ lineIdx, progress }: BootScreenProps) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: 24,
       }}
     >
       <div style={{ width: "100%", maxWidth: 720 }}>
         <div
+          className="text-[9.5px] sm:text-xs tracking-[.14em] sm:tracking-[.35em]"
           style={{
-            fontSize: 12,
-            letterSpacing: ".35em",
             color: "var(--dim)",
             marginBottom: 18,
           }}
         >
           AFNAN&nbsp;SOHAIL &nbsp;//&nbsp; PERSONAL OS &nbsp; v6.7.0
         </div>
-        <div style={{ minHeight: 210, fontSize: 13.5, lineHeight: 1.9 }}>
+        <div
+          className="text-[10.5px] sm:text-[13.5px] leading-[1.6] sm:leading-[1.9]"
+          style={{ minHeight: 210 }}
+        >
           {content.bootLines.slice(0, lineIdx).map((line, i) => (
             <div key={i} style={{ whiteSpace: "pre-wrap", color: "#c9cce0" }}>
               {line}
