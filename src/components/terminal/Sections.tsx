@@ -144,8 +144,10 @@ export const WorkSection = memo(function WorkSection() {
             </div>
             <div>
               <div className="text-[15px] text-white">
-                {role.title}{" "}
-                <span className="text-(--dim)">@ {role.company}</span>
+                <span className="block sm:inline">{role.title}</span>
+                <span className="block text-(--dim) sm:ml-1 sm:inline">
+                  @ {role.company}
+                </span>
               </div>
               <p className="mt-2 text-[13px] leading-[1.7] text-[#c4c7d8]">
                 {role.impact}
@@ -313,6 +315,9 @@ function IconBadge({ slug }: { slug: string }) {
 }
 
 export const ContactSection = memo(function ContactSection() {
+  const contactCardClass =
+    "tp-social flex items-center gap-3 rounded-[10px] border border-(--line) px-3.5 py-3 no-underline";
+
   return (
     <SectionShell id="contact" cmd="./say-hi.sh">
       <div className={`${panelStrongClass} p-6`}>
@@ -321,12 +326,19 @@ export const ContactSection = memo(function ContactSection() {
         </div>
         <a
           href={`mailto:${content.email}`}
-          className="tp-social mt-4 mb-5 inline-flex items-center gap-3 rounded-[10px] border border-(--line) px-4 py-2.5 pl-2.5 no-underline"
+          className={`${contactCardClass} mt-4 mb-5 w-full justify-center sm:justify-start`}
         >
-          <IconBadge slug="gmail" />
-          <span className="text-[15px] text-(--glow-bright)">
-            {content.email}
+          <span className="hidden sm:flex">
+            <IconBadge slug="gmail" />
           </span>
+          <div className="flex min-w-0 flex-col gap-0.5 text-center sm:text-left">
+            <span className="text-[10.5px] tracking-[.14em] text-(--dim)">
+              GET IN TOUCH
+            </span>
+            <span className="break-all text-[13.5px] text-white">
+              {content.email}
+            </span>
+          </div>
         </a>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {content.socials.map((s) => (
@@ -335,7 +347,7 @@ export const ContactSection = memo(function ContactSection() {
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="tp-social flex items-center gap-3 rounded-[10px] border border-(--line) py-3 px-3.5 no-underline"
+              className={contactCardClass}
             >
               <IconBadge slug={s.icon} />
               <div className="flex min-w-0 flex-col gap-0.5">
