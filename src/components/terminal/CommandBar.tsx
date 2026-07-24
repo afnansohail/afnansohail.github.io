@@ -20,7 +20,8 @@ export default memo(function CommandBar({
         padding: "11px 12px",
         border: "1px solid var(--line)",
         borderRadius: 9,
-        background: "rgba(20,22,34,.72)",
+        background:
+          "linear-gradient(180deg, rgba(7,8,12,.54) 0%, rgba(6,7,10,.62) 100%), linear-gradient(180deg, rgba(var(--glow-rgb),.13) 0%, rgba(var(--glow-rgb),.08) 100%)",
         backdropFilter: lowPower ? "none" : "blur(6px)",
       }}
     >

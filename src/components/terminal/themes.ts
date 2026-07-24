@@ -1,4 +1,4 @@
-export type ThemeKey = "nocturne" | "phosphor" | "pink" | "red";
+export type ThemeKey = "nocturne" | "phosphor" | "pink" | "red" | "greyscale";
 
 export interface ThemeDef {
   glow: string;
@@ -48,5 +48,14 @@ export const THEMES: Record<ThemeKey, ThemeDef> = {
     star: "243,150,144",
     bg: "radial-gradient(1200px 800px at 70% -10%, #2a1613 0%, #170c0a 55%, #0e0706 100%)",
     accent: "#6fb3f2",
+  },
+  greyscale: {
+    glow: "#b3b3b3",
+    bright: "#e1e1e1",
+    dim: "#5f5f5f",
+    rgb: "179,179,179",
+    star: "215,215,215",
+    bg: "radial-gradient(1200px 800px at 70% -10%, #242424 0%, #161616 55%, #0d0d0d 100%)",
+    accent: "#d84a4a",
   },
 };
