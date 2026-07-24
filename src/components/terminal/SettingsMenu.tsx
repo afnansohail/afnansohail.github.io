@@ -129,16 +129,29 @@ export default memo(function SettingsMenu({
 
   useEffect(() => {
     if (!open) return;
-    const onDocClick = (e: MouseEvent) => {
+    const onDocPointerDown = (e: Event) => {
       if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
     };
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
-    document.addEventListener("mousedown", onDocClick);
+
+    const supportsPointerEvents = "PointerEvent" in window;
+    if (supportsPointerEvents) {
+      document.addEventListener("pointerdown", onDocPointerDown);
+    } else {
+      document.addEventListener("mousedown", onDocPointerDown);
+      document.addEventListener("touchstart", onDocPointerDown);
+    }
     document.addEventListener("keydown", onKeyDown);
+
     return () => {
-      document.removeEventListener("mousedown", onDocClick);
+      if (supportsPointerEvents) {
+        document.removeEventListener("pointerdown", onDocPointerDown);
+      } else {
+        document.removeEventListener("mousedown", onDocPointerDown);
+        document.removeEventListener("touchstart", onDocPointerDown);
+      }
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
@@ -195,15 +208,17 @@ export default memo(function SettingsMenu({
           className={`z-60 flex flex-col gap-3 rounded-[9px] border border-(--line) bg-[rgba(16,17,27,.94)] px-3.5 py-3 shadow-[0_12px_30px_rgba(0,0,0,.45)] ${
             lowPower ? "backdrop-blur-0" : "backdrop-blur-sm"
           } ${isDesktop ? "absolute right-0 top-[calc(100%+8px)] w-52.5" : "fixed"}`}
-          style={
-            isDesktop
+          style={{
+            backdropFilter: lowPower ? "none" : "blur(4px)",
+            WebkitBackdropFilter: lowPower ? "none" : "blur(4px)",
+            ...(isDesktop
               ? undefined
               : {
                   top: mobileMenuPos?.top ?? 44,
                   left: mobileMenuPos?.left ?? 8,
                   width: mobileMenuPos?.width ?? 210,
-                }
-          }
+                }),
+          }}
         >
           <div className="flex flex-col gap-2">
             <span className="text-[10px] tracking-[.16em] text-(--dim)">

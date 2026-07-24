@@ -10,8 +10,14 @@ export function useIsDesktop() {
   useEffect(() => {
     const mql = window.matchMedia(QUERY);
     const onChange = () => setIsDesktop(mql.matches);
-    mql.addEventListener("change", onChange);
-    return () => mql.removeEventListener("change", onChange);
+
+    if (typeof mql.addEventListener === "function") {
+      mql.addEventListener("change", onChange);
+      return () => mql.removeEventListener("change", onChange);
+    }
+
+    mql.addListener(onChange);
+    return () => mql.removeListener(onChange);
   }, []);
 
   return isDesktop;

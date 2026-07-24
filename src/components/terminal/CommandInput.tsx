@@ -62,7 +62,10 @@ export default function CommandInput({
   };
 
   return (
-    <div className="border-t border-(--line) px-1 py-3.5 pb-4.5">
+    <div
+      className="border-t border-(--line) px-1 py-3.5 pb-4.5"
+      style={{ paddingBottom: "calc(1.125rem + env(safe-area-inset-bottom))" }}
+    >
       {msg && (
         <div
           className={`mb-2.25 text-[12px] ${

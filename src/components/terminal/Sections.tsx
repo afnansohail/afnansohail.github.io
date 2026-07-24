@@ -49,7 +49,7 @@ export function SectionShell({
 export const Banner = memo(function Banner() {
   return (
     <div className="flex flex-wrap items-center gap-6.5">
-      <pre className="m-0 max-w-full text-[clamp(11px,2.4vw,17px)] font-bold leading-[1.12] text-(--glow) drop-shadow-[0_0_16px_var(--glow-dim)]">
+      <pre className="tp-ascii m-0 max-w-full text-[clamp(11px,2.4vw,17px)] font-bold leading-[1.12] text-(--glow)">
         {content.banner}
       </pre>
       <div>

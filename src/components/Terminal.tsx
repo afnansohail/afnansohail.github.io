@@ -65,8 +65,14 @@ export default function Terminal() {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const onChange = () => setReduceMotion(media.matches);
     onChange();
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
+
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", onChange);
+      return () => media.removeEventListener("change", onChange);
+    }
+
+    media.addListener(onChange);
+    return () => media.removeListener(onChange);
   }, []);
 
   useEffect(() => {
@@ -210,7 +216,13 @@ export default function Terminal() {
 
       {ready && (
         <div className="absolute inset-0 z-30 flex justify-center">
-          <div className="flex h-full w-full max-w-260 flex-col px-3 sm:px-5">
+          <div
+            className="flex h-full w-full max-w-260 flex-col px-3 sm:px-5"
+            style={{
+              paddingTop: "env(safe-area-inset-top)",
+              paddingBottom: "env(safe-area-inset-bottom)",
+            }}
+          >
             <HeaderBar
               theme={theme}
               onThemeChange={setTheme}

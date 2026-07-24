@@ -201,6 +201,24 @@
   background: transparent;
 }
 
+.tp-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--glow-dim) transparent;
+}
+
+.tp-ascii {
+  filter: none;
+  text-shadow: 0 0 10px rgba(var(--glow-rgb), 0.38);
+  font-variant-ligatures: none;
+  text-rendering: geometricPrecision;
+}
+
+@supports (-moz-appearance: none) {
+  .tp-ascii {
+    text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.28);
+  }
+}
+
 .tp-in::placeholder {
   color: #4a4d5e;
 }
