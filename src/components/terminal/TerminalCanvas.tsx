@@ -11,12 +11,20 @@ interface TerminalCanvasProps {
   gridRgb: string;
   starRgb: string;
   starfield: boolean;
+  dprCap?: number;
+  targetFps?: number;
+  particleCount?: number;
+  gridGap?: number;
 }
 
 export default memo(function TerminalCanvas({
   gridRgb,
   starRgb,
   starfield,
+  dprCap = 2,
+  targetFps = 60,
+  particleCount = 80,
+  gridGap = 52,
 }: TerminalCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const colorsRef = useRef({ gridRgb, starRgb });
@@ -35,7 +43,7 @@ export default memo(function TerminalCanvas({
     let h = 0;
 
     const resize = () => {
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const dpr = Math.min(dprCap, window.devicePixelRatio || 1);
       w = canvas.clientWidth;
       h = canvas.clientHeight;
       canvas.width = w * dpr;
@@ -45,7 +53,7 @@ export default memo(function TerminalCanvas({
     resize();
     window.addEventListener("resize", resize);
 
-    const parts: Particle[] = Array.from({ length: 80 }, () => ({
+    const parts: Particle[] = Array.from({ length: particleCount }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
       z: Math.random(),
@@ -56,19 +64,27 @@ export default memo(function TerminalCanvas({
     let raf = 0;
     let alive = true;
     let visible = !document.hidden;
+    const frameInterval = 1000 / Math.max(1, targetFps);
+    let lastFrameTs = 0;
 
-    const draw = () => {
+    const draw = (ts = 0) => {
       raf = 0;
       if (!alive || !visible) {
         return;
       }
+
+      if (lastFrameTs !== 0 && ts - lastFrameTs < frameInterval) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
+      lastFrameTs = ts;
 
       t += 0.004;
       ctx.clearRect(0, 0, w, h);
 
       ctx.strokeStyle = `rgba(${colorsRef.current.gridRgb},0.05)`;
       ctx.lineWidth = 1;
-      const gap = 52;
+      const gap = gridGap;
       const off = (t * 26) % gap;
       for (let x = -off; x < w; x += gap) {
         ctx.beginPath();
@@ -125,7 +141,7 @@ export default memo(function TerminalCanvas({
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [starfield]);
+  }, [starfield, dprCap, targetFps, particleCount, gridGap]);
 
   return (
     <canvas

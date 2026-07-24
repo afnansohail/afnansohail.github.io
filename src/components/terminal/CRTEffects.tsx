@@ -1,9 +1,13 @@
 import { options } from "@/content";
 
-export default function CRTEffects() {
+interface CRTEffectsProps {
+  lowPower?: boolean;
+}
+
+export default function CRTEffects({ lowPower = false }: CRTEffectsProps) {
   return (
     <>
-      {options.scanlines && (
+      {!lowPower && options.scanlines && (
         <div
           style={{
             position: "absolute",
@@ -17,7 +21,7 @@ export default function CRTEffects() {
           }}
         />
       )}
-      {options.crtFlicker && (
+      {!lowPower && options.crtFlicker && (
         <div
           style={{
             position: "absolute",
@@ -36,8 +40,9 @@ export default function CRTEffects() {
           inset: 0,
           pointerEvents: "none",
           zIndex: 42,
-          boxShadow:
-            "inset 0 0 200px rgba(0,0,0,.7), inset 0 0 60px rgba(0,0,0,.5)",
+          boxShadow: lowPower
+            ? "inset 0 0 80px rgba(0,0,0,.55)"
+            : "inset 0 0 200px rgba(0,0,0,.7), inset 0 0 60px rgba(0,0,0,.5)",
         }}
       />
     </>

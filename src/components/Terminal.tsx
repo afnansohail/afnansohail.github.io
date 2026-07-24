@@ -24,6 +24,11 @@ const CLEAR_ANIM_MS = 380;
 export default function Terminal() {
   const { booting, lineIdx, progress, ready } = useBootSequence();
   const isDesktop = useIsDesktop();
+  const [reduceMotion, setReduceMotion] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false,
+  );
   const [order, setOrder] = useState<SectionKey[]>([]);
   const [input, setInput] = useState("");
   const [msg, setMsg] = useState("");
@@ -52,10 +57,20 @@ export default function Terminal() {
   }, [focusInput]);
 
   useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = () => setReduceMotion(media.matches);
+    onChange();
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
     if (!ready) return;
     focusInput();
     if (feedRef.current) feedRef.current.scrollTop = 0;
   }, [ready]);
+
+  const lowPowerMode = !isDesktop || reduceMotion;
 
   const scrollToSection = useCallback((key: SectionKey) => {
     if (raf1Ref.current !== null) {
@@ -176,9 +191,13 @@ export default function Terminal() {
         gridRgb={THEMES[theme].rgb}
         starRgb={THEMES[theme].star}
         starfield={options.starfield}
+        dprCap={lowPowerMode ? 1 : 2}
+        targetFps={lowPowerMode ? 30 : 60}
+        particleCount={lowPowerMode ? 28 : 80}
+        gridGap={lowPowerMode ? 64 : 52}
       />
 
-      <CRTEffects />
+      <CRTEffects lowPower={lowPowerMode} />
 
       {booting && <BootScreen lineIdx={lineIdx} progress={progress} />}
 
@@ -209,7 +228,7 @@ export default function Terminal() {
               onToggleMuted={toggleMuted}
             />
 
-            <CommandBar onRunCommand={runCommand} />
+            <CommandBar onRunCommand={runCommand} lowPower={lowPowerMode} />
 
             <div
               ref={feedRef}

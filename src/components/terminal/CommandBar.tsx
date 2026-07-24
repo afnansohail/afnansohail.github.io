@@ -4,9 +4,13 @@ import * as sound from "@/lib/sound";
 
 interface CommandBarProps {
   onRunCommand: (cmd: string) => void;
+  lowPower?: boolean;
 }
 
-export default memo(function CommandBar({ onRunCommand }: CommandBarProps) {
+export default memo(function CommandBar({
+  onRunCommand,
+  lowPower = false,
+}: CommandBarProps) {
   return (
     <div
       className="flex flex-wrap justify-center md:justify-start"
@@ -17,7 +21,7 @@ export default memo(function CommandBar({ onRunCommand }: CommandBarProps) {
         border: "1px solid var(--line)",
         borderRadius: 9,
         background: "rgba(20,22,34,.72)",
-        backdropFilter: "blur(6px)",
+        backdropFilter: lowPower ? "none" : "blur(6px)",
       }}
     >
       <span
