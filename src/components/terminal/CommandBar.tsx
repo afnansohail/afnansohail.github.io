@@ -40,7 +40,7 @@ export default memo(function CommandBar({
         <button
           key={cmd}
           type="button"
-          className="tp-cmd"
+          className="tp-cmd text-[9.5px] md:text-[12.5px]"
           onClick={(e) => {
             e.stopPropagation();
             sound.blip();
@@ -48,7 +48,6 @@ export default memo(function CommandBar({
           }}
           style={{
             fontFamily: "var(--mono)",
-            fontSize: 12.5,
             background: "rgba(var(--glow-rgb),.06)",
             color: "#dcdcec",
             border: "1px solid var(--line)",
