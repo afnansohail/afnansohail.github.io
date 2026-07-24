@@ -7,84 +7,27 @@ interface BootScreenProps {
 
 export default function BootScreen({ lineIdx, progress }: BootScreenProps) {
   return (
-    <div
-      className="p-4 sm:p-6"
-      style={{
-        position: "absolute",
-        inset: 0,
-        zIndex: 30,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: 720 }}>
-        <div
-          className="text-[9.5px] sm:text-xs tracking-[.14em] sm:tracking-[.35em]"
-          style={{
-            color: "var(--dim)",
-            marginBottom: 18,
-          }}
-        >
+    <div className="absolute inset-0 z-30 flex items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-180">
+        <div className="mb-4.5 text-[9.5px] text-(--dim) tracking-[.14em] sm:text-xs sm:tracking-[.35em]">
           AFNAN&nbsp;SOHAIL &nbsp;//&nbsp; PERSONAL OS &nbsp; v6.7.0
         </div>
-        <div
-          className="text-[10.5px] sm:text-[13.5px] leading-[1.6] sm:leading-[1.9]"
-          style={{ minHeight: 210 }}
-        >
+        <div className="min-h-52.5 text-[10.5px] leading-[1.6] sm:text-[13.5px] sm:leading-[1.9]">
           {content.bootLines.slice(0, lineIdx).map((line, i) => (
-            <div key={i} style={{ whiteSpace: "pre-wrap", color: "#c9cce0" }}>
+            <div key={i} className="whitespace-pre-wrap text-[#c9cce0]">
               {line}
             </div>
           ))}
-          <span
-            style={{
-              display: "inline-block",
-              width: 9,
-              height: 16,
-              background: "var(--glow)",
-              boxShadow: "0 0 10px var(--glow)",
-              animation: "tpBlink 1s step-end infinite",
-              verticalAlign: "-2px",
-            }}
-          />
+          <span className="inline-block h-4 w-2.25 align-[-2px] bg-(--glow) shadow-[0_0_10px_var(--glow)] animate-[tpBlink_1s_step-end_infinite]" />
         </div>
-        <div
-          style={{
-            marginTop: 22,
-            display: "flex",
-            alignItems: "center",
-            gap: 14,
-          }}
-        >
-          <div
-            style={{
-              flex: 1,
-              height: 6,
-              border: "1px solid var(--line)",
-              borderRadius: 3,
-              overflow: "hidden",
-            }}
-          >
+        <div className="mt-5.5 flex items-center gap-3.5">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-[3px] border border-(--line)">
             <div
-              style={{
-                height: "100%",
-                width: `${progress}%`,
-                background:
-                  "linear-gradient(90deg,var(--glow-dim),var(--glow-bright))",
-                boxShadow: "0 0 12px var(--glow)",
-                transition: "width .18s ease",
-              }}
+              className="h-full bg-[linear-gradient(90deg,var(--glow-dim),var(--glow-bright))] shadow-[0_0_12px_var(--glow)] transition-[width] duration-180 ease-out"
+              style={{ width: `${progress}%` }}
             />
           </div>
-          <div
-            style={{
-              width: 54,
-              textAlign: "right",
-              color: "var(--glow-bright)",
-              fontWeight: 500,
-            }}
-          >
+          <div className="w-13.5 text-right font-medium text-(--glow-bright)">
             {progress}%
           </div>
         </div>

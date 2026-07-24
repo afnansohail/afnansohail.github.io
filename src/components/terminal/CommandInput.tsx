@@ -24,7 +24,7 @@ interface CommandInputProps {
   onInputChange: (value: string) => void;
   onSubmit: () => void;
   msg: string;
-  msgColor: string;
+  msgTone: "dim" | "accent" | "error";
   inputRef: RefObject<HTMLInputElement | null>;
 }
 
@@ -33,7 +33,7 @@ export default function CommandInput({
   onInputChange,
   onSubmit,
   msg,
-  msgColor,
+  msgTone,
   inputRef,
 }: CommandInputProps) {
   const isDesktop = useIsDesktop();
@@ -62,50 +62,32 @@ export default function CommandInput({
   };
 
   return (
-    <div
-      style={{
-        borderTop: "1px solid var(--line)",
-        padding: "14px 4px 18px",
-      }}
-    >
+    <div className="border-t border-(--line) px-1 py-3.5 pb-4.5">
       {msg && (
-        <div style={{ fontSize: 12, marginBottom: 9, color: msgColor }}>
+        <div
+          className={`mb-2.25 text-[12px] ${
+            msgTone === "accent"
+              ? "text-(--accent)"
+              : msgTone === "error"
+                ? "text-[#e07e7e]"
+                : "text-(--dim)"
+          }`}
+        >
           {msg}
         </div>
       )}
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <span
-          style={{
-            color: "var(--glow-bright)",
-            fontSize: 13.5,
-            whiteSpace: "nowrap",
-          }}
-        >
+      <div className="flex items-center gap-2.5">
+        <span className="whitespace-nowrap text-[13.5px] text-(--glow-bright)">
           guest@afnan:~$
         </span>
-        <div style={{ position: "relative", flex: 1 }}>
+        <div className="relative flex-1">
           {suggestion && (
             <input
               aria-hidden
               readOnly
               tabIndex={-1}
               value={suggestion}
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                background: "transparent",
-                border: "1px solid transparent",
-                outline: "none",
-                pointerEvents: "none",
-                color: "var(--dim)",
-                fontFamily: "var(--mono)",
-                fontSize: 13.5,
-                lineHeight: "normal",
-                boxSizing: "border-box",
-                padding: 0,
-                margin: 0,
-              }}
+              className="pointer-events-none absolute inset-0 box-border m-0 w-full border border-transparent bg-transparent p-0 text-[13.5px] leading-normal text-(--dim) outline-none"
             />
           )}
           <input
@@ -133,44 +115,17 @@ export default function CommandInput({
                 acceptSuggestion();
               }
             }}
-            className="tp-in"
             placeholder="type a command…"
             spellCheck={false}
             autoComplete="off"
-            style={{
-              position: "relative",
-              width: "100%",
-              background: "transparent",
-              border: "1px solid transparent",
-              outline: "none",
-              color: "#fff",
-              fontFamily: "var(--mono)",
-              fontSize: 13.5,
-              lineHeight: "normal",
-              boxSizing: "border-box",
-              padding: 0,
-              margin: 0,
-              caretColor: "var(--glow)",
-            }}
+            className="relative box-border m-0 w-full border border-transparent bg-transparent p-0 text-[13.5px] leading-normal text-white outline-none caret-(--glow) placeholder:text-[#4a4d5e]"
           />
         </div>
         {!isDesktop && suggestion && (
           <button
             type="button"
             onClick={acceptSuggestion}
-            className="tp-pill"
-            style={{
-              flexShrink: 0,
-              background: "transparent",
-              border: "1px solid var(--glow-dim)",
-              color: "var(--glow-bright)",
-              borderRadius: 999,
-              padding: "3px 10px",
-              fontSize: 11.5,
-              fontFamily: "var(--mono)",
-              cursor: "pointer",
-              whiteSpace: "nowrap",
-            }}
+            className="tp-pill shrink-0 whitespace-nowrap rounded-full border border-(--glow-dim) bg-transparent px-2.5 py-0.75 text-[11.5px] text-(--glow-bright)"
           >
             ⇥ {suggestion}
           </button>

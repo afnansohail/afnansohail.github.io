@@ -24,69 +24,21 @@ export default memo(function HeaderBar({
   onToggleLowPower,
 }: HeaderBarProps) {
   return (
-    <div
-      className="flex-wrap"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        padding: "14px 4px 12px",
-      }}
-    >
-      <div className="hidden md:flex" style={{ gap: 7 }}>
-        <span
-          style={{
-            width: 11,
-            height: 11,
-            borderRadius: "50%",
-            background: "#4a4d5e",
-          }}
-        />
-        <span
-          style={{
-            width: 11,
-            height: 11,
-            borderRadius: "50%",
-            background: "#4a4d5e",
-          }}
-        />
-        <span
-          style={{
-            width: 11,
-            height: 11,
-            borderRadius: "50%",
-            background: "var(--glow)",
-            boxShadow: "0 0 8px var(--glow)",
-          }}
-        />
+    <div className="flex flex-wrap items-center gap-3 px-1 pt-3.5 pb-3">
+      <div className="hidden gap-1.75 md:flex">
+        <span className="size-2.75 rounded-full bg-[#4a4d5e]" />
+        <span className="size-2.75 rounded-full bg-[#4a4d5e]" />
+        <span className="size-2.75 rounded-full bg-(--glow) shadow-[0_0_8px_var(--glow)]" />
       </div>
-      <div
-        className="w-full text-center md:w-auto md:text-left"
-        style={{
-          fontSize: 12.5,
-          color: "var(--dim)",
-          letterSpacing: ".04em",
-        }}
-      >
+      <div className="w-full text-center text-[12.5px] tracking-[.04em] text-(--dim) md:w-auto md:text-left">
         {content.sessionLabel}
       </div>
-      <div
-        className="flex flex-wrap items-center w-full md:w-auto md:ml-auto"
-        style={{ gap: 14, justifyContent: "space-between" }}
-      >
-        <div
-          className="order-2 md:order-1"
-          style={{ display: "flex", alignItems: "center", gap: 10 }}
-        >
+      <div className="flex w-full flex-wrap items-center justify-between gap-3.5 md:w-auto md:ml-auto">
+        <div className="order-2 flex items-center gap-2.5 md:order-1">
           <ResumeLink
             label="grab my résumé ↗"
             stopPropagation
-            style={{
-              fontSize: 12,
-              background: "transparent",
-              borderRadius: 20,
-              padding: "6px 14px",
-            }}
+            className="rounded-2xl bg-transparent px-3.5 py-1.5 text-[12px]"
           />
           <SettingsMenu
             theme={theme}
@@ -98,26 +50,8 @@ export default memo(function HeaderBar({
             onToggleLowPower={onToggleLowPower}
           />
         </div>
-        <span
-          className="flex order-1 md:order-2"
-          style={{
-            alignItems: "center",
-            gap: 7,
-            fontSize: 11.5,
-            letterSpacing: ".14em",
-            color: "var(--glow-bright)",
-          }}
-        >
-          <span
-            style={{
-              width: 7,
-              height: 7,
-              borderRadius: "50%",
-              background: "var(--accent)",
-              boxShadow: "0 0 8px var(--accent)",
-              animation: "tpBar 2s ease-in-out infinite",
-            }}
-          />
+        <span className="order-1 flex items-center gap-1.75 text-[11.5px] tracking-[.14em] text-(--glow-bright) md:order-2">
+          <span className="size-1.75 rounded-full bg-(--accent) shadow-[0_0_8px_var(--accent)] animate-[tpBar_2s_ease-in-out_infinite]" />
           ONLINE
         </span>
       </div>

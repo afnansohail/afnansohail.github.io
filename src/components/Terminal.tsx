@@ -33,7 +33,7 @@ export default function Terminal() {
   const [order, setOrder] = useState<SectionKey[]>([]);
   const [input, setInput] = useState("");
   const [msg, setMsg] = useState("");
-  const [msgColor, setMsgColor] = useState("var(--dim)");
+  const [msgTone, setMsgTone] = useState<"dim" | "accent" | "error">("dim");
   const [muted, setMutedState] = useState(() => sound.isMuted());
   const [clearing, setClearing] = useState(false);
   const [lowPowerManual, setLowPowerManual] = useState(() => {
@@ -131,7 +131,7 @@ export default function Terminal() {
           setOrder([]);
           setClearing(false);
           setMsg("session cleared. type `help` to begin.");
-          setMsgColor("var(--dim)");
+          setMsgTone("dim");
           if (feedRef.current) feedRef.current.scrollTop = 0;
           focusInput();
         };
@@ -156,7 +156,7 @@ export default function Terminal() {
       if (!target) {
         setInput("");
         setMsg(`command not found: ${cmd}  —  try \`help\``);
-        setMsgColor("#e07e7e");
+        setMsgTone("error");
         sound.error();
         focusInput();
         return;
@@ -165,7 +165,7 @@ export default function Terminal() {
       setOrder((prev) => [...prev.filter((k) => k !== target), target]);
       setInput("");
       setMsg(`✓ loaded: ${target}`);
-      setMsgColor("var(--accent)");
+      setMsgTone("accent");
       sound.success();
       focusInput();
       scrollToSection(target);
@@ -191,14 +191,8 @@ export default function Terminal() {
     <div
       ref={rootRef}
       onClick={handleRootClick}
-      style={{
-        position: "fixed",
-        inset: 0,
-        overflow: "hidden",
-        background: THEMES[DEFAULT_THEME].bg,
-        fontFamily: "var(--mono)",
-        color: "#dcdcec",
-      }}
+      className="fixed inset-0 overflow-hidden bg-(--background) font-(--mono) text-[#dcdcec]"
+      style={{ ["--background" as string]: THEMES[DEFAULT_THEME].bg }}
     >
       <TerminalCanvas
         gridRgb={THEMES[theme].rgb}
@@ -215,25 +209,8 @@ export default function Terminal() {
       {booting && <BootScreen lineIdx={lineIdx} progress={progress} />}
 
       {ready && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 30,
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            className="px-3 sm:px-5"
-            style={{
-              width: "100%",
-              maxWidth: 1040,
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+        <div className="absolute inset-0 z-30 flex justify-center">
+          <div className="flex h-full w-full max-w-260 flex-col px-3 sm:px-5">
             <HeaderBar
               theme={theme}
               onThemeChange={setTheme}
@@ -248,22 +225,11 @@ export default function Terminal() {
 
             <div
               ref={feedRef}
-              className="tp-scroll"
-              style={{
-                position: "relative",
-                flex: 1,
-                overflowY: "auto",
-                padding: "24px 4px 20px",
-                display: "flex",
-                flexDirection: "column",
-              }}
+              className="tp-scroll relative flex flex-1 flex-col overflow-y-auto px-1 pt-6 pb-5"
             >
               <Banner />
               <Intro />
-              <div
-                className={clearing ? "tp-clearing" : undefined}
-                style={{ display: "flex", flexDirection: "column" }}
-              >
+              <div className={`${clearing ? "tp-clearing" : ""} flex flex-col`}>
                 {order.map((key) => {
                   const Section = SECTION_COMPONENTS[key];
                   return <Section key={key} />;
@@ -276,7 +242,7 @@ export default function Terminal() {
               onInputChange={setInput}
               onSubmit={() => runCommand(input)}
               msg={msg}
-              msgColor={msgColor}
+              msgTone={msgTone}
               inputRef={inputRef}
             />
           </div>

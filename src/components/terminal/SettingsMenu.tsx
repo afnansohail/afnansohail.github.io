@@ -1,11 +1,4 @@
-import {
-  memo,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-} from "react";
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import * as sound from "@/lib/sound";
 import { THEMES, type ThemeKey } from "./themes";
@@ -85,32 +78,16 @@ function Switch({
         e.stopPropagation();
         onClick();
       }}
-      style={{
-        position: "relative",
-        width: 30,
-        height: 16,
-        padding: 0,
-        border: "1px solid var(--line)",
-        borderRadius: 999,
-        background: on ? "rgba(var(--glow-rgb),.28)" : "rgba(255,255,255,.04)",
-        opacity: disabled ? 0.5 : 1,
-        cursor: disabled ? "default" : "pointer",
-        transition: "background .16s",
-        flexShrink: 0,
-      }}
+      className={`relative flex h-4 w-7.5 shrink-0 rounded-full border border-(--line) p-0 transition-colors ${
+        on ? "bg-[rgba(var(--glow-rgb),.28)]" : "bg-[rgba(255,255,255,.04)]"
+      } ${disabled ? "cursor-default opacity-50" : "cursor-pointer"}`}
     >
       <span
-        style={{
-          position: "absolute",
-          top: 1,
-          left: on ? 15 : 1,
-          width: 12,
-          height: 12,
-          borderRadius: "50%",
-          background: on ? "var(--glow-bright)" : "#4a4d5e",
-          boxShadow: on ? "0 0 6px var(--glow)" : "none",
-          transition: "left .16s",
-        }}
+        className={`absolute left-px top-px size-3 rounded-full transition-[transform,background-color,box-shadow] duration-150 ${
+          on
+            ? "translate-x-3.5 bg-(--glow-bright) shadow-[0_0_6px_var(--glow)]"
+            : "translate-x-0 bg-[#4a4d5e]"
+        }`}
       />
     </button>
   );
@@ -183,14 +160,8 @@ export default memo(function SettingsMenu({
     };
   }, [open, isDesktop]);
 
-  const rowLabelStyle: CSSProperties = {
-    fontSize: 10,
-    letterSpacing: ".16em",
-    color: "var(--dim)",
-  };
-
   return (
-    <div ref={rootRef} style={{ position: "relative" }}>
+    <div ref={rootRef} className="relative">
       <button
         type="button"
         title="settings"
@@ -206,25 +177,13 @@ export default memo(function SettingsMenu({
             return nextOpen;
           });
         }}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: 22,
-          height: 22,
-          padding: 0,
-          background: open ? "rgba(var(--glow-rgb),.12)" : "transparent",
-          border: "none",
-          borderRadius: 6,
-          color: "var(--glow-bright)",
-        }}
+        className={`flex size-5.5 items-center justify-center rounded-md border-0 p-0 text-(--glow-bright) ${
+          open ? "bg-[rgba(var(--glow-rgb),.12)]" : "bg-transparent"
+        }`}
       >
         <span
           key={spinTick}
-          style={{
-            display: "flex",
-            animation: "tpGearSpin .28s cubic-bezier(.22,.9,.24,1)",
-          }}
+          className="flex animate-[tpGearSpin_.28s_cubic-bezier(.22,.9,.24,1)]"
         >
           <GearIcon />
         </span>
@@ -233,27 +192,24 @@ export default memo(function SettingsMenu({
       {open && (
         <div
           onClick={(e) => e.stopPropagation()}
-          style={{
-            position: isDesktop ? "absolute" : "fixed",
-            top: isDesktop ? "calc(100% + 8px)" : (mobileMenuPos?.top ?? 44),
-            right: isDesktop ? 0 : "auto",
-            left: isDesktop ? "auto" : (mobileMenuPos?.left ?? 8),
-            zIndex: 60,
-            width: isDesktop ? 210 : (mobileMenuPos?.width ?? 210),
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            padding: "12px 14px",
-            border: "1px solid var(--line)",
-            borderRadius: 9,
-            background: "rgba(16,17,27,.94)",
-            backdropFilter: lowPower ? "none" : "blur(8px)",
-            boxShadow: "0 12px 30px rgba(0,0,0,.45)",
-          }}
+          className={`z-60 flex flex-col gap-3 rounded-[9px] border border-(--line) bg-[rgba(16,17,27,.94)] px-3.5 py-3 shadow-[0_12px_30px_rgba(0,0,0,.45)] ${
+            lowPower ? "backdrop-blur-0" : "backdrop-blur-sm"
+          } ${isDesktop ? "absolute right-0 top-[calc(100%+8px)] w-52.5" : "fixed"}`}
+          style={
+            isDesktop
+              ? undefined
+              : {
+                  top: mobileMenuPos?.top ?? 44,
+                  left: mobileMenuPos?.left ?? 8,
+                  width: mobileMenuPos?.width ?? 210,
+                }
+          }
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <span style={rowLabelStyle}>THEME</span>
-            <div style={{ display: "flex", gap: 8 }}>
+          <div className="flex flex-col gap-2">
+            <span className="text-[10px] tracking-[.16em] text-(--dim)">
+              THEME
+            </span>
+            <div className="flex gap-2">
               {(Object.keys(THEMES) as ThemeKey[]).map((key) => (
                 <button
                   key={key}
@@ -264,43 +220,21 @@ export default memo(function SettingsMenu({
                     onThemeChange(key);
                     sound.blip();
                   }}
+                  className="size-4 rounded-full border-2 p-0 transition-all"
                   style={{
-                    width: 16,
-                    height: 16,
-                    borderRadius: "50%",
-                    padding: 0,
                     background: THEMES[key].glow,
-                    border: `2px solid ${theme === key ? "#fff" : "transparent"}`,
+                    borderColor: theme === key ? "#fff" : "transparent",
                     boxShadow: `0 0 8px ${THEMES[key].glow}`,
-                    transition: "all .16s",
                   }}
                 />
               ))}
             </div>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 10,
-            }}
-          >
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 7,
-                fontSize: 12,
-                color: "#dcdcec",
-              }}
-            >
+          <div className="flex items-center justify-between gap-2.5">
+            <span className="flex items-center gap-1.75 text-[12px] text-[#dcdcec]">
               <span
-                style={{
-                  color: muted ? "var(--dim)" : "var(--glow-bright)",
-                  display: "flex",
-                }}
+                className={`flex ${muted ? "text-(--dim)" : "text-(--glow-bright)"}`}
               >
                 <SoundIcon muted={muted} />
               </span>
@@ -309,17 +243,8 @@ export default memo(function SettingsMenu({
             <Switch on={!muted} onClick={onToggleMuted} />
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 10,
-            }}
-          >
-            <span style={{ fontSize: 12, color: "#dcdcec" }}>
-              low power mode
-            </span>
+          <div className="flex items-center justify-between gap-2.5">
+            <span className="text-[12px] text-[#dcdcec]">low power mode</span>
             <Switch
               on={lowPower || lowPowerForced}
               disabled={lowPowerForced}

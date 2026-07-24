@@ -144,15 +144,6 @@ export default memo(function TerminalCanvas({
   }, [starfield, dprCap, targetFps, particleCount, gridGap]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        display: "block",
-      }}
-    />
+    <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" />
   );
 });

@@ -7,7 +7,6 @@ const GRID_Y = 13;
 const CELL = 24;
 const SIZE_X = GRID_X * CELL;
 const SIZE_Y = GRID_Y * CELL;
-const PANEL_PADDING = 16;
 const TICK_MS = 130;
 
 interface Point {
@@ -288,32 +287,11 @@ export default memo(function GameSection() {
           if (next.x === -g.dir.x && next.y === -g.dir.y) return;
           g.nextDir = next;
         }}
-        style={{
-          outline: "none",
-          display: "block",
-          width: SIZE_X + PANEL_PADDING * 2,
-          maxWidth: "100%",
-          touchAction: "none",
-          border: "1px solid var(--line)",
-          borderRadius: 10,
-          padding: PANEL_PADDING,
-          background:
-            "linear-gradient(180deg,rgba(var(--glow-rgb),.05),rgba(var(--glow-rgb),.01))",
-        }}
+        className="block w-140 max-w-full touch-none rounded-[10px] border border-(--line) bg-[linear-gradient(180deg,rgba(var(--glow-rgb),.05),rgba(var(--glow-rgb),.01))] p-4 outline-none"
       >
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            gap: 10,
-            marginBottom: 10,
-            fontSize: 12,
-            color: "var(--dim)",
-          }}
-        >
+        <div className="mb-2.5 flex flex-wrap justify-between gap-2.5 text-[12px] text-(--dim)">
           <span>
-            score: <span style={{ color: "var(--glow-bright)" }}>{score}</span>
+            score: <span className="text-(--glow-bright)">{score}</span>
           </span>
           <span>
             arrow keys or swipe to move
@@ -325,14 +303,9 @@ export default memo(function GameSection() {
           ref={canvasRef}
           width={SIZE_X}
           height={SIZE_Y}
-          style={{
-            display: "block",
-            borderRadius: 6,
-            maxWidth: "100%",
-            height: "auto",
-          }}
+          className="block h-auto max-w-full rounded-[6px]"
         />
-        <div style={{ marginTop: 10, fontSize: 12, color: "var(--dim)" }}>
+        <div className="mt-2.5 text-[12px] text-(--dim)">
           {status === "over"
             ? `game over — final score ${score}. click or tap here (or press space) to play again.`
             : status === "idle"

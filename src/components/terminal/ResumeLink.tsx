@@ -1,15 +1,15 @@
-import type { CSSProperties, MouseEvent } from "react";
+import type { MouseEvent } from "react";
 import { content } from "@/content";
 
 interface ResumeLinkProps {
   label: string;
-  style: CSSProperties;
+  className?: string;
   stopPropagation?: boolean;
 }
 
 export default function ResumeLink({
   label,
-  style,
+  className,
   stopPropagation,
 }: ResumeLinkProps) {
   const handleClick = stopPropagation
@@ -22,13 +22,7 @@ export default function ResumeLink({
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className="tp-pill"
-      style={{
-        textDecoration: "none",
-        color: "var(--glow-bright)",
-        border: "1px solid var(--glow-dim)",
-        ...style,
-      }}
+      className={`tp-pill no-underline border border-(--glow-dim) text-(--glow-bright) ${className ?? ""}`}
     >
       {label}
     </a>

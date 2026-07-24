@@ -13,12 +13,18 @@ export type SectionKey =
   | "help"
   | "game";
 
+const shellClass = "mt-8.5 animate-[tpFade_.5s_ease_both]";
+const panelClass =
+  "rounded-[10px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(var(--glow-rgb),.05),rgba(var(--glow-rgb),.01))]";
+const panelSoftClass =
+  "rounded-[10px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(var(--glow-rgb),.04),rgba(var(--glow-rgb),.01))]";
+const panelStrongClass =
+  "rounded-[10px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(var(--glow-rgb),.06),rgba(var(--glow-rgb),.01))]";
+
 function Prompt({ cmd }: { cmd: string }) {
   return (
-    <div
-      style={{ color: "var(--glow-bright)", fontSize: 13, marginBottom: 14 }}
-    >
-      guest@afnan:~$ <span style={{ color: "#fff" }}>{cmd}</span>
+    <div className="mb-3.5 text-[13px] text-(--glow-bright)">
+      guest@afnan:~$ <span className="text-white">{cmd}</span>
     </div>
   );
 }
@@ -33,66 +39,30 @@ export function SectionShell({
   children: ReactNode;
 }) {
   return (
-    <div
-      id={`sec-${id}`}
-      style={{ marginTop: 34, animation: "tpFade .5s ease both" }}
-    >
+    <div id={`sec-${id}`} className={shellClass}>
       <Prompt cmd={cmd} />
       {children}
     </div>
   );
 }
 
-const panelStyle = {
-  border: "1px solid var(--line)",
-  borderRadius: 10,
-  padding: 22,
-  background:
-    "linear-gradient(180deg,rgba(var(--glow-rgb),.05),rgba(var(--glow-rgb),.01))",
-};
-
 export const Banner = memo(function Banner() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 26,
-        alignItems: "center",
-      }}
-    >
-      <pre
-        style={{
-          margin: 0,
-          color: "var(--glow)",
-          textShadow: "0 0 16px var(--glow-dim)",
-          fontSize: "clamp(11px,2.4vw,17px)",
-          lineHeight: 1.12,
-          fontWeight: 700,
-        }}
-      >
+    <div className="flex flex-wrap items-center gap-6.5">
+      <pre className="m-0 max-w-full text-[clamp(11px,2.4vw,17px)] font-bold leading-[1.12] text-(--glow) drop-shadow-[0_0_16px_var(--glow-dim)]">
         {content.banner}
       </pre>
       <div>
-        <div
-          style={{
-            fontSize: 11,
-            letterSpacing: ".28em",
-            color: "var(--glow-bright)",
-            marginBottom: 8,
-          }}
-        >
+        <div className="mb-2 text-[11px] tracking-[.28em] text-(--glow-bright)">
           {content.eyebrow}
         </div>
-        <div style={{ fontSize: 22, color: "#fff", letterSpacing: ".02em" }}>
+        <div className="text-[22px] tracking-[.02em] text-white">
           {content.name.toUpperCase()}
         </div>
-        <div style={{ color: "var(--dim)", fontSize: 12.5, marginTop: 3 }}>
+        <div className="mt-0.75 text-[12.5px] text-(--dim)">
           {content.tagline}
         </div>
-        <div style={{ marginTop: 12, fontSize: 12, color: "var(--accent)" }}>
-          {content.status}
-        </div>
+        <div className="mt-3 text-[12px] text-(--accent)">{content.status}</div>
       </div>
     </div>
   );
@@ -101,23 +71,13 @@ export const Banner = memo(function Banner() {
 export const Intro = memo(function Intro() {
   return (
     <>
-      <div
-        style={{
-          marginTop: 22,
-          color: "#c9cce0",
-          fontSize: 13.5,
-          lineHeight: 1.7,
-          maxWidth: 660,
-        }}
-      >
+      <div className="mt-5.5 max-w-165 text-[13.5px] leading-[1.7] text-[#c9cce0]">
         {content.intro}
       </div>
-      <div style={{ marginTop: 12, color: "#c9cce0", fontSize: 13.5 }}>
+      <div className="mt-3 text-[13.5px] text-[#c9cce0]">
         Type a command or click one above —{" "}
-        <span style={{ color: "var(--glow-bright)", fontWeight: 500 }}>
-          help
-        </span>{" "}
-        lists them all.
+        <span className="font-medium text-(--glow-bright)">help</span> lists
+        them all.
       </div>
     </>
   );
@@ -127,53 +87,33 @@ export const AboutSection = memo(function AboutSection() {
   return (
     <SectionShell id="about" cmd="about">
       <div
-        className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr]"
-        style={{ ...panelStyle, gap: 22 }}
+        className={`${panelClass} grid gap-5.5 p-5.5 md:grid-cols-[1.5fr_1fr]`}
       >
         <div>
-          <div
-            style={{
-              fontSize: 12,
-              letterSpacing: ".28em",
-              color: "var(--dim)",
-              marginBottom: 10,
-            }}
-          >
+          <div className="mb-2.5 text-[12px] tracking-[.28em] text-(--dim)">
             // IDENTITY
           </div>
           {content.about.identity.map((p, i) => (
             <p
               key={i}
-              style={{
-                margin:
-                  i === content.about.identity.length - 1 ? 0 : "0 0 12px",
-                fontSize: 14,
-                lineHeight: 1.75,
-                color: "#d6d8e6",
-                textWrap: "pretty",
-              }}
+              className={`text-pretty text-[14px] leading-[1.75] text-[#d6d8e6] ${
+                i === content.about.identity.length - 1 ? "mb-0" : "mb-3"
+              }`}
             >
               {p}
             </p>
           ))}
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="flex flex-col gap-3.5">
           {content.about.facts.map((f) => (
             <div key={f.label}>
-              <div
-                style={{
-                  color: "var(--dim)",
-                  fontSize: 11,
-                  letterSpacing: ".2em",
-                }}
-              >
+              <div className="text-[11px] tracking-[.2em] text-(--dim)">
                 {f.label}
               </div>
               <div
-                style={{
-                  color: f.accent ? "var(--accent)" : "var(--glow-bright)",
-                  fontSize: 14,
-                }}
+                className={`text-[14px] ${
+                  f.accent ? "text-(--accent)" : "text-(--glow-bright)"
+                }`}
               >
                 {f.value}
               </div>
@@ -188,38 +128,26 @@ export const AboutSection = memo(function AboutSection() {
 export const WorkSection = memo(function WorkSection() {
   return (
     <SectionShell id="work" cmd="cat experience.log">
-      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      <div className="flex flex-col gap-0.5">
         {content.roles.map((role, i) => (
           <div
             key={role.company}
-            className="grid grid-cols-1 md:grid-cols-[180px_1fr]"
-            style={{
-              gap: 20,
-              padding: "18px 16px",
-              borderLeft: `2px solid ${i === 0 ? "var(--glow)" : "var(--glow-dim)"}`,
-              background: i === 0 ? "rgba(var(--glow-rgb),.05)" : undefined,
-              borderRadius: "0 8px 8px 0",
-            }}
+            className={`grid gap-5 rounded-r-lg px-4 py-4.5 md:grid-cols-[180px_1fr] ${
+              i === 0
+                ? "border-l-2 border-l-(--glow) bg-[rgba(var(--glow-rgb),.05)]"
+                : "border-l-2 border-l-(--glow-dim)"
+            }`}
           >
-            <div style={{ color: "var(--glow-bright)", fontSize: 12.5 }}>
+            <div className="text-[12.5px] text-(--glow-bright)">
               {role.years}
-              <div style={{ color: "var(--dim)", fontSize: 11, marginTop: 4 }}>
-                {role.span}
-              </div>
+              <div className="mt-1 text-[11px] text-(--dim)">{role.span}</div>
             </div>
             <div>
-              <div style={{ fontSize: 15, color: "#fff" }}>
+              <div className="text-[15px] text-white">
                 {role.title}{" "}
-                <span style={{ color: "var(--dim)" }}>@ {role.company}</span>
+                <span className="text-(--dim)">@ {role.company}</span>
               </div>
-              <p
-                style={{
-                  margin: "8px 0 0",
-                  color: "#c4c7d8",
-                  fontSize: 13,
-                  lineHeight: 1.7,
-                }}
-              >
+              <p className="mt-2 text-[13px] leading-[1.7] text-[#c4c7d8]">
                 {role.impact}
               </p>
             </div>
@@ -233,62 +161,31 @@ export const WorkSection = memo(function WorkSection() {
 export const ProjectsSection = memo(function ProjectsSection() {
   return (
     <SectionShell id="projects" cmd="ls ~/selected-work">
-      <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+      <div className="flex flex-col gap-5.5">
         {content.projects.map((project) => (
           <div
             key={project.no}
-            className="tp-card grid grid-cols-1 md:grid-cols-[52px_1fr_300px]"
-            style={{
-              gap: 20,
-              alignItems: "center",
-              padding: 18,
-              border: "1px solid var(--line)",
-              borderRadius: 12,
-              background:
-                "linear-gradient(180deg,rgba(var(--glow-rgb),.05),rgba(var(--glow-rgb),.01))",
-            }}
+            className={`${panelClass} grid items-center gap-5 p-4.5 md:grid-cols-[52px_1fr_300px]`}
           >
-            <div
-              style={{
-                fontSize: 34,
-                color: "rgba(var(--glow-rgb),.35)",
-                fontWeight: 700,
-              }}
-            >
+            <div className="text-[34px] font-bold text-[rgba(var(--glow-rgb),.35)]">
               {project.no}
             </div>
             <div>
-              <div style={{ fontSize: 18, color: "#fff", fontWeight: 500 }}>
+              <div className="text-[18px] font-medium text-white">
                 {project.name}
               </div>
-              <p
-                style={{
-                  margin: "8px 0 12px",
-                  color: "#b9bccd",
-                  fontSize: 13,
-                  lineHeight: 1.65,
-                }}
-              >
+              <p className="mb-3 mt-2 text-[13px] leading-[1.65] text-[#b9bccd]">
                 {project.desc}
               </p>
               <div
-                style={{
-                  display: "flex",
-                  gap: 6,
-                  flexWrap: "wrap",
-                  marginBottom: project.link ? 12 : 0,
-                }}
+                className={`flex flex-wrap gap-1.5 ${
+                  project.link ? "mb-3" : "mb-0"
+                }`}
               >
                 {project.stack.map((s) => (
                   <span
                     key={s}
-                    style={{
-                      fontSize: 10.5,
-                      color: "var(--glow-bright)",
-                      background: "rgba(var(--glow-rgb),.1)",
-                      borderRadius: 4,
-                      padding: "2px 8px",
-                    }}
+                    className="rounded-sm bg-[rgba(var(--glow-rgb),.1)] px-2 py-0.5 text-[10.5px] text-(--glow-bright)"
                   >
                     {s}
                   </span>
@@ -299,31 +196,25 @@ export const ProjectsSection = memo(function ProjectsSection() {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ fontSize: 12.5, textDecoration: "none" }}
+                  className="text-[12.5px] no-underline"
                 >
                   ↗ live demo
                 </a>
               )}
             </div>
-            <div style={{ width: "100%", aspectRatio: "16/10" }}>
+            <div className="aspect-16/10 w-full">
               {project.image && (
                 <img
                   src={project.image}
                   alt={`${project.name} screenshot`}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: 8,
-                    display: "block",
-                  }}
+                  className="block h-full w-full rounded-lg object-cover"
                 />
               )}
             </div>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 14, color: "var(--dim)", fontSize: 11.5 }}>
+      <div className="mt-3.5 text-[11.5px] text-(--dim)">
         // {content.projectsPrivacyNote}
       </div>
     </SectionShell>
@@ -333,51 +224,21 @@ export const ProjectsSection = memo(function ProjectsSection() {
 export const ToolsSection = memo(function ToolsSection() {
   return (
     <SectionShell id="tools" cmd="toolbox --list">
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-        style={{ gap: 16 }}
-      >
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {content.toolGroups.map((group) => (
-          <div
-            key={group.heading}
-            style={{
-              border: "1px solid var(--line)",
-              borderRadius: 10,
-              padding: 18,
-              background:
-                "linear-gradient(180deg,rgba(var(--glow-rgb),.04),rgba(var(--glow-rgb),.01))",
-            }}
-          >
-            <div
-              style={{
-                fontSize: 12,
-                letterSpacing: ".24em",
-                color: "var(--dim)",
-                marginBottom: 14,
-              }}
-            >
+          <div key={group.heading} className={`${panelSoftClass} p-4.5`}>
+            <div className="mb-3.5 text-[12px] tracking-[.24em] text-(--dim)">
               {group.heading}
             </div>
-            <div className="grid grid-cols-2" style={{ gap: 8 }}>
+            <div className="grid grid-cols-2 gap-2">
               {group.tools.map((tool, i) => (
                 <div
                   key={`${tool.slug}-${i}`}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 9,
-                    padding: "8px 10px",
-                    border: "1px solid var(--line)",
-                    borderRadius: 7,
-                    background: "rgba(var(--glow-rgb),.05)",
-                  }}
+                  className="flex items-center gap-2.25 rounded-[7px] border border-(--line) bg-[rgba(var(--glow-rgb),.05)] px-2.5 py-2"
                 >
                   <span
+                    className="size-4.75 shrink-0 bg-(--glow-bright)"
                     style={{
-                      width: 19,
-                      height: 19,
-                      flex: "none",
-                      background: "var(--glow-bright)",
                       WebkitMaskImage: `url(https://cdn.simpleicons.org/${tool.slug})`,
                       maskImage: `url(https://cdn.simpleicons.org/${tool.slug})`,
                       WebkitMaskRepeat: "no-repeat",
@@ -388,7 +249,7 @@ export const ToolsSection = memo(function ToolsSection() {
                       maskSize: "contain",
                     }}
                   />
-                  <span style={{ fontSize: 12, color: "#dcdcec" }}>
+                  <span className="text-[12px] text-[#dcdcec]">
                     {tool.label}
                   </span>
                 </div>
@@ -405,35 +266,22 @@ export const ResumeSection = memo(function ResumeSection() {
   return (
     <SectionShell id="resume" cmd="open résumé.pdf">
       <div
-        className="flex flex-wrap items-center justify-between"
-        style={{
-          gap: 18,
-          border: "1px solid var(--line)",
-          borderRadius: 10,
-          padding: 22,
-          background:
-            "linear-gradient(180deg,rgba(var(--glow-rgb),.06),rgba(var(--glow-rgb),.01))",
-        }}
+        className={`${panelStrongClass} flex flex-wrap items-center justify-between gap-4.5 p-5.5`}
       >
         <div>
-          <div style={{ fontSize: 15, color: "#fff", marginBottom: 6 }}>
+          <div className="mb-1.5 text-[15px] text-white">
             {content.resume.heading}
           </div>
-          <div style={{ color: "#b9bccd", fontSize: 12.5 }}>
+          <div className="text-[12.5px] text-[#b9bccd]">
             {content.resume.blurb}
           </div>
         </div>
         <ResumeLink
           label="↗ open résumé.pdf"
-          style={{
-            fontSize: 13,
-            borderRadius: 22,
-            padding: "10px 20px",
-            whiteSpace: "nowrap",
-          }}
+          className="rounded-3xl px-5 py-2.5 text-[13px] whitespace-nowrap"
         />
       </div>
-      <div style={{ marginTop: 10, color: "var(--dim)", fontSize: 11 }}>
+      <div className="mt-2.5 text-[11px] text-(--dim)">
         // link points at your résumé — drop a new file into public/docs to
         update it.
       </div>
@@ -446,23 +294,10 @@ function IconBadge({ slug }: { slug: string }) {
     ? `https://api.iconify.design/${slug}.svg`
     : `https://cdn.simpleicons.org/${slug}`;
   return (
-    <span
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flex: "none",
-        width: 34,
-        height: 34,
-        borderRadius: 8,
-        background: "rgba(var(--glow-rgb),.12)",
-      }}
-    >
+    <span className="flex size-8.5 shrink-0 items-center justify-center rounded-lg bg-[rgba(var(--glow-rgb),.12)]">
       <span
+        className="size-4.25 bg-(--glow-bright)"
         style={{
-          width: 17,
-          height: 17,
-          background: "var(--glow-bright)",
           WebkitMaskImage: `url(${iconUrl})`,
           maskImage: `url(${iconUrl})`,
           WebkitMaskRepeat: "no-repeat",
@@ -480,94 +315,40 @@ function IconBadge({ slug }: { slug: string }) {
 export const ContactSection = memo(function ContactSection() {
   return (
     <SectionShell id="contact" cmd="./say-hi.sh">
-      <div
-        style={{
-          border: "1px solid var(--line)",
-          borderRadius: 10,
-          padding: 24,
-          background:
-            "linear-gradient(180deg,rgba(var(--glow-rgb),.06),rgba(var(--glow-rgb),.01))",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "clamp(20px,4vw,30px)",
-            color: "#fff",
-            fontWeight: 500,
-          }}
-        >
+      <div className={`${panelStrongClass} p-6`}>
+        <div className="text-[clamp(20px,4vw,30px)] font-medium text-white">
           Let's build something.
         </div>
         <a
           href={`mailto:${content.email}`}
-          className="tp-social"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 12,
-            margin: "16px 0 20px",
-            padding: "10px 16px 10px 10px",
-            border: "1px solid var(--line)",
-            borderRadius: 10,
-            textDecoration: "none",
-          }}
+          className="tp-social mt-4 mb-5 inline-flex items-center gap-3 rounded-[10px] border border-(--line) px-4 py-2.5 pl-2.5 no-underline"
         >
           <IconBadge slug="gmail" />
-          <span style={{ fontSize: 15, color: "var(--glow-bright)" }}>
+          <span className="text-[15px] text-(--glow-bright)">
             {content.email}
           </span>
         </a>
-        <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: 12 }}>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {content.socials.map((s) => (
             <a
               key={s.key}
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="tp-social"
-              style={{
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                padding: "12px 14px",
-                border: "1px solid var(--line)",
-                borderRadius: 10,
-              }}
+              className="tp-social flex items-center gap-3 rounded-[10px] border border-(--line) py-3 px-3.5 no-underline"
             >
               <IconBadge slug={s.icon} />
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 2,
-                  minWidth: 0,
-                }}
-              >
-                <span
-                  style={{
-                    color: "var(--dim)",
-                    fontSize: 10.5,
-                    letterSpacing: ".14em",
-                  }}
-                >
+              <div className="flex min-w-0 flex-col gap-0.5">
+                <span className="text-[10.5px] tracking-[.14em] text-(--dim)">
                   {s.key}
                 </span>
-                <span style={{ color: "#fff", fontSize: 13.5 }}>{s.value}</span>
+                <span className="text-[13.5px] text-white">{s.value}</span>
               </div>
-              <span
-                style={{
-                  marginLeft: "auto",
-                  color: "var(--dim)",
-                  fontSize: 14,
-                }}
-              >
-                ↗
-              </span>
+              <span className="ml-auto text-[14px] text-(--dim)">↗</span>
             </a>
           ))}
         </div>
-        <div style={{ marginTop: 20, color: "var(--dim)", fontSize: 11 }}>
+        <div className="mt-5 text-[11px] text-(--dim)">
           {content.footerLine}
         </div>
       </div>
@@ -578,25 +359,10 @@ export const ContactSection = memo(function ContactSection() {
 export const HelpSection = memo(function HelpSection() {
   return (
     <SectionShell id="help" cmd="help">
-      <div
-        className="p-4 sm:p-5"
-        style={{
-          border: "1px solid var(--line)",
-          borderRadius: 10,
-          fontSize: 13,
-          lineHeight: 1.7,
-          color: "#c4c7d8",
-        }}
-      >
+      <div className="rounded-[10px] border border-(--line) p-4 text-[13px] leading-[1.7] text-[#c4c7d8] sm:p-5">
         {content.help.map((h) => (
-          <div key={h.cmd} className="flex gap-2" style={{ marginBottom: 4 }}>
-            <span
-              className="w-23 sm:w-32.5"
-              style={{
-                color: "var(--glow-bright)",
-                flexShrink: 0,
-              }}
-            >
+          <div key={h.cmd} className="mb-1 flex gap-2">
+            <span className="w-23 shrink-0 text-(--glow-bright) sm:w-32.5">
               {h.cmd}
             </span>
             <span>{h.desc}</span>
