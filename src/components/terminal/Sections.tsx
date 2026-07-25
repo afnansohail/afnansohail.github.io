@@ -340,7 +340,7 @@ export const ContactSection = memo(function ContactSection() {
             </span>
           </div>
         </a>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
           {content.socials.map((s) => (
             <a
               key={s.key}

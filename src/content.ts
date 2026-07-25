@@ -188,12 +188,6 @@ export const content = {
       icon: "github",
     },
     {
-      key: "GITHUB · EMUMBA",
-      value: "@afnan-emumba",
-      href: "https://github.com/afnan-emumba",
-      icon: "github",
-    },
-    {
       key: "GITLAB",
       value: "@afnan-emumba",
       href: "https://gitlab.com/afnan-emumba",
