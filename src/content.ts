@@ -189,8 +189,8 @@ export const content = {
     },
     {
       key: "GITLAB",
-      value: "@afnan-emumba",
-      href: "https://gitlab.com/afnan-emumba",
+      value: "@afnansohail",
+      href: "https://gitlab.com/afnansohail",
       icon: "gitlab",
     },
     {
