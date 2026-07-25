@@ -23,9 +23,9 @@ const panelStrongClass =
 
 function Prompt({ cmd }: { cmd: string }) {
   return (
-    <div className="mb-3.5 text-[13px] text-(--glow-bright)">
+    <h2 className="mb-3.5 text-[13px] font-normal text-(--glow-bright)">
       guest@afnan:~$ <span className="text-white">{cmd}</span>
-    </div>
+    </h2>
   );
 }
 
@@ -56,9 +56,9 @@ export const Banner = memo(function Banner() {
         <div className="mb-2 text-[11px] tracking-[.28em] text-(--glow-bright)">
           {content.eyebrow}
         </div>
-        <div className="text-[22px] tracking-[.02em] text-white">
+        <h1 className="m-0 text-[22px] font-normal tracking-[.02em] text-white">
           {content.name.toUpperCase()}
-        </div>
+        </h1>
         <div className="mt-0.75 text-[12.5px] text-(--dim)">
           {content.tagline}
         </div>
