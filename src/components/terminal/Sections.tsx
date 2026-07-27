@@ -283,10 +283,6 @@ export const ResumeSection = memo(function ResumeSection() {
           className="rounded-3xl px-5 py-2.5 text-[13px] whitespace-nowrap"
         />
       </div>
-      <div className="mt-2.5 text-[11px] text-(--dim)">
-        // link points at your résumé — drop a new file into public/docs to
-        update it.
-      </div>
     </SectionShell>
   );
 });
