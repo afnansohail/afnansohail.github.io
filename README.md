@@ -7,7 +7,7 @@ portfolio" design concept with **Vite + React + Tailwind CSS v4**.
 
 ```bash
 npm install
-npm run dev        # start the dev server (http://localhost:5173)
+npm run dev        # start the dev server
 npm run build      # type-check + production build to dist/
 npm run preview    # preview the production build
 ```
