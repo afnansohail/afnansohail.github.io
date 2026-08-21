@@ -1,5 +1,6 @@
 // supabase/functions/submit-score/index.ts
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import leoProfanity from "npm:leo-profanity@1.8.0";
 import { corsHeadersFor } from "../_shared/cors.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
@@ -27,7 +28,31 @@ function sanitizeName(raw: unknown): string | null {
   if (typeof raw !== "string") return null;
   const cleaned = raw.trim().replace(/[^a-zA-Z0-9 _.-]/g, "");
   if (cleaned.length === 0 || cleaned.length > NAME_MAX_LENGTH) return null;
+  if (!/[a-zA-Z]/.test(cleaned)) return null; // reject names with no letters at all
   return cleaned;
+}
+
+// Common leetspeak substitutions, applied before the profanity check (in
+// addition to leo-profanity's own matching) so spelling a blocked word with
+// digits/symbols (e.g. "5h1t") doesn't slip through.
+const LEETSPEAK_MAP: Record<string, string> = {
+  "0": "o",
+  "1": "i",
+  "3": "e",
+  "4": "a",
+  "5": "s",
+  "7": "t",
+  "@": "a",
+  $: "s",
+};
+
+function containsProfanity(name: string): boolean {
+  const deLeeted = name
+    .toLowerCase()
+    .split("")
+    .map((ch) => LEETSPEAK_MAP[ch] ?? ch)
+    .join("");
+  return leoProfanity.check(name) || leoProfanity.check(deLeeted);
 }
 
 function isValidScore(raw: unknown): raw is number {
@@ -88,6 +113,9 @@ export default {
 
     const name = sanitizeName(body.name);
     if (!name) return json({ error: "Invalid name" }, 400);
+    if (containsProfanity(name)) {
+      return json({ error: "Please choose an appropriate name" }, 400);
+    }
     if (!isValidScore(body.score)) return json({ error: "Invalid score" }, 400);
     if (typeof body.sessionId !== "string") {
       return json({ error: "Missing session" }, 400);

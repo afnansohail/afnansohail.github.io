@@ -16,12 +16,17 @@ interface LeaderboardProps {
 
 const stop = (e: SyntheticEvent) => e.stopPropagation();
 
-export default function Leaderboard({ score, gameOver, sessionId }: LeaderboardProps) {
+export default function Leaderboard({
+  score,
+  gameOver,
+  sessionId,
+}: LeaderboardProps) {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loadError, setLoadError] = useState(false);
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLeaderboardConfigured()) return;
@@ -31,7 +36,10 @@ export default function Leaderboard({ score, gameOver, sessionId }: LeaderboardP
   }, []);
 
   useEffect(() => {
-    if (!gameOver) setSubmitted(false);
+    if (!gameOver) {
+      setSubmitted(false);
+      setSubmitError(null);
+    }
   }, [gameOver]);
 
   if (!isLeaderboardConfigured()) return null;
@@ -40,13 +48,16 @@ export default function Leaderboard({ score, gameOver, sessionId }: LeaderboardP
     const trimmed = name.trim().slice(0, NAME_MAX_LENGTH);
     if (!trimmed || !sessionId) return;
     setSubmitting(true);
+    setSubmitError(null);
     try {
       await submitScore(sessionId, trimmed, score);
       const updated = await fetchTopScores();
       setEntries(updated);
       setSubmitted(true);
-    } catch {
-      setLoadError(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Could not submit score",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -58,7 +69,10 @@ export default function Leaderboard({ score, gameOver, sessionId }: LeaderboardP
         <div className="mb-2.5 flex flex-wrap items-center gap-2">
           <input
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              setSubmitError(null);
+            }}
             onClick={stop}
             onKeyDown={(e) => {
               stop(e);
@@ -66,7 +80,7 @@ export default function Leaderboard({ score, gameOver, sessionId }: LeaderboardP
             }}
             maxLength={NAME_MAX_LENGTH}
             placeholder="your name"
-            className="rounded-[6px] border border-(--line) bg-transparent px-2 py-1 text-(--glow-bright) outline-none"
+            className="rounded-md border border-(--line) bg-transparent px-2 py-1 text-(--glow-bright) outline-none"
           />
           <button
             type="button"
@@ -76,19 +90,25 @@ export default function Leaderboard({ score, gameOver, sessionId }: LeaderboardP
               handleSubmit();
             }}
             onKeyDown={stop}
-            className="tp-pill rounded-[6px] border border-(--line) px-2 py-1 text-(--glow-bright) disabled:opacity-50"
+            className="tp-pill rounded-md border border-(--line) px-2 py-1 text-(--glow-bright) disabled:opacity-50"
           >
             {submitting ? "submitting…" : "submit score"}
           </button>
+          {submitError && <span className="text-[#e07e7e]">{submitError}</span>}
         </div>
       )}
       <div className="mb-1 text-(--glow-bright)">top scores</div>
       {loadError && <div>leaderboard unavailable right now.</div>}
-      {!loadError && entries.length === 0 && <div>no scores yet — be the first.</div>}
+      {!loadError && entries.length === 0 && (
+        <div>no scores yet — be the first.</div>
+      )}
       {!loadError && entries.length > 0 && (
         <ol className="grid grid-cols-1 gap-0.5">
           {entries.map((entry, i) => (
-            <li key={`${entry.name}-${entry.score}-${i}`} className="flex justify-between gap-3">
+            <li
+              key={`${entry.name}-${entry.score}-${i}`}
+              className="flex justify-between gap-3"
+            >
               <span>
                 {i + 1}. {entry.name}
               </span>
