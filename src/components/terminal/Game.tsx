@@ -183,18 +183,16 @@ export default memo(function GameSection() {
       const g = gameRef.current;
       g.dir = g.nextDir;
       const head = g.snake[0];
-      const newHead = { x: head.x + g.dir.x, y: head.y + g.dir.y };
+      const newHead = {
+        x: (head.x + g.dir.x + GRID_X) % GRID_X,
+        y: (head.y + g.dir.y + GRID_Y) % GRID_Y,
+      };
 
-      const hitWall =
-        newHead.x < 0 ||
-        newHead.x >= GRID_X ||
-        newHead.y < 0 ||
-        newHead.y >= GRID_Y;
       const hitSelf = g.snake.some(
         (s) => s.x === newHead.x && s.y === newHead.y,
       );
 
-      if (hitWall || hitSelf) {
+      if (hitSelf) {
         setStatus("over");
         sound.gameOver();
         return;
@@ -303,7 +301,7 @@ export default memo(function GameSection() {
           ref={canvasRef}
           width={SIZE_X}
           height={SIZE_Y}
-          className="block h-auto max-w-full rounded-[6px]"
+          className="block h-auto max-w-full rounded-md"
         />
         <div className="mt-2.5 text-[12px] text-(--dim)">
           {status === "over"
