@@ -272,17 +272,19 @@ export default memo(function GameSection() {
           wrapperRef.current?.focus();
           const start = touchStartRef.current;
           touchStartRef.current = null;
-          if (status !== "playing") {
-            startGame();
-            return;
-          }
           if (!start) return;
           const t = e.changedTouches[0];
           const dx = t.clientX - start.x;
           const dy = t.clientY - start.y;
           const absDx = Math.abs(dx);
           const absDy = Math.abs(dy);
-          if (absDx < SWIPE_THRESHOLD && absDy < SWIPE_THRESHOLD) return;
+          const wasTap = absDx < SWIPE_THRESHOLD && absDy < SWIPE_THRESHOLD;
+
+          if (status !== "playing") {
+            if (wasTap) startGame();
+            return;
+          }
+          if (wasTap) return;
 
           const next: Point =
             absDx > absDy
@@ -292,7 +294,7 @@ export default memo(function GameSection() {
           if (next.x === -g.dir.x && next.y === -g.dir.y) return;
           g.nextDir = next;
         }}
-        className="block w-140 max-w-full touch-none rounded-[10px] border border-(--line) bg-[linear-gradient(180deg,rgba(var(--glow-rgb),.05),rgba(var(--glow-rgb),.01))] p-4 outline-none"
+        className={`block w-140 max-w-full rounded-[10px] border border-(--line) bg-[linear-gradient(180deg,rgba(var(--glow-rgb),.05),rgba(var(--glow-rgb),.01))] p-4 outline-none ${status === "over" ? "" : "touch-none"}`}
       >
         <div className="mb-2.5 flex flex-wrap justify-between gap-2.5 text-[12px] text-(--dim)">
           <span>

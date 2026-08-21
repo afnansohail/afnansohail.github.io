@@ -74,6 +74,8 @@ export default function Leaderboard({
               setSubmitError(null);
             }}
             onClick={stop}
+            onTouchStart={stop}
+            onTouchEnd={stop}
             onKeyDown={(e) => {
               stop(e);
               if (e.key === "Enter") handleSubmit();
@@ -89,6 +91,8 @@ export default function Leaderboard({
               stop(e);
               handleSubmit();
             }}
+            onTouchStart={stop}
+            onTouchEnd={stop}
             onKeyDown={stop}
             className="tp-pill rounded-md border border-(--line) px-2 py-1 text-(--glow-bright) disabled:opacity-50"
           >
