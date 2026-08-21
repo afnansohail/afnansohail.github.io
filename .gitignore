@@ -10,6 +10,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.local
 
 # Editor directories and files
 .vscode/*
@@ -22,5 +24,11 @@ dist-ssr
 *.sln
 *.sw?
 
-# Claude Code local overrides (personal, not shared)
+# Claude Code local overrides
 .claude/settings.local.json
+
+# Subagent-driven-development scratch
+.superpowers/
+
+# Supabase CLI local cache (project link, cached versions) — not source
+supabase/.temp/

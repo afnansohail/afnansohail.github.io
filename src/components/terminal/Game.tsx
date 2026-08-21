@@ -1,5 +1,7 @@
 import { memo, useEffect, useRef, useState } from "react";
 import * as sound from "@/lib/sound";
+import { startSession } from "@/lib/leaderboard";
+import Leaderboard from "./Leaderboard";
 import { SectionShell } from "./Sections";
 
 const GRID_X = 22;
@@ -78,6 +80,7 @@ export default memo(function GameSection() {
     accent: "#7ee0a8",
   });
   const gameRef = useRef(freshGame());
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [status, setStatus] = useState<Status>("idle");
   const [active, setActive] = useState(true);
@@ -224,6 +227,10 @@ export default memo(function GameSection() {
     gameRef.current = freshGame();
     setScore(0);
     setStatus("playing");
+    setSessionId(null);
+    startSession()
+      .then(setSessionId)
+      .catch(() => setSessionId(null));
     requestAnimationFrame(draw);
   };
 
@@ -310,6 +317,7 @@ export default memo(function GameSection() {
               ? "click or tap here, then press space, an arrow key, or swipe to start."
               : " "}
         </div>
+        <Leaderboard score={score} gameOver={status === "over"} sessionId={sessionId} />
       </div>
     </SectionShell>
   );
